@@ -1,0 +1,21 @@
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.34,<1.0
+pandas>=2.2,<3.0
+numpy>=1.26,<3.0
+openpyxl>=3.1,<4.0
+python-multipart>=0.0.20,<1.0
+pydantic-settings>=2.7,<3.0
+scikit-learn>=1.5,<2.0
+
+# AI, orchestration and retrieval
+langgraph>=0.2,<2.0
+langchain-core>=0.3,<2.0
+langchain-groq>=0.2,<2.0
+langchain-chroma>=0.1,<2.0
+chromadb>=0.5,<2.0
+sentence-transformers>=3.0,<6.0
+
+# Predictive modelling
+scikit-learn>=1.5,<2.0
+joblib>=1.4,<2.0
+
