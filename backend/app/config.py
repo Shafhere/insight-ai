@@ -20,6 +20,13 @@ class Settings(BaseSettings):
 
     frontend_url: str = "http://localhost:5173"
 
+    # Portal, persistence and background-worker settings
+    database_url: str = ""
+    redis_url: str = "redis://localhost:6379/0"
+    insight_admin_email: str = "admin@insight.ai"
+    insight_admin_password: str = "ChangeMe123!"
+    insight_auth_secret: str = "change-this-insight-secret-before-deployment"
+
     # AI provider settings
     llm_provider: str = "groq"
 
@@ -27,7 +34,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
 
     # Default model can be overridden through .env
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
 
     # Load configuration from the backend directory,
     # regardless of the directory used to start the application.

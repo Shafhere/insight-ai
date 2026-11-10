@@ -5,19 +5,25 @@ import {
   ShieldCheck, Sparkles, Target, Upload, X, FileSpreadsheet,
   Download, RefreshCw, Trash2, AlertTriangle, WandSparkles,
   Eye, Columns3, Info, Search, ChevronLeft, ChevronRight as ChevronRightIcon,
-  CalendarDays, TrendingUp, ShoppingBag, Package, Clock3,
+  CalendarDays, TrendingUp, ShoppingBag, Package, Clock3, LogIn, LogOut, UserPlus, LockKeyhole, MessageCircle, Send, Sun, Moon, GitBranch,
 } from "lucide-react";
 
 import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   LineChart,
   Line,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, RadialBarChart, RadialBar, Treemap, ScatterChart, Scatter, ZAxis,
 } from "recharts";
 
 import {
@@ -31,24 +37,33 @@ import {
   getAnalyticsTrend,
   getAnalyticsCorrelations,
   askAnalyst,
+  indexDataset,
   getDecisionReport,
   getDatasetRows,
+  trainPredictiveModel,
+  predictWithSavedModel,
+  createForecast, getForecastSegments,
+  adminLogin, viewerSignup, viewerLogin, getCurrentUser, getViewerReports, getViewerReport, askViewerReport, publishReport, previewBusinessReport, getViewerPreferences, saveViewerPreferences,
 } from "./services/api";
 import "./App.css";
+import BusinessReport, { BusinessAnalyticsSnapshot } from "./components/BusinessReport";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const navigation = [
   { label: "Overview", icon: LayoutDashboard },
-  { label: "Data Explorer", icon: Database },
-  { label: "Data Pipeline", icon: Sparkles },
+  { label: "Data Sources", icon: Database },
+  { label: "Data Health", icon: ShieldCheck },
+  { label: "Data Cleaning", icon: WandSparkles },
+  { label: "Data Modeling", icon: GitBranch },
   { label: "Analytics Studio", icon: BarChart3 },
   { label: "AI Business Analyst", icon: BrainCircuit },
+  { label: "Predictions & Forecasts", icon: TrendingUp },
   { label: "Reports", icon: FileText },
-  { label: "Coming Soon", icon: Clock3 },
 ];
 
+// Application shell: login state, dataset upload, sidebar, and admin pages.
 function App() {
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
@@ -60,9 +75,35 @@ function App() {
   const [success, setSuccess] = useState("");
   const [dragging, setDragging] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("insight-theme") || "light");
+  const [authUser, setAuthUser] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("insight-auth-token");
+    if (!token) { setAuthReady(true); return; }
+    getCurrentUser().then(setAuthUser).catch(() => localStorage.removeItem("insight-auth-token")).finally(() => setAuthReady(true));
+  }, []);
+
+  function finishLogin(result) {
+    localStorage.setItem("insight-auth-token", result.access_token);
+    setAuthUser(result.user);
+  }
+
+  function logout() {
+    localStorage.removeItem("insight-auth-token");
+    setAuthUser(null);
+    resetWorkspace();
+  }
+
+  useEffect(() => {
+    localStorage.setItem("insight-theme", theme);
+  }, [theme]);
 
   const [cleaningPreview, setCleaningPreview] = useState(null);
   const [cleaningResult, setCleaningResult] = useState(null);
+  const [dataRevision, setDataRevision] = useState(0);
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [applyingCleaning, setApplyingCleaning] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -74,8 +115,8 @@ function App() {
 
     const extension = selected.name.split(".").pop().toLowerCase();
 
-    if (!["csv", "xlsx", "xlsm"].includes(extension)) {
-      setError("Unsupported file. Please choose CSV, XLSX or XLSM.");
+    if (!["csv", "xlsx", "xlsm", "json", "jsonl", "ndjson"].includes(extension)) {
+      setError("Unsupported file. Choose CSV, XLSX, XLSM, JSON or JSONL.");
       return;
     }
 
@@ -106,7 +147,8 @@ function App() {
       setCleaningPreview(null);
       setCleaningResult(null);
       setActivePage("Overview");
-      setSuccess("Your dataset has been uploaded and analysed.");
+      setSuccess("Dataset uploaded and profiled. Building the searchable knowledge base for dataset questions…");
+      indexDataset(id).then(() => { setSuccess("Dataset analysed and AI knowledge base indexed. You can now ask dataset-specific questions."); }).catch((indexError) => { setSuccess(`Dataset analysed. AI knowledge indexing needs attention: ${indexError.message}`); });
     } catch (err) {
       setError(err.message || "Upload failed. Please try again.");
     } finally {
@@ -169,12 +211,20 @@ function App() {
 
       const result = await applyCleaning(datasetId, {
         column_strategies: columnStrategies,
-        remove_duplicates: true,
+        // Duplicate-looking transactions can be legitimate. Preserve them unless explicitly reviewed.
+        remove_duplicates: false,
         outlier_strategies: outlierStrategies,
       });
 
       setCleaningResult(result);
-      setCleaningSuccess("Recommended cleaning has been applied successfully.");
+      // Refresh profile and dependent screens: cleaned.csv is now the active data source.
+      const newProfile = await getDatasetProfile(datasetId);
+      setProfile(newProfile);
+      setDataRevision(previous => previous + 1);
+      setCleaningSuccess("Cleaning applied. All analytics, forecasts and new reports now use the cleaned dataset automatically; no re-upload needed.");
+      indexDataset(datasetId).catch(() => {
+        setCleaningSuccess("Cleaning applied and analytics updated. RAG indexing needs attention; retry knowledge indexing if AI answers appear outdated.");
+      });
     } catch (err) {
       setCleaningError(err.message || "Could not apply recommended cleaning.");
     } finally {
@@ -196,6 +246,18 @@ function App() {
     } finally {
       setDownloading(false);
     }
+  }
+
+  if (!authReady) {
+    return <main className="auth-loading"><div className="brand-mark"><Activity size={24} /></div><p>Preparing INSIGHT AI...</p></main>;
+  }
+
+  if (!authUser) {
+    return <AuthPage onAuthenticated={finishLogin} />;
+  }
+
+  if (authUser.role === "viewer") {
+    return <ViewerPortal user={authUser} theme={theme} setTheme={setTheme} onLogout={logout} />;
   }
 
   if (!profile) {
@@ -237,7 +299,7 @@ function App() {
             <input
               ref={fileInputRef}
               type="file"
-              accept=".csv,.xlsx,.xlsm"
+              accept=".csv,.xlsx,.xlsm,.json,.jsonl,.ndjson"
               hidden
               onChange={(event) => selectFile(event.target.files?.[0])}
             />
@@ -261,6 +323,7 @@ function App() {
               <span><FileSpreadsheet size={14} /> CSV</span>
               <span><FileSpreadsheet size={14} /> XLSX</span>
               <span><FileSpreadsheet size={14} /> XLSM</span>
+              <span>JSON / JSONL</span>
               <span>Maximum 50 MB</span>
             </div>
           </div>
@@ -305,7 +368,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${theme === "light" ? "theme-light" : "theme-dark"} ${sidebarCollapsed ? "sidebar-collapsed" : ""}`} data-theme={theme}>
       {sidebarOpen && (
         <button className="mobile-overlay" onClick={() => setSidebarOpen(false)} aria-label="Close menu" />
       )}
@@ -335,7 +398,7 @@ function App() {
                   setActivePage(item.label);
                   setSidebarOpen(false);
 
-                  if (item.label === "Data Pipeline" && !cleaningPreview && !loadingPreview) {
+                  if (item.label === "Data Cleaning" && !cleaningPreview && !loadingPreview) {
                     loadCleaningPreview();
                   }
                 }}
@@ -362,25 +425,29 @@ function App() {
         <header className="topbar">
           <div className="topbar-left">
             <button className="mobile-menu" onClick={() => setSidebarOpen(true)}><Menu size={21} /></button>
+            <button className="desktop-sidebar-toggle" onClick={()=>setSidebarCollapsed(v=>!v)} title={sidebarCollapsed?"Expand sidebar":"Collapse sidebar"}><Menu size={18}/></button>
             <div className="breadcrumb">Workspace <span>/</span> <strong>{activePage}</strong></div>
           </div>
           <div className="topbar-actions">
+            <button className="theme-toggle" onClick={() => setTheme((value) => value === "light" ? "dark" : "light")} title="Toggle colour theme">{theme === "light" ? "☾ Dark mode" : "☀ Light mode"}</button>
             <div className="system-status"><i className="online-dot" /> Dataset loaded</div>
-            <div className="user-avatar">S</div>
+            <button className="logout-button" onClick={logout} title="Sign out"><LogOut size={16}/> Sign out</button><div className="user-avatar">{authUser.name?.slice(0,1)?.toUpperCase() || "A"}</div>
           </div>
         </header>
 
         <div className="page-content">
           {activePage === "Overview" ? (
-            <OverviewPage
+            <OverviewPage key={`${datasetId}-${dataRevision}`}
               profile={profile}
               datasetId={datasetId}
               resetWorkspace={resetWorkspace}
               openPage={setActivePage}
             />
-          ) : activePage === "Data Explorer" ? (
-            <DataUnderstandingPage profile={profile} datasetId={datasetId} />
-          ) : activePage === "Data Pipeline" ? (
+          ) : activePage === "Data Sources" ? (
+            <DataUnderstandingPage key={`${datasetId}-${dataRevision}`} profile={profile} datasetId={datasetId} />
+          ) : activePage === "Data Health" ? (
+            <DataHealthPage profile={profile} openPage={setActivePage} />
+          ) : activePage === "Data Cleaning" ? (
             <CleaningPage
               preview={cleaningPreview}
               result={cleaningResult}
@@ -393,14 +460,16 @@ function App() {
               applyCleaning={handleApplyCleaning}
               download={handleDownload}
             />
+              ) : activePage === "Data Modeling" ? (
+                <DataModelingPage />
               ) : activePage === "Analytics Studio" ? (
-                <AnalyticsPage datasetId={datasetId} />
+                <AnalyticsPage key={`${datasetId}-${dataRevision}`} datasetId={datasetId} />
               ) : activePage === "AI Business Analyst" ? (
-                <AIAssistantPage datasetId={datasetId} />
-              ) : activePage === "Coming Soon" ? (
-                <ComingSoonPage />
+                <AIAssistantPage key={`${datasetId}-${dataRevision}`} datasetId={datasetId} />
+              ) : activePage === "Predictions & Forecasts" ? (
+                <ForecastPage key={`${datasetId}-${dataRevision}`} datasetId={datasetId} profile={profile} />
               ) : activePage === "Reports" ? (
-                <ReportsPage datasetId={datasetId} profile={profile} />
+                <ReportsPage key={`${datasetId}-${dataRevision}`} datasetId={datasetId} profile={profile} />
               ) : (
                 <section className="module-placeholder">
                   <div className="placeholder-icon"><Sparkles size={27} /></div>
@@ -420,110 +489,288 @@ function App() {
   );
 }
 
-function OverviewPage({ profile, datasetId, resetWorkspace, openPage }) {
-  const columnCount = profile.columns ?? profile.column_profiles?.length ?? 0;
+// Login and viewer signup; tokens are stored and sent by services/api.js.
+function AuthPage({ onAuthenticated }) {
+  const [mode, setMode] = useState("admin");
+  const [viewerAction, setViewerAction] = useState("signup");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [accessCode, setAccessCode] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(event) {
+    event.preventDefault(); setBusy(true); setError("");
+    try {
+      const result = mode === "admin"
+        ? await adminLogin(email, password)
+        : viewerAction === "login" ? await viewerLogin(email, password) : await viewerSignup(name, email, password, accessCode);
+      onAuthenticated(result);
+    } catch (err) { setError(err.message || "Unable to continue."); }
+    finally { setBusy(false); }
+  }
 
   return (
-    <>
-      <section className="welcome-section">
-        <div>
-          <div className="eyebrow"><Sparkles size={14} /> DATA INTELLIGENCE WORKSPACE</div>
-          <h2>Your data, understood.</h2>
-          <p>Here is a quick overview of your uploaded dataset and its current condition.</p>
-        </div>
-        <span className="supported-label">{profile.file_type?.toUpperCase()} DATASET</span>
+    <main className="auth-page">
+      <div className="auth-ambient" />
+      <header className="auth-brand"><div className="brand-mark"><Activity size={23}/></div><div><h1>INSIGHT<span>AI</span></h1><p>FROM DATA TO DECISIONS</p></div></header>
+      <section className="auth-card">
+        <div className="auth-eyebrow"><Sparkles size={14}/> BUSINESS INTELLIGENCE PLATFORM</div>
+        <h2>{mode === "admin" ? "Welcome back." : viewerAction === "login" ? "Welcome back." : "Access your business report."}</h2>
+        <p className="auth-subtitle">{mode === "admin" ? "Sign in to manage datasets, analysis and published reports." : viewerAction === "login" ? "Sign in to view the business reports assigned to your account." : "Create your viewer account using the report access code shared by your administrator."}</p>
+        <div className="auth-tabs"><button className={mode === "admin" ? "selected" : ""} onClick={() => {setMode("admin");setError("")}}><LockKeyhole size={15}/> Admin login</button><button className={mode === "viewer" ? "selected" : ""} onClick={() => {setMode("viewer");setError("")}}><UserPlus size={15}/> Viewer access</button></div>
+        {mode === "viewer" && <div className="auth-viewer-toggle"><button type="button" className={viewerAction === "login" ? "selected" : ""} onClick={()=>{setViewerAction("login");setError("")}}>Sign in</button><button type="button" className={viewerAction === "signup" ? "selected" : ""} onClick={()=>{setViewerAction("signup");setError("")}}>Create account</button></div>}
+        <form onSubmit={submit} className="auth-form">
+          {mode === "viewer" && viewerAction === "signup" && <label>Your name<input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name" required minLength={2}/></label>}
+          <label>Email address<input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@company.com" required/></label>
+          <label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder={mode === "viewer" ? "At least 8 characters" : "Your administrator password"} required minLength={mode === "viewer" ? 8 : 1}/></label>
+          {mode === "viewer" && viewerAction === "signup" && <label>Report access code<input value={accessCode} onChange={e=>setAccessCode(e.target.value)} placeholder="Enter the code shared with you" required/></label>}
+          {error && <div className="notice error-notice">{error}</div>}
+          <button className="auth-submit" type="submit" disabled={busy}>{busy ? "Please wait..." : mode === "admin" ? <>Sign in to Admin Portal <ArrowRight size={17}/></> : viewerAction === "login" ? <>Sign in to Viewer Portal <ArrowRight size={17}/></> : <>Create account & open report <ArrowRight size={17}/></>}</button>
+        </form>
+        <p className="auth-footnote">{mode === "admin" ? "Administrator access is configured by the platform owner." : viewerAction === "login" ? "Your account only sees reports assigned to it." : "Each access code is linked to one published report and can be redeemed once."}</p>
       </section>
-
-      <div className="dataset-banner">
-        <div className="dataset-banner-icon"><FileSpreadsheet size={22} /></div>
-        <div>
-          <span>ACTIVE DATASET</span>
-          <strong>{profile.filename}</strong>
-          <small>{profile.detected_domain} · {datasetId}</small>
-        </div>
-        <button onClick={resetWorkspace}>Change dataset</button>
-      </div>
-
-      <section className="stats-grid">
-        <Stat label="Total records" value={profile.rows?.toLocaleString()} icon={Database} />
-        <Stat label="Columns" value={columnCount.toLocaleString()} icon={BarChart3} />
-        <Stat label="Data quality" value={`${profile.quality_score}%`} icon={ShieldCheck} />
-        <Stat label="Missing cells" value={profile.missing_cells?.toLocaleString()} icon={AlertTriangle} />
-      </section>
-
-      <BusinessOverviewPanel datasetId={datasetId} profile={profile} />
-
-      <section className="overview-panel">
-        <div className="section-heading">
-          <div>
-            <h3>Dataset health</h3>
-            <p>A quick view of the quality of your uploaded data.</p>
-          </div>
-          <span className="supported-label">{profile.domain_confidence} confidence</span>
-        </div>
-
-        <div className="quality-panel">
-          <div className="quality-heading">
-            <strong>Overall data quality</strong>
-            <strong>{profile.quality_score}%</strong>
-          </div>
-          <div className="quality-track">
-            <div
-              className="quality-fill"
-              style={{ width: `${Math.min(100, Math.max(0, profile.quality_score || 0))}%` }}
-            />
-          </div>
-          <p>
-            {profile.missing_cells} missing cells across {profile.rows} records.
-            {" "}{profile.duplicate_rows} duplicate records detected.
-          </p>
-        </div>
-
-        <div className="overview-summary-grid">
-          <div>
-            <Database size={21} />
-            <span>Detected data domain</span>
-            <strong>{profile.detected_domain || "Not identified"}</strong>
-          </div>
-          <div>
-            <FileSpreadsheet size={21} />
-            <span>File format</span>
-            <strong>{profile.file_type || "Unknown"}</strong>
-          </div>
-          <div>
-            <Columns3 size={21} />
-            <span>Dataset size</span>
-            <strong>{columnCount} columns</strong>
-          </div>
-        </div>
-      </section>
-
-      <section className="overview-next-steps">
-        <div>
-          <div className="eyebrow"><Sparkles size={14} /> YOUR NEXT STEPS</div>
-          <h3>Explore your dataset</h3>
-          <p>Start by understanding the data, then improve its quality before analysis.</p>
-        </div>
-        <div className="overview-actions">
-          <button onClick={() => openPage("Data Explorer")}>
-            <Eye size={17} /> Explore data <ArrowRight size={16} />
-          </button>
-          <button onClick={() => openPage("Data Pipeline")}>
-            <WandSparkles size={17} /> Prepare data <ArrowRight size={16} />
-          </button>
-        </div>
-      </section>
-
-      {profile.warnings?.length > 0 && (
-        <section className="profile-warnings">
-          <strong><Info size={16} /> Important observations</strong>
-          {profile.warnings.slice(0, 4).map((warning, index) => (
-            <p key={index}>{warning}</p>
-          ))}
-        </section>
-      )}
-    </>
+      <footer className="auth-footer">INSIGHT AI © 2026 <span>Understand the past. Monitor the present. Prepare for the future.</span></footer>
+    </main>
   );
+}
+
+// Viewers can see only published reports assigned to their account.
+function ViewerPortal({ user, theme, setTheme, onLogout }) {
+  const [reports, setReports] = useState([]);
+  const [report, setReport] = useState(null);
+  const [reportId, setReportId] = useState("");
+  const [page, setPage] = useState("Dashboard");
+  const [section, setSection] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [question, setQuestion] = useState("");
+  const [chat, setChat] = useState([]);
+  const [chatBusy, setChatBusy] = useState(false);
+  const [chartTypes, setChartTypes] = useState(() => { try { return JSON.parse(localStorage.getItem("insight-viewer-chart-types") || "{}"); } catch { return {}; } });
+  const [visibleCharts, setVisibleCharts] = useState(() => { try { return JSON.parse(localStorage.getItem("insight-viewer-visible-charts") || "{}"); } catch { return {}; } });
+  const [customizeDashboard, setCustomizeDashboard] = useState(false);
+  const [chartFilters, setChartFilters] = useState({});
+
+  useEffect(() => {
+    getViewerPreferences().then(result => {
+      if (result.preferences?.chartTypes) setChartTypes(result.preferences.chartTypes);
+      if (result.preferences?.visibleCharts) setVisibleCharts(result.preferences.visibleCharts);
+    }).catch(() => {});
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("insight-viewer-chart-types", JSON.stringify(chartTypes));
+    localStorage.setItem("insight-viewer-visible-charts", JSON.stringify(visibleCharts));
+    if (Object.keys(chartTypes).length || Object.keys(visibleCharts).length) saveViewerPreferences({ chartTypes, visibleCharts }).catch(() => {});
+  }, [chartTypes, visibleCharts]);
+  useEffect(() => {
+    getViewerReports().then(result => { setReports(result.reports || []); if (result.reports?.length) setReportId(result.reports[0].id); }).catch(err=>setError(err.message)).finally(()=>setLoading(false));
+  }, []);
+  useEffect(() => {
+    if (!reportId) return;
+    setLoading(true); setError("");
+    getViewerReport(reportId).then(result=>{setReport(result);setSection(0);}).catch(err=>setError(err.message)).finally(()=>setLoading(false));
+  }, [reportId]);
+
+  const payload = report?.payload || {};
+  const overview = payload.overview || {};
+  const decision = payload.decision || {};
+  const forecast = payload.forecast;
+  const metricCards = [...(overview.metrics || [])].sort((a,b) => {
+    const rank = name => /revenue|total sales/i.test(name) ? 100 : /quantity|units/i.test(name) ? 90 : /average order|average revenue/i.test(name) ? 80 : /total rows/i.test(name) ? 70 : /customer/i.test(name) ? 65 : /total columns/i.test(name) ? 45 : /missing|duplicate/i.test(name) ? 10 : 55;
+    return rank(b.name) - rank(a.name);
+  }).slice(0, 5);
+  const pages = ["Executive overview", "Past & present", "Future outlook", "What should we do?"];
+  const activeSection = pages[section];
+
+  async function sendQuestion(event) {
+    event.preventDefault(); if (!question.trim() || !reportId || chatBusy) return;
+    const prompt = question.trim(); setQuestion(""); setChat(items=>[...items,{role:"user",text:prompt}]); setChatBusy(true);
+    try { const result = await askViewerReport(reportId,prompt); setChat(items=>[...items,{role:"assistant",text:result.answer,chart:result.chart || null}]); }
+    catch(err){setChat(items=>[...items,{role:"assistant",text:err.message || "Unable to answer right now."}]);}
+    finally{setChatBusy(false);}
+  }
+
+  function renderChart(name, data, index) {
+    if (!data?.length) return null;
+    const type = chartTypes[name] || (index === 0 ? "bar" : "pie");
+    const update = value => setChartTypes(current=>({...current,[name]:value}));
+    const activeFilter = chartFilters[name] || "";
+    const shown = activeFilter ? data.filter(item=>String(item.name)===activeFilter) : data;
+    const ranked = [...shown].sort((a,b)=>Number(b.value||0)-Number(a.value||0));
+    const total = ranked.reduce((sum,item)=>sum+Number(item.value||0),0);
+    const leading = ranked[0];
+    const explanation = leading ? `${leading.name} is highest in this comparison at ${Number(leading.value||0).toLocaleString(undefined,{maximumFractionDigits:2})}${total ? ` (${(Number(leading.value||0)/total*100).toFixed(1)}% of the displayed total)` : ""}. This is a descriptive comparison, not proof of cause.` : "No comparable values are available.";
+    return <article className="viewer-chart-card" key={name}>
+      <div className="viewer-chart-heading"><div><span>BUSINESS BREAKDOWN</span><h3>{name.replaceAll("_"," ")}</h3></div><div className="viewer-chart-control"><select aria-label={`Filter ${name}`} value={activeFilter} onChange={e=>setChartFilters(current=>({...current,[name]:e.target.value}))}><option value="">All groups</option>{data.slice(0,50).map(x=><option key={String(x.name)} value={String(x.name)}>{x.name}</option>)}</select><select value={type} onChange={e=>update(e.target.value)} aria-label={`Chart type for ${name}`}><option value="bar">Bar</option><option value="line">Line</option><option value="area">Area</option><option value="pie">Donut</option><option value="radar">Radar</option><option value="radial">Radial</option><option value="treemap">Treemap</option></select></div></div>
+      <div className="viewer-chart-canvas"><ResponsiveContainer width="100%" height="100%">{type === "scatter" ? <ScatterChart><CartesianGrid strokeDasharray="3 3"/><XAxis type="number" dataKey="x" name="X"/><YAxis type="number" dataKey="y" name="Y"/><ZAxis range={[35,90]}/><Tooltip cursor={{strokeDasharray:"3 3"}}/><Scatter data={shown} fill="#3867d6"/></ScatterChart> : type === "radar" ? <RadarChart data={shown}><PolarGrid/><PolarAngleAxis dataKey="name"/><PolarRadiusAxis/><Radar dataKey="value" stroke="#3867d6" fill="#3867d6" fillOpacity={0.25}/><Tooltip/></RadarChart> : type === "radial" ? <RadialBarChart data={shown} innerRadius="20%" outerRadius="90%"><RadialBar dataKey="value" background/><Tooltip/></RadialBarChart> : type === "treemap" ? <Treemap data={shown.map(item=>({...item,size:Math.max(0,Number(item.value)||0)}))} dataKey="size" nameKey="name" stroke="#fff" fill="#3867d6"><Tooltip/></Treemap> : type === "pie" ? <PieChart><Tooltip/><Pie data={shown} dataKey="value" nameKey="name" innerRadius={55} outerRadius={95} paddingAngle={3}>{shown.map((entry,i)=><Cell key={i} fill={["#3867d6","#20a779","#e2a13b","#8266d3","#d36b73","#4b9ca8"][i%6]}/>)}</Pie></PieChart> : type === "line" ? <LineChart data={shown}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="name"/><YAxis/><Tooltip/><Line type="monotone" dataKey="value" stroke="#3867d6" strokeWidth={2.5}/></LineChart> : type === "area" ? <AreaChart data={shown}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="name"/><YAxis/><Tooltip/><Area type="monotone" dataKey="value" stroke="#3867d6" fill="#3867d6" fillOpacity={0.16}/></AreaChart> : <BarChart data={shown}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="name"/><YAxis/><Tooltip/><Bar dataKey="value" fill="#3867d6" radius={[5,5,0,0]}/></BarChart>}</ResponsiveContainer></div>
+      <details className="viewer-chart-explanation"><summary><Info size={13}/> Explain this chart</summary><p>{explanation} The group filter changes only this chart and does not recalculate other business KPIs.</p></details>
+    </article>;
+  }
+
+  return <div className={`viewer-shell ${theme === "dark" ? "viewer-dark" : ""}`}>
+    <aside className="viewer-sidebar"><div className="brand"><div className="brand-mark"><Activity size={22}/></div><div><h1>INSIGHT<span>AI</span></h1><p>BUSINESS INTELLIGENCE</p></div></div><div className="viewer-welcome"><span>VIEWER PORTAL</span><strong>{user.name}</strong><small>{user.email}</small></div><nav><button className={page === "Dashboard" ? "active" : ""} onClick={()=>setPage("Dashboard")}><LayoutDashboard size={17}/> Analytics</button><button className={page === "Latest Report" ? "active" : ""} onClick={()=>setPage("Latest Report")}><FileText size={17}/> Report</button><button className={page === "AI Assistant" ? "active" : ""} onClick={()=>setPage("AI Assistant")}><MessageCircle size={17}/> AI Chatbot</button></nav><div className="viewer-sidebar-bottom"><button onClick={()=>setTheme(v=>v === "light" ? "dark":"light")}>{theme === "light" ? <Moon size={17}/> : <Sun size={17}/>} {theme === "light" ? "Dark mode":"Light mode"}</button><button onClick={onLogout}><LogOut size={17}/> Sign out</button></div></aside>
+    <main className="viewer-main"><header className="viewer-topbar"><div><span>INSIGHT AI / VIEWER</span><strong>{page}</strong></div><div className="viewer-top-actions"><span className="viewer-live-dot">Published report access</span><div className="user-avatar">{user.name?.slice(0,1)?.toUpperCase()}</div></div></header>
+      <div className="viewer-content">
+        {loading ? <div className="viewer-empty"><RefreshCw className="spin"/><h2>Loading your report</h2><p>Retrieving your published business intelligence.</p></div> : error ? <div className="viewer-empty"><AlertTriangle/><h2>Report unavailable</h2><p>{error}</p></div> : !report ? <div className="viewer-empty"><FileText/><h2>No published report yet</h2><p>Your administrator has not assigned a report to this account.</p></div> : <>
+          {page !== "AI Assistant" && <div className="viewer-report-title"><div><span className="eyebrow">LATEST PUBLISHED REPORT</span><h1>{report.title}</h1><p>Generated {new Date(report.created_at * 1000).toLocaleString()} · {overview.rows?.toLocaleString()} records · {overview.columns} columns</p></div><button className="viewer-primary-button" onClick={()=>{setPage("Latest Report");setSection(0)}}><FileText size={16}/> Open full report</button></div>}
+          {page === "Dashboard" && <section className="bi-viewer-analytics">
+            <div className="viewer-section-intro"><div><h2>Analytics · business at a glance</h2><p>The same analysed business snapshot prepared by the admin when this report was published.</p></div></div>
+            <BusinessAnalyticsSnapshot payload={payload}/>
+            <div className="viewer-four-questions">
+              <div><span>PAST</span><strong>What happened?</strong><p>{decision.business_narrative?.overall_performance || decision.executive_summary || "See the report's recorded results."}</p></div>
+              <div><span>INSIGHTS</span><strong>Why did it happen?</strong><p>{decision.business_narrative?.product_performance || "The recorded groups show differences, but causation has not been established."}</p></div>
+              <div><span>FUTURE</span><strong>What will happen?</strong><p>{forecast?.forecasts?.length ? `Next period forecast: ${Number(forecast.forecasts[0].forecast).toLocaleString()} ${String(forecast.value_column||"business units").replaceAll("_"," ")}. Results are uncertain.` : "A supported forecast was not available."}</p></div>
+              <div><span>ACTIONS</span><strong>What should we do?</strong><p>{typeof decision.recommendations?.[0] === "string" ? decision.recommendations[0] : decision.recommendations?.[0]?.description || "Review findings and constraints before acting."}</p></div>
+            </div>
+          </section>}
+          {page === "Latest Report" && <BusinessReport payload={payload} title={report.title} />}
+          {page === "AI Assistant" && <section className="viewer-chat-page"><div className="viewer-section-intro"><div><span className="eyebrow">REPORT-GROUNDED AI</span><h2>AI Research Assistant</h2><p>Ask questions about your assigned published report. Answers are limited to this report's saved evidence.</p></div></div><div className="viewer-chat-history">{chat.length===0 && <div className="viewer-chat-empty"><MessageCircle size={28}/><h3>What would you like to understand?</h3><p>Try asking about performance, findings, forecasts, risks or recommendations.</p><div className="viewer-prompts">{["Summarise the business performance.","What are the main risks?","What does the forecast tell us?"] .map(q=><button key={q} onClick={()=>setQuestion(q)}>{q}</button>)}</div></div>}{chat.map((item,i)=><div className={`viewer-chat-message ${item.role}`} key={i}><strong>{item.role === "user" ? "You":"INSIGHT AI"}</strong><ReactMarkdown remarkPlugins={[remarkGfm]}>{String(item.text||"")}</ReactMarkdown>{item.chart?.data?.length>0 && <div className="viewer-chat-chart"><h4>{item.chart.title}</h4><InsightChart data={item.chart.data} type={item.chart.type || "bar"} xKey={item.chart.xKey || "group"}/><p className="viewer-chart-note">Values from this assigned published report only.</p></div>}</div>)}{chatBusy && <p className="viewer-muted">INSIGHT AI is reviewing the published report…</p>}</div><form className="viewer-chat-form" onSubmit={sendQuestion}><input value={question} onChange={e=>setQuestion(e.target.value)} placeholder="Ask a question about this report..."/><button disabled={chatBusy || !question.trim()}><Send size={17}/></button></form></section>}
+        </>}
+      </div>
+    </main>
+  </div>;
+}
+
+function DataModelingPage() {
+  return <section className="module-placeholder"><div className="placeholder-icon"><GitBranch size={27}/></div><span className="eyebrow">FUTURE INTEGRATION</span><h2>Data Modeling</h2><p>INSIGHT AI currently focuses on one complete CSV or Excel dataset at a time. Multi-table primary/foreign key detection, relationship diagrams, join recommendations and validated joins are planned for a future release.</p><div className="modeling-roadmap"><div><strong>Current workflow</strong><span>Single dataset ingestion and analysis</span></div><ArrowRight size={18}/><div><strong>Future workflow</strong><span>Multiple tables, relationships and analytical joins</span></div></div></section>;
+}
+
+// Business KPIs and chart summaries for the currently selected dataset.
+function OverviewPage({ profile, datasetId, resetWorkspace, openPage }) {
+  const [overview, setOverview] = useState(null);
+  const [trend, setTrend] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [productBreakdown, setProductBreakdown] = useState([]);
+  const [secondary, setSecondary] = useState([]);
+  const [forecast, setForecast] = useState(null);
+  const [forecastNote, setForecastNote] = useState("Checking whether this dataset supports a reliable forecast…");
+  const [busy, setBusy] = useState(true);
+  const [source, setSource] = useState("original");
+  const [explanation, setExplanation] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+    getAnalyticsOverview(datasetId, "cleaned").then(() => { if (alive) setSource("cleaned"); }).catch(() => {});
+    return () => { alive = false; };
+  }, [datasetId]);
+
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      setBusy(true);
+      try {
+        const data = await getAnalyticsOverview(datasetId, source);
+        if (!alive) return;
+        setOverview(data);
+        const numeric = data.numeric_summary || [];
+        const categories = data.categorical_columns || [];
+        const dates = data.date_columns || [];
+        const semantics = profile.column_profiles || [];
+        const semanticField = types => semantics.find(c => types.includes(String(c.semantic_type || "").toLowerCase()) && categories.includes(c.name))?.name;
+        const categoryField = semanticField(["category", "channel", "location", "region"]) || categories[0];
+        const productField = semanticField(["product"]) || categories.find(c => c !== categoryField);
+        const segmentField = semanticField(["customer", "segment", "gender"]) || categories.find(c => c !== categoryField && c !== productField);
+        const revenue = numeric.find(x => /revenue|sales|amount|gross/i.test(x.column)) || numeric.find(x => !/id|code|zip|postal/i.test(x.column));
+        const quantity = numeric.find(x => /quantity|qty|units|stock/i.test(x.column));
+        const date = dates[0];
+        const metric = revenue?.column;
+        const tasks = [];
+        if (date && metric) tasks.push(getAnalyticsTrend(datasetId, date, metric, "month", source).then(r => alive && setTrend(r.results || [])).catch(() => alive && setTrend([])));
+        if (categoryField && metric) tasks.push(getAnalyticsBreakdown(datasetId, categoryField, metric, "sum", source).then(r => alive && setCategory(r.results || [])).catch(() => alive && setCategory([])));
+        if (productField && metric) tasks.push(getAnalyticsBreakdown(datasetId, productField, metric, "sum", source).then(r => alive && setProductBreakdown(r.results || [])).catch(() => alive && setProductBreakdown([])));
+        else setProductBreakdown([]);
+        if (segmentField && metric) tasks.push(getAnalyticsBreakdown(datasetId, segmentField, metric, "sum", source).then(r => alive && setSecondary(r.results || [])).catch(() => alive && setSecondary([])));
+        else if (categories.length) tasks.push(getAnalyticsBreakdown(datasetId, categories[0], null, "count", source).then(r => alive && setSecondary(r.results || [])).catch(() => alive && setSecondary([])));
+        if (date && (revenue || quantity)) {
+          const forecastMetric = quantity?.column || metric;
+          tasks.push(createForecast(datasetId, {source, date_column: date, value_column: forecastMetric, horizon: 3, frequency: "MS"})
+            .then(r => { if (alive) { setForecast(r); setForecastNote(""); } })
+            .catch(err => { if (alive) { setForecast(null); setForecastNote(err.message || "A reliable forecast is not available for this dataset yet."); } }));
+        } else {
+          setForecastNote("Automatic forecasting needs a recognised date column and a numeric business measure. The dataset does not currently contain both.");
+        }
+        await Promise.allSettled(tasks);
+      } catch (err) {
+        if (alive) setForecastNote(err.message || "Analytics could not be loaded.");
+      } finally { if (alive) setBusy(false); }
+    }
+    load();
+    return () => { alive = false; };
+  }, [datasetId, source]);
+
+  const metrics = overview?.metrics || [];
+  const findMetric = (...patterns) => metrics.find(m => patterns.some(p => p.test(m.name)) && !/rows|columns|missing|duplicate/i.test(m.name));
+  const totalRevenue = findMetric(/revenue|sales/i);
+  const orders = findMetric(/orders/i);
+  const aov = findMetric(/average order value/i);
+  const quantity = findMetric(/quantity|units/i);
+  const customers = findMetric(/unique customers|customer count|distinct customers/i);
+  const inferredGroups = category.length || secondary.length;
+  const averagePerRecord = Number(totalRevenue?.value) / Number(overview?.rows || 0);
+  const kpis = [
+    {label: totalRevenue?.name || "Recorded revenue", value: totalRevenue?.value, icon: "₹", tone: "blue"},
+    {label: orders?.name || "Total records", value: orders?.value ?? overview?.rows, icon: "▤", tone: "violet"},
+    {label: aov?.name || "Average revenue / record", value: aov?.value ?? (Number.isFinite(averagePerRecord) ? averagePerRecord : null), icon: "◉", tone: "green"},
+    {label: customers?.name || (inferredGroups ? "Groups compared" : "Customers / groups"), value: customers?.value ?? (inferredGroups || null), icon: "♙", tone: "orange"},
+    {label: quantity?.name || "Quality score", value: quantity?.value ?? (profile.quality_score != null ? `${profile.quality_score}%` : null), icon: "↗", tone: "cyan"},
+  ];
+  const money = value => value == null || !Number.isFinite(Number(value)) ? "—" : Number(value).toLocaleString(undefined, {maximumFractionDigits: 0});
+  const topCategory = category[0];
+  const healthIssues = [
+    {label: "Missing cells", value: overview?.missing_cells ?? profile.missing_cells ?? 0},
+    {label: "Duplicate rows", value: overview?.duplicate_rows ?? profile.duplicate_rows ?? 0},
+    {label: "Rows", value: overview?.rows ?? profile.rows ?? 0},
+  ];
+  const explain = (title, rows, field) => {
+    const sorted = [...(rows || [])].sort((a,b) => Number(b.value || 0) - Number(a.value || 0));
+    const total = sorted.reduce((sum, x) => sum + Number(x.value || 0), 0);
+    const lines = sorted.slice(0, 5).map((x, i) => `${i+1}. ${x.group}: ${money(x.value)}`).join("\n");
+    setExplanation({title, text: sorted.length ? `${title} is calculated from the selected ${source} dataset. ${sorted[0].group} is currently highest at ${money(sorted[0].value)}${total ? ` (${(Number(sorted[0].value)/total*100).toFixed(1)}% of the displayed total)` : ""}.\n\nTop values:\n${lines}\n\nThis is a descriptive comparison. It does not by itself prove why the difference occurred.` : `There is not enough compatible data to explain ${title}.`});
+  };
+
+  return <div className="command-dashboard">
+    <div className="dashboard-heading">
+      <div><div className="eyebrow"><Sparkles size={13}/> AI DATA INTELLIGENCE COMMAND CENTER</div><h2>Business overview</h2><p>{profile.filename} · {profile.detected_domain || "General dataset"} · {Number(overview?.rows ?? profile.rows ?? 0).toLocaleString()} records</p></div>
+      <div className="dashboard-controls"><select value={source} onChange={e=>setSource(e.target.value)} aria-label="Dataset version"><option value="original">Active dataset (automatically cleaned)</option><option value="raw">Original upload (audit / compare)</option><option value="cleaned">Approved cleaned dataset</option></select><button className="dashboard-outline" onClick={resetWorkspace}>Change dataset</button></div>
+    </div>
+    <div className="dashboard-kpis">{kpis.map((k,i)=><article className={`dashboard-kpi ${k.tone}`} key={i}><span className="kpi-icon">{k.icon}</span><span className="kpi-label">{k.label}</span><strong>{typeof k.value === "number" ? money(k.value) : (k.value ?? "N/A")}</strong><small>{i===4 && !quantity ? "Data completeness and consistency" : k.value == null ? "Metric not present in this file" : "Calculated from selected data"}</small></article>)}</div>
+    {busy && <div className="dashboard-loading"><span className="loading-spinner"/> Analysing dataset and preparing business intelligence…</div>}
+    <div className="dashboard-chart-row">
+      <article className="dashboard-card trend-card"><div className="dashboard-card-head"><div><h3>Revenue and order trend</h3><p>Historical performance by month</p></div><button className="chart-info" onClick={()=>explain("Historical trend", trend.map(x=>({group:x.period,value:x.value})))} title="Explain this chart">i</button></div>{trend.length ? <><ResponsiveContainer width="100%" height={205}><AreaChart data={trend}><defs><linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#4d83ed" stopOpacity={.24}/><stop offset="100%" stopColor="#4d83ed" stopOpacity={0}/></linearGradient></defs><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="period" tick={{fontSize:10}}/><YAxis tick={{fontSize:10}}/><Tooltip formatter={v=>money(v)}/><Area type="monotone" dataKey="value" stroke="#477ce7" strokeWidth={2.5} fill="url(#revenueFill)"/></AreaChart></ResponsiveContainer><div className="chart-footnote">{trend.length} historical periods · Values are calculated from source records</div></> : <EmptyChart text="A recognised date and numeric measure are needed for a time trend."/>}</article>
+      <article className="dashboard-card"><div className="dashboard-card-head"><div><h3>Revenue by channel / category</h3><p>{profile.column_profiles?.find(c=>["category","channel","location","region"].includes(String(c.semantic_type||"").toLowerCase()) && overview?.categorical_columns?.includes(c.name))?.name || overview?.categorical_columns?.[0] || "Category"} contribution</p></div><button className="chart-info" onClick={()=>explain("Category contribution",category)}>i</button></div>{category.length ? <><ResponsiveContainer width="100%" height={205}><PieChart><Pie data={category.slice(0,6)} dataKey="value" nameKey="group" innerRadius={48} outerRadius={78} paddingAngle={3}>{category.slice(0,6).map((_,i)=><Cell key={i} fill={["#477ce7","#17a98b","#f4a340","#8b70d6","#e16c85","#45a9c7"][i%6]}/>)}</Pie><Tooltip formatter={v=>money(v)}/></PieChart></ResponsiveContainer><div className="mini-legend">{category.slice(0,4).map((x,i)=><span key={x.group}><i style={{background:["#477ce7","#17a98b","#f4a340","#8b70d6"][i]}}/>{x.group}</span>)}</div></> : <EmptyChart text="No suitable category field and numeric metric were detected."/>}</article>
+      <article className="dashboard-card product-card"><div className="dashboard-card-head"><div><h3>Top products / groups</h3><p>Highest contributing values</p></div><button className="chart-info" onClick={()=>explain("Top products / groups",productBreakdown.length?productBreakdown:category)}>i</button></div>{(productBreakdown.length?productBreakdown:category).length ? <div className="rank-list">{(productBreakdown.length?productBreakdown:category).slice(0,5).map((x,i)=><div className="rank-item" key={x.group}><span className="rank-number">0{i+1}</span><span className="rank-name">{x.group}</span><strong>{money(x.value)}</strong><div className="rank-track"><i style={{width:`${Math.max(2,Number(x.value||0)/Math.max(1,Number((productBreakdown.length?productBreakdown:category)[0]?.value||1))*100)}%`}}/></div></div>)}</div> : <EmptyChart text="No product or category ranking is available."/>}</article>
+    </div>
+    <div className="dashboard-health-row">
+      <article className="dashboard-card health-card"><div className="dashboard-card-head"><div><h3>Data health overview</h3><p>Quality indicators, separate from business KPIs</p></div><span className="health-score">{profile.quality_score ?? "—"}%</span></div><div className="health-progress"><i style={{width:`${Math.min(100,Math.max(0,Number(profile.quality_score)||0))}%`}}/></div><div className="health-metrics">{healthIssues.map(x=><div key={x.label}><span>{x.label}</span><strong>{Number(x.value).toLocaleString()}</strong></div>)}</div></article>
+      <article className="dashboard-card alert-card"><div className="dashboard-card-head"><div><h3>Critical issues & anomaly alerts</h3><p>Items that deserve review before decisions</p></div><AlertTriangle size={18}/></div>{(profile.warnings || []).length ? profile.warnings.slice(0,3).map((w,i)=><div className="alert-line" key={i}><i/>{w}</div>) : <div className="alert-line positive"><i/>No profile warnings were returned. This does not guarantee the data is error-free.</div>}{Number(profile.missing_cells||0)>0 && <div className="alert-line"><i/>Missing values detected. Review their pattern before applying imputation.</div>}</article>
+      <article className="dashboard-card forecast-card"><div className="dashboard-card-head"><div><h3>Next 3 periods forecast</h3><p>Automatically selected numeric series</p></div><button className="chart-info" onClick={()=>setExplanation({title:"Forecast method and reliability",text:forecast ? `Selected method: ${forecast.selected_method}. Observed periods: ${forecast.observed_periods}. Backtest metrics: ${JSON.stringify(forecast.backtest_metrics,null,2)}. This is a univariate estimate and does not include promotions, holidays, stockouts or external drivers.` : forecastNote})}>i</button></div>{forecast?.forecasts?.length ? <div className="forecast-values">{forecast.forecasts.map(x=><div key={x.period}><span>{new Date(x.period).toLocaleDateString(undefined,{month:"short",year:"2-digit"})}</span><strong>{money(x.forecast)}</strong></div>)}</div> : <div className="forecast-unavailable">{forecastNote}</div>}</article>
+    </div>
+    <div className="dashboard-bottom-row">
+      <article className="dashboard-card"><div className="dashboard-card-head"><div><h3>Sales by category</h3><p>Compare business contribution</p></div><button className="chart-info" onClick={()=>explain("Sales by category",category)}>i</button></div>{category.length ? <ResponsiveContainer width="100%" height={190}><BarChart data={category.slice(0,8)}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="group" tick={{fontSize:10}}/><YAxis tick={{fontSize:10}}/><Tooltip formatter={v=>money(v)}/><Bar dataKey="value" fill="#477ce7" radius={[5,5,0,0]}/></BarChart></ResponsiveContainer> : <EmptyChart text="No category breakdown is available."/>}</article>
+      <article className="dashboard-card"><div className="dashboard-card-head"><div><h3>Customer / segment distribution</h3><p>{profile.column_profiles?.find(c=>["customer","segment","gender"].includes(String(c.semantic_type||"").toLowerCase()) && overview?.categorical_columns?.includes(c.name))?.name || overview?.categorical_columns?.[1] || overview?.categorical_columns?.[0] || "Detected segment"}</p></div><button className="chart-info" onClick={()=>explain("Segment distribution",secondary)}>i</button></div>{secondary.length ? <ResponsiveContainer width="100%" height={190}><BarChart data={secondary.slice(0,7)}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="group" tick={{fontSize:10}}/><YAxis tick={{fontSize:10}}/><Tooltip formatter={v=>money(v)}/><Bar dataKey="value" fill="#18a889" radius={[5,5,0,0]}/></BarChart></ResponsiveContainer> : <EmptyChart text="No second category field is available for segmentation."/>}</article>
+      <article className="dashboard-card pipeline-card"><div className="dashboard-card-head"><div><h3>Analytics pipeline</h3><p>What INSIGHT AI has processed</p></div><Activity size={18}/></div><div className="pipeline-steps"><span>✓ Dataset uploaded</span><span>✓ Schema and domain inspected</span><span>✓ Data profile calculated</span><span>{category.length || trend.length ? "✓" : "•"} Business analytics prepared</span><span>{forecast ? "✓ Forecast backtested" : "• Forecast availability checked"}</span></div><button className="dashboard-link" onClick={()=>openPage("Analytics Studio")}>Open Analytics Studio <ArrowRight size={14}/></button></article>
+    </div>
+    {explanation && <div className="insight-modal-backdrop" onClick={()=>setExplanation(null)}><section className="insight-modal" onClick={e=>e.stopPropagation()}><button className="modal-close" onClick={()=>setExplanation(null)}>×</button><div className="eyebrow"><Sparkles size={13}/> CHART EXPLANATION</div><h3>{explanation.title}</h3><p style={{whiteSpace:"pre-line"}}>{explanation.text}</p><button className="dashboard-outline" onClick={()=>setExplanation(null)}>Close</button></section></div>}
+  </div>;
+}
+
+function EmptyChart({text}) { return <div className="empty-chart"><BarChart3 size={24}/><span>{text}</span></div>; }
+
+function DataHealthPage({ profile, openPage }) {
+  const cols = profile.column_profiles || [];
+  const missing = cols.filter(c => Number(c.missing_count || 0) > 0).sort((a,b)=>Number(b.missing_count)-Number(a.missing_count));
+  const severe = missing.filter(c => Number(c.missing_percentage || 0) >= 50);
+  return <section className="analytics-page data-health-page">
+    <div className="welcome-section"><div><div className="eyebrow"><ShieldCheck size={14}/> DATA HEALTH ASSESSMENT</div><h2>Understand the risks before cleaning.</h2><p>Review missingness patterns, duplicates and column-level quality before applying transformations.</p></div><button className="analyze-button" onClick={()=>openPage("Data Cleaning")}>Review cleaning recommendations <ArrowRight size={16}/></button></div>
+    <div className="stats-grid"><Stat label="Quality score" value={`${profile.quality_score}%`} icon={ShieldCheck}/><Stat label="Missing cells" value={Number(profile.missing_cells||0).toLocaleString()} icon={AlertTriangle}/><Stat label="Duplicate rows" value={Number(profile.duplicate_rows||0).toLocaleString()} icon={CopyIcon}/><Stat label="Columns with missing data" value={missing.length} icon={Columns3}/></div>
+    {severe.length>0 && <div className="notice error-notice"><AlertTriangle size={17}/> {severe.length} column(s) have at least 50% missing values. Do not apply blanket row deletion or imputation. Review the source and business meaning first.</div>}
+    <section className="analytics-panel"><div className="analytics-panel-heading"><div><h3>Column-level missingness</h3><p>Sorted by the number of missing values. Values are from the uploaded profile.</p></div></div>
+      {missing.length ? <div className="table-wrapper"><table className="data-table"><thead><tr><th>Column</th><th>Data type</th><th>Missing</th><th>Missing %</th><th>Suggested review</th></tr></thead><tbody>{missing.map(c=><tr key={c.name}><td><strong>{c.name}</strong></td><td>{c.data_type}</td><td>{Number(c.missing_count).toLocaleString()}</td><td>{Number(c.missing_percentage).toFixed(1)}%</td><td>{Number(c.missing_percentage)>=50 ? "Investigate source; do not auto-impute" : c.semantic_type==="identifier" ? "Preserve identifier; investigate" : "Preview a suitable column strategy"}</td></tr>)}</tbody></table></div> : <p className="analytics-empty">No missing values were reported in the current profile.</p>}
+    </section>
+    <section className="analytics-panel"><div className="analytics-panel-heading"><div><h3>Cleaning safety rules</h3><p>INSIGHT AI must protect business meaning, not just maximise the quality score.</p></div></div><ul className="health-rule-list"><li>Preserve the original upload and create a separate cleaned version.</li><li>Never delete rows simply because many cells are missing; inspect the missingness pattern and the value of each record.</li><li>Do not invent identifiers or impute target labels without an explicit, defensible policy.</li><li>Show a preview, affected-row count and reason before applying a transformation.</li><li>Keep outliers for review by default unless a verified correction rule exists.</li></ul></section>
+  </section>;
 }
 
 function BusinessOverviewPanel({ datasetId, profile }) {
@@ -556,6 +803,7 @@ function BusinessOverviewPanel({ datasetId, profile }) {
   return <section className="business-overview"><div className="business-story-card"><div className="eyebrow"><Sparkles size={14}/> BUSINESS SNAPSHOT</div><h3>What this dataset tells us</h3><p>{summary}</p><div className="business-story-meta"><span>{profile.detected_domain || "General dataset"}</span><span>{Number(profile.rows || 0).toLocaleString()} records analysed</span><span>{profile.domain_confidence || "Unknown"} domain confidence</span></div></div>{businessMetrics.length > 0 && <div className="business-kpi-strip">{businessMetrics.slice(0,4).map((m) => <div className="business-kpi" key={m.name}><span>{m.name}</span><strong>{typeof m.value === "number" ? m.value.toLocaleString(undefined,{maximumFractionDigits:2}) : String(m.value ?? "N/A")}</strong><small>{m.description}</small></div>)}</div>}<div className="overview-mini-charts">{categoryData.length > 0 && <article className="overview-mini-chart"><div><strong>Category performance</strong><span>Historical metric by category</span></div><ResponsiveContainer width="100%" height={155}><BarChart data={categoryData.slice(0,6)}><XAxis dataKey="group" tick={{fontSize:9}}/><YAxis hide/><Tooltip/><Bar dataKey="value" fill="#4d91e8" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer><p>{categoryData.length ? `${categoryData[0].group} currently leads this comparison with ${Number(categoryData[0].value).toLocaleString(undefined,{maximumFractionDigits:2})}. This is a historical result, not a forecast.` : "No category comparison is available."}</p></article>}{trendData.length > 0 && <article className="overview-mini-chart"><div><strong>Historical trend</strong><span>Period-by-period movement</span></div><ResponsiveContainer width="100%" height={155}><LineChart data={trendData}><XAxis dataKey="period" tick={{fontSize:9}}/><YAxis hide/><Tooltip/><Line type="monotone" dataKey="value" stroke="#19a783" strokeWidth={2} dot={false}/></LineChart></ResponsiveContainer><p>{trendData.length > 1 ? `The chart contains ${trendData.length} periods. Review the latest movement before making purchasing or staffing decisions.` : "More historical periods are needed for a trend comparison."}</p></article>}</div></section>;
 }
 
+// Dataset columns, types and target suggestions are shown here.
 function DataUnderstandingPage({ profile, datasetId }) {
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
@@ -565,6 +813,24 @@ function DataUnderstandingPage({ profile, datasetId }) {
   const [rowError, setRowError] = useState("");
   const [reloadRows, setReloadRows] = useState(0);
   const columns = profile.column_profiles || [];
+  const numericTargets = columns.filter((c) => ["numeric", "number"].includes(String(c.data_type || "").toLowerCase()) && !/(^id$|_id$|code|zip|postal|phone)/i.test(c.name));
+  const targetPriority = (c) => {
+    const name = c.name.toLowerCase();
+    if (/revenue|total.?sales|sales.?amount|net.?sales/.test(name)) return 120;
+    if (/profit|margin/.test(name)) return 100;
+    if (/demand|quantity|units.?sold|qty/.test(name)) return 90;
+    if (/amount|outcome|target|label/.test(name)) return 70;
+    if (/price|cost/.test(name)) return 45;
+    return 10;
+  };
+  const suggestedTarget = [...numericTargets].sort((a, b) => targetPriority(b) - targetPriority(a))[0];
+  const [manualTarget, setManualTarget] = useState(() => localStorage.getItem(`insight-target-${datasetId}`) || "");
+  const actualTarget = numericTargets.find(c => c.name === manualTarget) || suggestedTarget;
+  const changeTarget = (value) => {
+    setManualTarget(value);
+    if (value) localStorage.setItem(`insight-target-${datasetId}`, value);
+    else localStorage.removeItem(`insight-target-${datasetId}`);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -616,11 +882,13 @@ function DataUnderstandingPage({ profile, datasetId }) {
         </div>
         <div className="explorer-pagination"><span>{data ? `Showing ${data.total_filtered ? (page - 1) * 20 + 1 : 0}–${Math.min(page * 20, data.total_filtered)} of ${data.total_filtered.toLocaleString()} matching rows` : "Loading rows"}</span><div><button disabled={page <= 1 || loadingRows} onClick={() => setPage((p) => p - 1)}><ChevronLeft size={16}/> Previous</button><strong>Page {page} / {data?.total_pages || 1}</strong><button disabled={!data || page >= data.total_pages || loadingRows} onClick={() => setPage((p) => p + 1)}>Next <ChevronRightIcon size={16}/></button></div></div>
       </section>
-      <section className="profile-section"><div className="section-heading"><div><h3>Column dictionary</h3><p>Detected data types and business meanings.</p></div></div><div className="columns-table-wrapper"><table className="columns-table"><thead><tr><th>Column</th><th>Data type</th><th>Business meaning</th><th>Missing</th><th>Unique</th></tr></thead><tbody>{columns.map((column) => <tr key={column.name}><td><strong>{column.name}</strong></td><td>{column.data_type}</td><td><span className="semantic-tag">{column.semantic_type}</span></td><td>{column.missing_count?.toLocaleString()}</td><td>{column.unique_count?.toLocaleString()}</td></tr>)}</tbody></table></div></section>
+      <section className="target-suggestion-card target-selector-card"><div><span className="eyebrow">PREDICTION TARGET</span><h3>{actualTarget?.name || "No numeric target available"}</h3><p>We suggest an outcome column using business meaning, prioritising revenue or demand over unit price. You can override it. Forecasting will use your selection where appropriate; a valid date field is still required.</p></div><label className="target-selector-label">Choose target<select value={manualTarget} onChange={e => changeTarget(e.target.value)}><option value="">Automatic: {suggestedTarget?.name || "Not available"}</option>{numericTargets.map(c=><option key={c.name} value={c.name}>{c.name}</option>)}</select></label></section>
+      <section className="profile-section"><div className="section-heading"><div><h3>Column dictionary</h3><p>Detected data types and business meanings. The suggested target is highlighted.</p></div></div><div className="columns-table-wrapper"><table className="columns-table"><thead><tr><th>Column</th><th>Data type</th><th>Business meaning</th><th>Missing</th><th>Unique</th><th>Prediction role</th></tr></thead><tbody>{columns.map((column) => <tr key={column.name}><td><strong>{column.name}</strong></td><td>{column.data_type}</td><td><span className="semantic-tag">{column.semantic_type}</span></td><td>{column.missing_count?.toLocaleString()}</td><td>{column.unique_count?.toLocaleString()}</td><td>{actualTarget?.name === column.name ? <span className="target-suggestion-badge">{manualTarget ? "Selected target" : "Suggested target"}</span> : <span className="muted-role">Feature / context</span>}</td></tr>)}</tbody></table></div></section>
     </section>
   );
 }
 
+// Review the recommended cleaning plan before applying changes.
 function CleaningPage({
   preview, result, loading, applying, downloading,
   error, success, loadPreview, applyCleaning, download,
@@ -750,13 +1018,13 @@ function CleaningPage({
                 <h3>Duplicate records</h3>
                 <p>Repeated records can affect analysis and reporting.</p>
               </div>
-              <span className="recommendation-action">Remove detected duplicates</span>
+              <span className="recommendation-action">Review before removal</span>
             </div>
             <div className="cleaning-inline-info">
               <Trash2 size={18} />
               <span>
                 <strong>{preview.duplicate_rows?.toLocaleString() || 0}</strong>
-                {" "}duplicate records will be removed from the cleaned output.
+                {" "}duplicate-looking records were detected. They are preserved by default until you confirm they are truly redundant.
               </span>
             </div>
           </section>
@@ -869,7 +1137,40 @@ function CleaningPage({
   );
 }
 
+function InsightChart({ data, type = "bar", xKey = "group", color = "#5987dc" }) {
+  const entries = (data || []).slice(0, 15);
+  return <ResponsiveContainer width="100%" height={207}>
+    {type === "pie" ? <PieChart><Tooltip/><Pie data={entries} dataKey="value" nameKey={xKey} innerRadius={48} outerRadius={81} paddingAngle={2}>{entries.map((item,index)=><Cell key={`${item[xKey]}-${index}`} fill={[color,"#28aa8e","#dca348","#9478d8","#de7186","#5cbbc1"][index%6]}/>)}</Pie></PieChart>
+    : type === "line" ? <LineChart data={entries}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey={xKey} tick={{fontSize:9}}/><YAxis tick={{fontSize:9}} width={38}/><Tooltip/><Line type="monotone" dataKey="value" stroke={color} strokeWidth={2.5} dot={false}/></LineChart>
+    : type === "area" ? <AreaChart data={entries}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey={xKey} tick={{fontSize:9}}/><YAxis tick={{fontSize:9}} width={38}/><Tooltip/><Area type="monotone" dataKey="value" stroke={color} fill={color} fillOpacity={0.14} strokeWidth={2.5}/></AreaChart>
+    : <BarChart data={entries}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey={xKey} tick={{fontSize:9}}/><YAxis tick={{fontSize:9}} width={38}/><Tooltip/><Bar dataKey="value" fill={color} radius={[4,4,0,0]}/></BarChart>}
+  </ResponsiveContainer>;
+}
+
+// Historical business findings: charts and verified aggregates.
+// The day-to-day Analytics screen is deliberately compact and report-like.
+// Power users can expand the existing advanced chart explorer without losing it.
 function AnalyticsPage({ datasetId }) {
+  const [snapshot,setSnapshot] = useState(null);
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState("");
+  const [advanced,setAdvanced] = useState(false);
+  const load = useCallback(async () => {
+    setLoading(true); setError("");
+    try {setSnapshot(await previewBusinessReport(datasetId,"auto"));}
+    catch(e){setError(e.message || "Unable to analyse dataset.");}
+    finally {setLoading(false);}
+  },[datasetId]);
+  useEffect(()=>{load();},[load]);
+  return <section className="bi-admin-analytics">
+    <div className="bi-admin-actions"><div><strong>Analytics Studio · business performance</strong><p>What happened, what the data shows, and why the findings matter.</p></div><div><button onClick={load} disabled={loading}>Refresh analysis</button><button onClick={()=>setAdvanced(v=>!v)}>{advanced ? "Hide advanced charts" : "Advanced chart explorer"}</button></div></div>
+    {error && <p className="notice error-notice">{error}</p>}
+    {loading ? <div className="bi-admin-loading">Calculating business KPIs and insights…</div> : snapshot && <BusinessAnalyticsSnapshot payload={snapshot}/>}
+    {advanced && <div className="bi-advanced"><AdvancedAnalyticsPage datasetId={datasetId}/></div>}
+  </section>;
+}
+
+function AdvancedAnalyticsPage({ datasetId }) {
   const [overview, setOverview] = useState(null);
   const [breakdown, setBreakdown] = useState(null);
   const [trend, setTrend] = useState(null);
@@ -879,6 +1180,10 @@ function AnalyticsPage({ datasetId }) {
   const [groupBy, setGroupBy] = useState("");
   const [metric, setMetric] = useState("");
   const [aggregation, setAggregation] = useState("sum");
+  const [analysisSource, setAnalysisSource] = useState("original");
+  const [breakdownChartType, setBreakdownChartType] = useState(() => localStorage.getItem("insight-breakdown-chart") || "bar");
+  const [trendChartType, setTrendChartType] = useState(() => localStorage.getItem("insight-trend-chart") || "line");
+  const [volumeChartType, setVolumeChartType] = useState(() => localStorage.getItem("insight-volume-chart") || "bar");
 
   const [dateColumn, setDateColumn] = useState("");
   const [trendMetric, setTrendMetric] = useState("");
@@ -887,6 +1192,10 @@ function AnalyticsPage({ datasetId }) {
   const [loading, setLoading] = useState(true);
   const [chartLoading, setChartLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => { localStorage.setItem("insight-breakdown-chart", breakdownChartType); }, [breakdownChartType]);
+  useEffect(() => { localStorage.setItem("insight-trend-chart", trendChartType); }, [trendChartType]);
+  useEffect(() => { localStorage.setItem("insight-volume-chart", volumeChartType); }, [volumeChartType]);
 
   const numericColumns = useMemo(
     () => overview?.numeric_summary?.map((item) => item.column) || [],
@@ -916,8 +1225,11 @@ function AnalyticsPage({ datasetId }) {
     setVolumeBreakdown(null);
 
     try {
-      const data = await getAnalyticsOverview(datasetId, "original");
-
+      let selectedSource = "cleaned";
+      let data;
+      try { data = await getAnalyticsOverview(datasetId, "cleaned"); }
+      catch { selectedSource = "original"; data = await getAnalyticsOverview(datasetId, "original"); }
+      setAnalysisSource(selectedSource);
       setOverview(data);
 
       const firstCategory = data.categorical_columns?.[0] || "";
@@ -933,7 +1245,7 @@ function AnalyticsPage({ datasetId }) {
     } finally {
       setLoading(false);
     }
-  }, [datasetId]);
+  }, [datasetId, analysisSource]);
 
   // Load category breakdown based on user selections.
   const loadBreakdown = useCallback(async (
@@ -952,7 +1264,7 @@ function AnalyticsPage({ datasetId }) {
         selectedGroup,
         selectedMetric || undefined,
         selectedAggregation,
-        "original"
+        analysisSource
       );
 
       setBreakdown(data);
@@ -961,7 +1273,7 @@ function AnalyticsPage({ datasetId }) {
     } finally {
       setChartLoading(false);
     }
-  }, [datasetId]);
+  }, [datasetId, analysisSource]);
 
   // Load time-based trend analysis.
   const loadTrend = useCallback(async (
@@ -980,7 +1292,7 @@ function AnalyticsPage({ datasetId }) {
         selectedDate,
         selectedMetric,
         selectedFrequency,
-        "original"
+        analysisSource
       );
 
       setTrend(data);
@@ -989,7 +1301,7 @@ function AnalyticsPage({ datasetId }) {
     } finally {
       setChartLoading(false);
     }
-  }, [datasetId]);
+  }, [datasetId, analysisSource]);
 
 
   // Initial overview loading.
@@ -1006,10 +1318,12 @@ function AnalyticsPage({ datasetId }) {
       setError("");
 
       try {
-        const data = await getAnalyticsOverview(datasetId, "original");
-
+        let selectedSource = "cleaned";
+        let data;
+        try { data = await getAnalyticsOverview(datasetId, "cleaned"); }
+        catch { selectedSource = "original"; data = await getAnalyticsOverview(datasetId, "original"); }
         if (cancelled) return;
-
+        setAnalysisSource(selectedSource);
         setOverview(data);
 
         const firstCategory = data.categorical_columns?.[0] || "";
@@ -1054,9 +1368,9 @@ function AnalyticsPage({ datasetId }) {
           getAnalyticsBreakdown(
             datasetId,
             categoricalColumns[0],
-            numericColumns[0] || undefined,
+            overview.numeric_summary?.find(x=>x.column==="__insight_revenue__")?.column || overview.numeric_summary?.find(x=>/revenue|sales|quantity/i.test(x.column))?.column || numericColumns[0] || undefined,
             "sum",
-            "original"
+            analysisSource
           ).then((data) => ({
             type: "breakdown",
             data,
@@ -1066,7 +1380,7 @@ function AnalyticsPage({ datasetId }) {
 
       if (categoricalColumns.length > 0) {
         requests.push(
-          getAnalyticsBreakdown(datasetId, categoricalColumns[0], undefined, "count", "original").then((data) => ({ type: "volume", data }))
+          getAnalyticsBreakdown(datasetId, categoricalColumns[0], undefined, "count", analysisSource).then((data) => ({ type: "volume", data }))
         );
       }
 
@@ -1075,9 +1389,9 @@ function AnalyticsPage({ datasetId }) {
           getAnalyticsTrend(
             datasetId,
             dateColumns[0],
-            numericColumns[0],
+            overview.numeric_summary?.find(x=>x.column==="__insight_revenue__")?.column || overview.numeric_summary?.find(x=>/revenue|sales|quantity/i.test(x.column))?.column || numericColumns[0],
             "month",
-            "original"
+            analysisSource
           ).then((data) => ({
             type: "trend",
             data,
@@ -1086,7 +1400,7 @@ function AnalyticsPage({ datasetId }) {
       }
 
       requests.push(
-        getAnalyticsCorrelations(datasetId, "original").then((data) => ({
+        getAnalyticsCorrelations(datasetId, analysisSource).then((data) => ({
           type: "correlations",
           data,
         }))
@@ -1132,6 +1446,7 @@ function AnalyticsPage({ datasetId }) {
     categoricalColumns,
     numericColumns,
     dateColumns,
+    analysisSource,
   ]);
 
   const metrics = overview?.metrics || [];
@@ -1186,7 +1501,7 @@ function AnalyticsPage({ datasetId }) {
 
       <div className="analytics-source">
         <Database size={16} />
-        <span>Analysis source: Original uploaded dataset</span>
+        <span>Analysis source: {analysisSource === "cleaned" ? "Approved cleaned dataset" : "Original uploaded dataset"}</span>
         <span>{overview.rows?.toLocaleString()} records</span>
       </div>
 
@@ -1309,35 +1624,11 @@ function AnalyticsPage({ datasetId }) {
               </label>
             </div>
 
+            <div className="chart-selector"><label>Chart type <select value={breakdownChartType} onChange={e=>setBreakdownChartType(e.target.value)}><option value="bar">Bar</option><option value="line">Line</option><option value="area">Area</option><option value="pie">Donut</option></select></label></div>
             {breakdown?.results?.length > 0 ? (
               <>
-              <div className="analytics-chart">
-                <ResponsiveContainer width="100%" height={320}>
-                  <BarChart data={breakdown.results}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#263449" />
-                    <XAxis
-                      dataKey="group"
-                      stroke="#8491a7"
-                      tick={{ fontSize: 11 }}
-                    />
-                    <YAxis stroke="#8491a7" tick={{ fontSize: 11 }} />
-                    <Tooltip
-                      contentStyle={{
-                        background: "#101827",
-                        border: "1px solid #34445d",
-                        borderRadius: 8,
-                        color: "#e8edf7",
-                      }}
-                    />
-                    <Bar
-                      dataKey="value"
-                      fill="#5795f5"
-                      radius={[5, 5, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <p className="chart-interpretation">This chart compares {metric || "the selected metric"} across {groupBy || "the selected groups"}. The tallest bar represents the highest recorded value in this dataset. Use this comparison to investigate where business performance is concentrated; it does not explain the cause by itself.</p>
+              <div className="analytics-chart"><InsightChart data={breakdown.results} type={breakdownChartType}/></div>
+              <details className="chart-insight-toggle"><summary><Info size={13}/> Explain this chart</summary><p>This chart compares {metric || "the selected metric"} across {groupBy || "the selected groups"}. {breakdown?.results?.length ? `The leading group is ${breakdown.results[0].group} with ${Number(breakdown.results[0].value).toLocaleString(undefined,{maximumFractionDigits:2})}.` : ""} These are historical totals; the chart cannot prove why a group performed better.</p></details>
               </>
             ) : (
               <p className="analytics-empty">
@@ -1419,37 +1710,11 @@ function AnalyticsPage({ datasetId }) {
               </label>
             </div>
 
+            <div className="chart-selector"><label>Chart type <select value={trendChartType} onChange={e=>setTrendChartType(e.target.value)}><option value="line">Line</option><option value="area">Area</option><option value="bar">Bar</option></select></label></div>
             {trend?.results?.length > 0 ? (
               <>
-              <div className="analytics-chart">
-                <ResponsiveContainer width="100%" height={320}>
-                  <LineChart data={trend.results}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#263449" />
-                    <XAxis
-                      dataKey="period"
-                      stroke="#8491a7"
-                      tick={{ fontSize: 11 }}
-                    />
-                    <YAxis stroke="#8491a7" tick={{ fontSize: 11 }} />
-                    <Tooltip
-                      contentStyle={{
-                        background: "#101827",
-                        border: "1px solid #34445d",
-                        borderRadius: 8,
-                        color: "#e8edf7",
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="value"
-                      stroke="#55c7a0"
-                      strokeWidth={3}
-                      dot={{ r: 4 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-              <p className="chart-interpretation">This time-series chart shows {trendMetric || "the selected metric"} grouped by {frequency}. Peaks indicate periods with higher recorded values, while dips indicate lower recorded values. Compare consecutive periods before making operational decisions.</p>
+              <div className="analytics-chart"><InsightChart data={trend.results} type={trendChartType} xKey="period" color="#20a779"/></div>
+              <details className="chart-insight-toggle"><summary><Info size={13}/> Explain this chart</summary><p>This chart displays {trendMetric || "the selected metric"} by {frequency}. {trend.results?.length>1 ? `The latest period (${trend.results.at(-1).period}) recorded ${Number(trend.results.at(-1).value).toLocaleString(undefined,{maximumFractionDigits:2})}, compared with ${Number(trend.results.at(-2).value).toLocaleString(undefined,{maximumFractionDigits:2})} in the previous period.` : ""} The cause of movement cannot be inferred from this chart alone.</p></details>
               </>
             ) : (
               <p className="analytics-empty">
@@ -1469,7 +1734,7 @@ function AnalyticsPage({ datasetId }) {
 
       <section className="analytics-panel">
         <div className="analytics-panel-heading"><div><h3>Record distribution</h3><p>Shows how many records belong to each detected category.</p></div></div>
-        {volumeBreakdown?.results?.length ? <><div className="analytics-chart"><ResponsiveContainer width="100%" height={205}><BarChart data={volumeBreakdown.results.slice(0,10)}><CartesianGrid strokeDasharray="3 3" stroke="#263449"/><XAxis dataKey="group" stroke="#8491a7" tick={{fontSize:10}}/><YAxis stroke="#8491a7" tick={{fontSize:10}}/><Tooltip/><Bar dataKey="value" fill="#9a83df" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer></div><p className="chart-interpretation">This chart counts records in each {volumeBreakdown.group_by} group. It shows how the dataset is distributed, not which group generated the most revenue. Compare it with the revenue/category chart to distinguish sales volume from sales value.</p></> : <p className="analytics-empty">A categorical field is required for record distribution.</p>}
+        {volumeBreakdown?.results?.length ? <><div className="chart-selector"><label>Chart type <select value={volumeChartType} onChange={e=>setVolumeChartType(e.target.value)}><option value="bar">Bar</option><option value="line">Line</option><option value="area">Area</option><option value="pie">Donut</option></select></label></div><div className="analytics-chart"><InsightChart data={volumeBreakdown.results.slice(0,10)} type={volumeChartType} color="#9478d8"/></div><details className="chart-insight-toggle"><summary><Info size={13}/> Explain this chart</summary><p>This chart counts records in each {volumeBreakdown.group_by} group. It shows distribution, not revenue contribution. Compare it with the revenue/category chart to distinguish sales volume from sales value.</p></details></> : <p className="analytics-empty">A categorical field is required for record distribution.</p>}
       </section>
 
       <section className="analytics-panel">
@@ -1511,6 +1776,8 @@ function AnalyticsPage({ datasetId }) {
         )}
       </section>
 
+      {numericSummary.length > 0 && <section className="analytics-panel analytics-coverage-panel"><div className="analytics-panel-heading"><div><h3>Numerical field completeness</h3><p>Valid observations, not the measured values themselves.</p></div></div><div className="analytics-chart"><InsightChart data={numericSummary.slice(0,10).map(item=>({group:item.column,value:item.count}))} type="bar" color="#28aa8e"/></div><details className="chart-insight-toggle"><summary><Info size={13}/> Explain this chart</summary><p>Each bar counts non-missing numerical values for the named field. This compares coverage, not monetary values or sales performance; columns can have different units.</p></details></section>}
+
       {numericSummary.length > 0 && (
         <section className="analytics-panel">
           <div className="analytics-panel-heading">
@@ -1551,6 +1818,16 @@ function AnalyticsPage({ datasetId }) {
         </section>
       )}
 
+      <section className="analytics-panel analytics-story-panel">
+        <div className="analytics-panel-heading"><div><span className="eyebrow">WHAT HAPPENED · WHY IT MATTERS</span><h3>Historical and current business findings</h3><p>A readable explanation assembled from verified statistics, not invented causes.</p></div></div>
+        <div className="analytics-story-grid">
+          <article><h4>What this dataset covers</h4><p>The selected {analysisSource} dataset contains <strong>{Number(overview.rows||0).toLocaleString()} rows</strong> and <strong>{overview.columns} source fields</strong>. It has {overview.missing_cells} missing cells and {overview.duplicate_rows} exact duplicate rows. Business outcomes depend on what the uploaded columns measure.</p></article>
+          <article><h4>What happened across groups</h4><p>{breakdown?.results?.length ? `The largest observed ${groupBy} group by ${metric} is ${breakdown.results[0].group}, with ${Number(breakdown.results[0].value).toLocaleString(undefined,{maximumFractionDigits:2})} under the selected ${aggregation} calculation. A higher result does not necessarily mean higher profit or stronger future demand.` : "A supported categorical field and metric are required to establish a reliable group ranking."}</p></article>
+          <article><h4>How performance changed</h4><p>{trend?.results?.length>1 ? `The last two available ${frequency} periods, ${trend.results.at(-2).period} and ${trend.results.at(-1).period}, recorded ${Number(trend.results.at(-2).value).toLocaleString(undefined,{maximumFractionDigits:2})} and ${Number(trend.results.at(-1).value).toLocaleString(undefined,{maximumFractionDigits:2})} in ${trendMetric}. This describes movement within the recorded history, not a forward prediction.` : "Without enough dated numerical observations, the system cannot calculate a recent historical change."}</p></article>
+          <article><h4>Why did it happen?</h4><p>{correlations?.strong_relationships?.length ? `${correlations.strong_relationships.length} stronger numerical associations were detected, but associations alone cannot explain the underlying causes.` : "No strong verified numerical association was established."} Possible drivers such as pricing, promotions, store openings and stockouts need additional evidence. Compare groups and periods before making causal claims.</p></article>
+        </div>
+      </section>
+
       {overview.insights?.length > 0 && (
         <section className="analytics-panel">
           <div className="analytics-panel-heading">
@@ -1576,8 +1853,8 @@ function AnalyticsPage({ datasetId }) {
 // Reusable display for real backend responses.
 function ComingSoonPage() {
   const roadmap = [
-    ["Demand forecasting", "Estimate future sales from sufficiently long historical time series."],
-    ["Inventory optimisation", "Translate demand patterns into stock planning with lead-time and safety-stock inputs."],
+    ["Seasonal and external-driver forecasting", "Add seasonal baselines, holidays, promotions, prices and other explanatory variables."],
+    ["Advanced inventory optimisation", "Model supplier variability, service levels, MOQ, holding cost and stockout risk."],
     ["Product opportunity scoring", "Identify products to expand using revenue, margin, repeat purchases and market context."],
     ["Live business integrations", "Connect databases, POS platforms and spreadsheets for recurring analysis."],
     ["Scheduled intelligence reports", "Deliver automated weekly and monthly business summaries."],
@@ -1607,6 +1884,7 @@ function ResultViewer({ title, data }) {
 
 
 
+// Natural-language questions go to the four-agent FastAPI endpoint.
 function AIAssistantPage({ datasetId }) {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
@@ -1651,7 +1929,7 @@ function AIAssistantPage({ datasetId }) {
         ...previous,
         {
           role: "assistant",
-          content: String(answer),
+          content: String(answer).replace(/\r\n/g, "\n").trim(),
           raw: result,
         },
       ]);
@@ -1792,6 +2070,22 @@ function AIAssistantPage({ datasetId }) {
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {message.content}
                         </ReactMarkdown>
+                        {message.raw?.visualization?.data?.length > 0 && <div className="analyst-inline-chart"><div className="analytics-panel-heading"><div><h3>{message.raw.visualization.title}</h3><p>Chart calculated from your uploaded dataset</p></div></div><InsightChart data={message.raw.visualization.data} type={message.raw.visualization.type} xKey={message.raw.visualization.xKey}/><details className="chart-insight-toggle"><summary><Info size={13}/> Explain chart</summary><p>These values are computed from the uploaded dataset. Comparisons do not prove the causes of performance differences.</p></details></div>}
+                        {message.raw?.execution_trace?.length > 0 && (
+                          <details className="analyst-trace">
+                            <summary>Execution trace · {message.raw.execution_trace.length} steps · {message.raw.total_elapsed_seconds}s</summary>
+                            <ol>
+                              {message.raw.execution_trace.map((step) => (
+                                <li key={`${step.step}-${step.node}`}>
+                                  <strong>{step.agent || `Step ${step.step}`} · {step.agent_name || String(step.node).replaceAll("_", " ")}</strong>
+                                  <span>{step.status} · {step.elapsed_seconds}s</span>
+                                  <small>{step.purpose || "Workflow execution"}</small>
+                                  <small>{step.detail?.analytics_executed ? "Analytics result available" : "No analytics result"} · {step.detail?.rag_sources || 0} RAG sources · {step.detail?.error_count || 0} errors</small>
+                                </li>
+                              ))}
+                            </ol>
+                          </details>
+                        )}
                       </div>
                     ) : (
                       <p className="ai-user-text">{message.content}</p>
@@ -1901,7 +2195,15 @@ function AnalystAnswer({ content }) {
         Number.isFinite(item.value)
     );
 
-  const answerText = otherLines.join("\n").trim();
+  const answerText = otherLines.join("\n").trim()
+    .split(/\n{2,}/)
+    .map(block => block.split("\n").reduce((acc, line) => {
+      const item = line.trim();
+      if (!item) return acc;
+      if (/^(#{1,4}\s|[-*]\s|\d+\.\s)/.test(item)) return `${acc}\n${item}`;
+      return acc && !acc.endsWith("\n") ? `${acc} ${item}` : `${acc}${item}`;
+    }, "").trim())
+    .join("\n\n");
 
   const sections = answerText.split(/\n(?=#{1,4}\s)/);
 
@@ -2124,6 +2426,7 @@ function DecisionPage({ datasetId }) {
 }
 
 // PREDICTIVE INTELLIGENCE
+// Train and inspect evaluated supervised models.
 function PredictivePage({ datasetId, profile }) {
   const columns = profile.column_profiles || [];
   const [target, setTarget] = useState("");
@@ -2258,7 +2561,22 @@ function PredictivePage({ datasetId, profile }) {
       </section>
 
       {trainingResult && (
-        <ResultViewer title="Model training and evaluation results" data={trainingResult} />
+        <section className="analytics-panel">
+          <div className="analytics-panel-heading"><div><h3>Model evaluation</h3><p>{trainingResult.model_name} · {trainingResult.task} · {trainingResult.training_rows} training rows / {trainingResult.testing_rows} holdout rows</p></div></div>
+          <div className="analytics-metric-grid">
+            {Object.entries(trainingResult.metrics || {}).map(([name, value]) => <div className="analytics-metric-card" key={name}><span>{name.replaceAll("_", " ")}</span><strong>{value ?? "N/A"}</strong></div>)}
+          </div>
+          <div className="comparison-grid">
+            <div className="comparison-stat"><span>Selected model</span><strong>{trainingResult.model_name}</strong></div>
+            <div className="comparison-stat"><span>Cross-validation</span><strong>{trainingResult.cv_folds} folds</strong></div>
+            <div className="comparison-stat"><span>Beats simple baseline?</span><strong>{trainingResult.beats_baseline ? "Yes" : "No"}</strong></div>
+          </div>
+          <h4>Holdout baseline comparison</h4>
+          <div className="result-json">{JSON.stringify({ model: trainingResult.metrics, baseline: trainingResult.baseline_metrics }, null, 2)}</div>
+          <h4>Candidate model comparison (cross-validation)</h4>
+          <div className="result-json">{JSON.stringify(trainingResult.model_comparison, null, 2)}</div>
+          <p className="chart-interpretation">The holdout metrics are measured on records not used for fitting. Compare against the baseline before trusting a model. Performance on this uploaded dataset does not guarantee future performance.</p>
+        </section>
       )}
 
       <section className="analytics-panel">
@@ -2297,830 +2615,160 @@ function PredictivePage({ datasetId, profile }) {
   );
 }
 
+// FORECASTING & INVENTORY INTELLIGENCE
+function SegmentForecastGallery({ results = {} }) {
+  const available = Object.entries(results).filter(([, item]) => item?.segments?.length);
+  if (!available.length) return null;
+  const format = value => Number(value).toLocaleString(undefined,{maximumFractionDigits:2});
+  return <section className="analytics-panel segment-forecast-section">
+    <div className="analytics-panel-heading"><div><h3>Business measure by product, category and region</h3><p>Each chart estimates the displayed measurement (for example, units sold or revenue) per month. It is not stock on hand. Groups are forecast independently when they have enough history; identical values may indicate a flat-baseline model.</p></div></div>
+    {available.map(([role, response]) => <div className="segment-role" key={role}>
+      <h4>{role[0].toUpperCase()+role.slice(1)} outlook <small>· {response.value_column} · by {response.group_column}</small></h4>
+      <div className="segment-forecast-grid">{response.segments.slice(0,5).map(item => {
+        const values = item.forecast.forecasts || [];
+        const first = values[0]?.forecast;
+        const last = values.at(-1)?.forecast;
+        const change = Number(first) > 0 ? ((Number(last)-Number(first))/Number(first))*100 : null;
+        const error = item.forecast.backtest_metrics?.[item.forecast.selected_method]?.wape_percent;
+        return <article className="segment-forecast-card" key={item.group}>
+          <div className="segment-card-head"><strong title={item.group}>{item.group}</strong><span>{role}</span></div>
+          <div className="segment-forecast-bars"><ResponsiveContainer width="100%" height={112}><BarChart data={values} margin={{top:4,right:4,left:0,bottom:0}}><XAxis dataKey="period" hide/><YAxis hide/><Tooltip formatter={format} labelFormatter={label=>String(label).slice(0,7)}/><Bar dataKey="forecast" fill="#5987dc" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer></div>
+          <div className="segment-values">{values.map(row=><div key={row.period}><span>{String(row.period).slice(0,7)}</span><b>{format(row.forecast)}</b></div>)}</div>
+          <p>{change == null ? "Trend comparison unavailable" : `Across the forecast horizon: ${change >= 0 ? "+" : ""}${change.toFixed(1)}%`}. Backtest WAPE: {error ?? "N/A"}%.</p>
+          <details className="chart-insight-toggle"><summary><Info size={13}/> Explain prediction</summary><p>Monthly estimated totals of {response.value_column} for {item.group}, using {item.forecast.selected_method?.replaceAll("_"," ")}. The model uses this group's own historical records; it cannot establish why a change will occur, and sales volume is not the same as physical inventory.</p></details>
+        </article>;
+      })}</div>
+      {response.unavailable?.length>0 && <p className="segment-unavailable">{response.unavailable.length} segment(s) could not be forecast from the available history; no values were invented.</p>}
+    </div>)}
+  </section>;
+}
+
+// Show future monthly estimates and segment forecasts when enough history exists.
+function ForecastPage({ datasetId, profile }) {
+  const [overview,setOverview] = useState(null);
+  const [forecastResults,setForecastResults] = useState([]);
+  const [segmentForecasts,setSegmentForecasts] = useState({});
+  const [model,setModel] = useState(null);
+  const [modelLoading,setModelLoading] = useState(false);
+  const [decisionReport,setDecisionReport] = useState(null);
+  const [loading,setLoading] = useState(true);
+  const [messages,setMessages] = useState([]);
+  const [manualTarget,setManualTarget] = useState(() => localStorage.getItem(`insight-target-${datasetId}`) || "");
+  const fmt = v => Number(v).toLocaleString(undefined,{maximumFractionDigits:2});
+  useEffect(() => {
+    let alive = true;
+    async function run() {
+      setLoading(true); setModelLoading(false); setMessages([]); setModel(null);
+      setForecastResults([]); setSegmentForecasts({}); setDecisionReport(null);
+      try {
+        let source = "cleaned"; let data;
+        try { data = await getAnalyticsOverview(datasetId,"cleaned"); }
+        catch { source = "original"; data = await getAnalyticsOverview(datasetId,"original"); }
+        if (!alive) return;
+        setOverview(data);
+        getDecisionReport(datasetId,source).then(d=>{if(alive)setDecisionReport(d);}).catch(()=>{});
+        const cols = data.numeric_summary || [];
+        const dates = data.date_columns || [];
+        const date = dates[0];
+        const candidates = cols.filter(x=>/revenue|sales_amount|total_sales|quantity|qty|units_sold|profit|demand/i.test(x.column) && !/id$|inventory|stock_level|unit_price|price_per/i.test(x.column))
+          .sort((a,b) => {
+            const rank = x => /quantity|qty|units_sold|demand/i.test(x) ? 0 : /revenue|sales_amount|total_sales/i.test(x) ? 1 : /profit/i.test(x) ? 2 : 3;
+            return rank(a.column)-rank(b.column);
+          });
+        const requested = cols.find(x=>x.column === manualTarget);
+        const selected = [...new Map([...(requested ? [requested] : []), ...candidates].map(x=>[x.column,x])).values()].slice(0,3);
+        if (!date) setMessages(["No supported date field was found. Monthly future forecasting is unavailable for this file."]);
+        else if (!selected.length) setMessages(["No suitable numeric business outcome is available. Select a numerical target in Data Sources."]);
+        else {
+          const results = await Promise.all(selected.map(async col => {
+            try { return {column:col.column,result:await createForecast(datasetId,{source,date_column:date,value_column:col.column,horizon:3,frequency:"MS"}),error:null}; }
+            catch(e) { return {column:col.column,result:null,error:e.message}; }
+          }));
+          if (!alive) return;
+          setForecastResults(results);
+          setMessages(results.filter(item=>item.error).map(item=>`${item.column}: ${item.error}`));
+        }
+        // First paint can happen now; heavier segment/model analysis remains asynchronous.
+        if (alive) setLoading(false);
+        const target = selected.find(x=>/quantity|qty|units_sold|demand/i.test(x.column)) || requested || selected[0];
+        if (date && target) {
+          const segmentRoles = ["product","location","category"];
+          const semantics = profile.column_profiles || [];
+          const requests = segmentRoles.map(async role => {
+            const group = semantics.find(col => String(col.semantic_type||"").toLowerCase() === role && col.name !== target.column);
+            if (!group) return null;
+            const result = await getForecastSegments(datasetId, {source,date_column:date,value_column:target.column,group_column:group.name,horizon:3,limit:5});
+            return [role,result];
+          });
+          Promise.allSettled(requests).then(outcomes => {
+            if (!alive) return;
+            setSegmentForecasts(Object.fromEntries(outcomes.filter(x=>x.status==="fulfilled" && x.value).map(x=>x.value)));
+          });
+          setModelLoading(true);
+          trainPredictiveModel(datasetId,target.column,"auto",source)
+            .then(trained=>{if(alive)setModel({target:target.column,result:trained});})
+            .catch(e=>{if(alive)setMessages(prev=>[...prev,`Automatic ML evaluation for ${target.column}: ${e.message}`]);})
+            .finally(()=>{if(alive)setModelLoading(false);});
+        }
+      } catch(e) { if (alive) setMessages([e.message||"Automatic analysis could not be completed."]); }
+      finally { if(alive) setLoading(false); }
+    }
+    run();
+    return () => {alive=false;};
+  }, [datasetId, manualTarget]);
+  return <section className="analytics-page auto-forecast-page">
+    <div className="welcome-section"><div><div className="eyebrow"><TrendingUp size={14}/> PREDICTIVE & FORECAST INTELLIGENCE</div><h2>What is likely to happen next?</h2><p>Automatic monthly outlook, evaluated models and evidence-based planning. Forecasts need at least 10 historical periods. Each amount is a calendar-month total, not a stock count; estimates are not guaranteed.</p></div><label className="forecast-target-select">Prediction target<select value={manualTarget} onChange={e=>{setManualTarget(e.target.value);if(e.target.value)localStorage.setItem(`insight-target-${datasetId}`,e.target.value);else localStorage.removeItem(`insight-target-${datasetId}`);}}><option value="">Automatic</option>{profile.column_profiles?.filter(x=>String(x.data_type||"").toLowerCase()==="numeric" && !/id$|code/i.test(x.name)).map(x=><option key={x.name} value={x.name}>{x.name}</option>)}</select></label></div>
+    {loading && <div className="analytics-loading"><RefreshCw className="spin" size={22}/><h3>Analysing forecast opportunities</h3><p>Validating dates, measures and historical periods.</p></div>}
+    {!loading && <>
+      <section className="analytics-panel forecast-main-panel"><div className="analytics-panel-heading"><div><h3>Future outlook · next three months</h3><p>Estimated monthly values from a chronological backtest. Empty forecasts mean insufficient or unsuitable observations.</p></div></div>
+        {forecastResults.length ? <div className="auto-forecast-grid">{forecastResults.map(item=><article className="auto-forecast-card" key={item.column}><div className="eyebrow">FORECAST MEASURE</div><h4>{item.column === "__insight_revenue__" ? "Estimated monthly revenue (price × quantity)" : /quantity|qty|units_sold|demand/i.test(item.column) ? `Total monthly units sold · ${item.column}` : /profit/i.test(item.column) ? `Monthly profit · ${item.column}` : /revenue|sales_amount/i.test(item.column) ? `Monthly revenue · ${item.column}` : `Monthly total · ${item.column}`}</h4>{item.result ? <><div className="auto-forecast-values">{item.result.forecasts.map(f=><div key={f.period}><span>{new Date(f.period).toLocaleDateString(undefined,{month:"short",year:"numeric"})}</span><strong>{fmt(f.forecast)}</strong></div>)}</div><div className="forecast-mini-chart"><ResponsiveContainer width="100%" height={125}><AreaChart data={item.result.forecasts}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="period" tickFormatter={x=>String(x).slice(0,7)} tick={{fontSize:9}}/><YAxis hide/><Tooltip formatter={fmt}/><Area type="monotone" dataKey="forecast" stroke="#20a779" fill="#20a779" fillOpacity={0.13} strokeWidth={2.5}/></AreaChart></ResponsiveContainer></div><p>Monthly total of <strong>{item.column}</strong> across all records. Method: {item.result.selected_method.replaceAll("_"," ")} · {item.result.observed_periods} observed periods · Backtest WAPE: {item.result.backtest_metrics?.[item.result.selected_method]?.wape_percent ?? "N/A"}%</p><details className="chart-insight-toggle"><summary><Info size={13}/> Business interpretation</summary><p>Forecast values are monthly totals for the measured column, not item counts unless the selected column is actual sold quantity. A flat forecast means the chosen baseline predicts a similar level, not guaranteed constant sales. Expected {item.column} moves from {fmt(item.result.forecasts[0]?.forecast)} to {fmt(item.result.forecasts.at(-1)?.forecast)} over the projected periods. Treat this as a planning range, not a guaranteed outcome. {item.result.limitations?.join(" ")}</p></details></> : <div className="notice error-notice">{item.error}</div>}</article>)}</div> : <p className="analytics-empty">No forecast could be generated from the available fields.</p>}
+      </section>
+      <SegmentForecastGallery results={segmentForecasts}/>
+      <section className="analytics-panel forecast-model-panel"><div className="analytics-panel-heading"><div><h3>Automatic predictive model evaluation</h3><p>Regression/classification evaluation on historical records. This is distinct from the chronological monthly forecast.</p></div></div>
+        {model ? <><div className="auto-model-summary"><div><span>Selected target</span><strong>{model.target}</strong></div><div><span>Task</span><strong>{model.result.task}</strong></div><div><span>Selected model</span><strong>{model.result.model_name}</strong></div><div><span>Baseline comparison</span><strong>{model.result.beats_baseline?"Beats baseline":"Does not beat baseline"}</strong></div></div><div className="analytics-metric-grid">{Object.entries(model.result.metrics||{}).map(([k,v])=><div className="analytics-metric-card" key={k}><span>{k.replaceAll("_"," ")}</span><strong>{v??"N/A"}</strong></div>)}</div><p className="chart-interpretation">Target selection is a business heuristic, not proof that this outcome can be predicted accurately. Inspect validation metrics and baseline performance.</p></> : modelLoading ? <p className="analytics-empty"><RefreshCw size={14} className="spin"/> Optional predictive model evaluation is still running. Forecasts above are already available; you can continue using the report while training completes.</p> : <p className="analytics-empty">No predictive model was evaluated for these fields, or a limitation is recorded below.</p>}
+      </section>
+      {decisionReport && <section className="analytics-panel forecast-decision-panel"><div className="analytics-panel-heading"><div><h3>Decision support · what should we do?</h3><p>Actions are drawn from observed data. Validate costs, inventory and supplier constraints before implementation.</p></div></div>{decisionReport.executive_summary && <div className="forecast-executive-summary"><span>EXECUTIVE SUMMARY</span><p>{decisionReport.executive_summary}</p></div>}<div className="forecast-guidance-grid"><article><h4>Recommended actions</h4>{decisionReport.recommendations?.length ? <ol>{decisionReport.recommendations.map((item,index)=><li key={index}>{typeof item==="string" ? item : item.description || JSON.stringify(item)}</li>)}</ol> : <p>Specific action is not supported by the current data.</p>}</article><article><h4>Risks and cautions</h4>{decisionReport.risks?.length ? <ul>{decisionReport.risks.map((item,index)=><li key={index}>{typeof item==="string" ? item : item.description || JSON.stringify(item)}</li>)}</ul> : <p>Review stock, margin, seasonal promotions, uncertainty and supplier constraints before taking action.</p>}</article></div></section>}
+      {messages.length>0 && <section className="analytics-panel forecast-limits-panel"><h3>Forecast availability and limitations</h3>{messages.map((m,i)=><p className="notice" key={i}>{m}</p>)}</section>}
+      <section className="analytics-panel forecast-limits-panel"><h3>Forecast safeguards</h3><p className="chart-interpretation">Do not automatically order the forecast demand as stock. First subtract verified on-hand inventory and incoming orders, check lead times and service levels, then account for forecast error. The system has not measured external market conditions or proven any root cause.</p></section>
+    </>}
+  </section>;
+}
+
 // REPORTS
 
+// Four business report pages and admin-only publication.
+// Admin preview and viewer report use the SAME component and backend snapshot format.
+// Publishing saves a frozen copy; viewers never read the admin's live dataset.
 function ReportsPage({ datasetId, profile }) {
-  const [source, setSource] = useState("original");
-  const [report, setReport] = useState(null);
-  const [decision, setDecision] = useState(null);
-  const [breakdown, setBreakdown] = useState(null);
-  const [trend, setTrend] = useState(null);
-  const [correlations, setCorrelations] = useState(null);
-
-  const [groupBy, setGroupBy] = useState("");
-  const [metric, setMetric] = useState("");
-  const [aggregation, setAggregation] = useState("sum");
-  const [dateColumn, setDateColumn] = useState("");
-  const [trendMetric, setTrendMetric] = useState("");
-  const [frequency, setFrequency] = useState("month");
-
-  const [cleanedAvailable, setCleanedAvailable] = useState(false);
+  const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [chartLoading, setChartLoading] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState("");
-  const [activeSection, setActiveSection] = useState("overview");
-
-const numericColumns = report?.numeric_summary
-  ?.map((item) => item.column)
-  .filter((column) => !/id$/i.test(column)) || [];
-  const categoricalColumns = report?.categorical_columns || [];
-  const dateColumns = report?.date_columns || [];
-
-  const loadReport = useCallback(async (selectedSource = source) => {
-    setLoading(true);
-    setError("");
-
-    try {
-      const [analytics, decisionResult] = await Promise.all([
-        getAnalyticsOverview(datasetId, selectedSource),
-        getDecisionReport(datasetId, selectedSource),
-      ]);
-
-      setReport(analytics);
-      setDecision(decisionResult);
-
-      const firstCategory = analytics.categorical_columns?.[0] || "";
-      const firstMetric = analytics.numeric_summary?.find((item) => item.column === "__insight_revenue__")?.column || analytics.numeric_summary?.find((item) => /revenue|sales/i.test(item.column))?.column || analytics.numeric_summary?.find((item) => !/id$/i.test(item.column))?.column || "";
-      const firstDate = analytics.date_columns?.[0] || "";
-
-      setGroupBy(firstCategory);
-      setMetric(firstMetric);
-      setDateColumn(firstDate);
-      setTrendMetric(firstMetric);
-
-      const requests = [];
-
-      if (firstCategory) {
-        requests.push(
-          getAnalyticsBreakdown(
-            datasetId,
-            firstCategory,
-            firstMetric || undefined,
-            "sum",
-            selectedSource
-          ).then((data) => ({ type: "breakdown", data }))
-        );
-      }
-
-      if (firstDate && firstMetric) {
-        requests.push(
-          getAnalyticsTrend(
-            datasetId,
-            firstDate,
-            firstMetric,
-            "month",
-            selectedSource
-          ).then((data) => ({ type: "trend", data }))
-        );
-      }
-
-      requests.push(
-        getAnalyticsCorrelations(datasetId, selectedSource)
-          .then((data) => ({ type: "correlations", data }))
-      );
-
-      const results = await Promise.allSettled(requests);
-
-      setBreakdown(null);
-      setTrend(null);
-      setCorrelations(null);
-
-      results.forEach((result) => {
-        if (result.status !== "fulfilled") return;
-
-        const { type, data } = result.value;
-
-        if (type === "breakdown") setBreakdown(data);
-        if (type === "trend") setTrend(data);
-        if (type === "correlations") setCorrelations(data);
-      });
-    } catch (err) {
-      setError(err.message || "Could not generate the report.");
-      setReport(null);
-      setDecision(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [datasetId, source]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function initialize() {
-      setLoading(true);
-
-      try {
-        const original = await getAnalyticsOverview(datasetId, "original");
-
-        if (cancelled) return;
-
-        setCleanedAvailable(false);
-
-        try {
-          await getAnalyticsOverview(datasetId, "cleaned");
-          if (!cancelled) setCleanedAvailable(true);
-        } catch {
-          if (!cancelled) setCleanedAvailable(false);
-        }
-
-        if (cancelled) return;
-
-        await loadReport("original");
-      } catch (err) {
-        if (!cancelled) {
-          setError(err.message || "Could not load report data.");
-          setLoading(false);
-        }
-      }
-    }
-
-    initialize();
-
-    return () => {
-      cancelled = true;
-    };
+  const [published, setPublished] = useState(null);
+  const load = useCallback(async () => {
+    if (!datasetId) return;
+    setLoading(true); setError("");
+    try { setSnapshot(await previewBusinessReport(datasetId, "auto")); }
+    catch (err) { setError(err.message || "Unable to prepare business report."); }
+    finally { setLoading(false); }
   }, [datasetId]);
-
-  async function changeSource(value) {
-    setSource(value);
-    await loadReport(value);
-  }
-
-  async function updateBreakdown(
-    selectedGroup,
-    selectedMetric,
-    selectedAggregation
-  ) {
-    if (!selectedGroup) return;
-
-    setChartLoading(true);
-
+  useEffect(() => { load(); }, [load]);
+  const title = `${profile?.filename || "Business"} · Intelligence Report`;
+  async function publish() {
+    setPublishing(true); setError("");
     try {
-      const data = await getAnalyticsBreakdown(
-        datasetId,
-        selectedGroup,
-        selectedMetric || undefined,
-        selectedAggregation,
-        source
-      );
-      setBreakdown(data);
-    } catch (err) {
-      setError(err.message || "Could not update category analysis.");
-    } finally {
-      setChartLoading(false);
-    }
+      // Publish from precisely the same approved source used for the admin preview.
+      const result = await publishReport(datasetId, title, snapshot?.source || "original");
+      setPublished(result);
+    } catch(err) {setError(err.message || "Unable to publish report.");}
+    finally {setPublishing(false);}
   }
-
-  async function updateTrend(
-    selectedDate,
-    selectedMetric,
-    selectedFrequency
-  ) {
-    if (!selectedDate || !selectedMetric) return;
-
-    setChartLoading(true);
-
-    try {
-      const data = await getAnalyticsTrend(
-        datasetId,
-        selectedDate,
-        selectedMetric,
-        selectedFrequency,
-        source
-      );
-      setTrend(data);
-    } catch (err) {
-      setError(err.message || "Could not update trend analysis.");
-    } finally {
-      setChartLoading(false);
-    }
-  }
-
-  const sections = [
-    ["overview", "Overview"],
-    ["quality", "Data Quality"],
-    ["analytics", "Analytics Studio"],
-    ["insights", "AI Insights"],
-    ["recommendations", "Recommendations"],
-  ];
-
-  function scrollToSection(id) {
-    setActiveSection(id);
-    document.getElementById(`report-${id}`)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
-
-  if (loading && !report) {
-    return (
-      <section className="full-report-loading">
-        <RefreshCw className="spin" size={30} />
-        <h2>Preparing your intelligence report</h2>
-        <p>INSIGHT is collecting analytics and generating findings.</p>
-      </section>
-    );
-  }
-
-  if (!report) {
-    return (
-      <section className="full-report-loading">
-        <AlertTriangle size={28} />
-        <h2>Report unavailable</h2>
-        <p>{error || "Could not generate the report."}</p>
-        <button
-          className="analyze-button"
-          onClick={() => loadReport(source)}
-        >
-          Try again <RefreshCw size={16} />
-        </button>
-      </section>
-    );
-  }
-
-  const qualityScore = Number(profile?.quality_score ?? 0);
-  const missingPercentage = Number(profile?.missing_percentage ?? 0);
-
-  const formatValue = (value) => {
-    if (value === null || value === undefined) return "--";
-    return typeof value === "number"
-      ? value.toLocaleString(undefined, { maximumFractionDigits: 2 })
-      : value;
-  };
-
-  return (
-    <section className="full-report">
-      <header className="full-report-header">
-        <div className="full-report-brand">
-          <div className="full-report-brand-icon">
-            <BrainCircuit size={22} />
-          </div>
-          <div>
-            <strong>INSIGHT AI</strong>
-            <span>DATA INTELLIGENCE REPORT</span>
-          </div>
-        </div>
-
-        <div className="full-report-header-actions">
-          <label className="report-source-select">
-            <Database size={16} />
-            <select
-              value={source}
-              onChange={(event) => changeSource(event.target.value)}
-            >
-              <option value="original">Original dataset</option>
-              <option value="cleaned" disabled={!cleanedAvailable}>
-                Cleaned dataset
-              </option>
-            </select>
-          </label>
-
-          <button
-            className="cleaning-refresh"
-            onClick={() => loadReport(source)}
-            disabled={loading}
-          >
-            <RefreshCw
-              size={16}
-              className={loading ? "spin" : ""}
-            />
-            Refresh
-          </button>
-        </div>
-      </header>
-
-      <div className="full-report-heading">
-        <div>
-          <div className="eyebrow">
-            <Sparkles size={14} /> DATASET INTELLIGENCE
-          </div>
-          <h2>Dataset Intelligence Report</h2>
-          <p>
-            A comprehensive analysis of your data, its quality,
-            patterns and actionable findings.
-          </p>
-        </div>
-
-        <div className="report-dataset-info">
-          <span>DATASET</span>
-          <strong>{profile?.filename || datasetId}</strong>
-          <small>
-            {report.rows?.toLocaleString()} records · {report.columns} columns
-          </small>
-        </div>
-      </div>
-
-      <nav className="full-report-nav">
-        {sections.map(([id, label]) => (
-          <button
-            key={id}
-            className={activeSection === id ? "active" : ""}
-            onClick={() => scrollToSection(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-
-      {error && (
-        <div className="notice error-notice">{error}</div>
-      )}
-
-      <div className="full-report-content">
-        <section id="report-overview" className="report-section">
-          <div className="report-section-heading">
-            <div>
-              <span>01 / OVERVIEW</span>
-              <h3>Dataset at a glance</h3>
-              <p>Key measurements from your selected dataset.</p>
-            </div>
-          </div>
-
-          <div className="report-kpi-grid">
-            <div className="report-kpi-card">
-              <span>Total records</span>
-              <strong>{formatValue(report.rows)}</strong>
-              <Database size={19} />
-            </div>
-            <div className="report-kpi-card">
-              <span>Total columns</span>
-              <strong>{formatValue(report.columns)}</strong>
-              <Columns3 size={19} />
-            </div>
-            <div className="report-kpi-card">
-              <span>Missing cells</span>
-              <strong>{formatValue(report.missing_cells)}</strong>
-              <AlertTriangle size={19} />
-            </div>
-            <div className="report-kpi-card">
-              <span>Duplicate rows</span>
-              <strong>{formatValue(report.duplicate_rows)}</strong>
-              <CopyIcon size={19} />
-            </div>
-          </div>
-
-          <div className="report-domain-card">
-            <div>
-              <span>DETECTED DATA DOMAIN</span>
-              <h3>{profile?.detected_domain || "General dataset"}</h3>
-              <p>
-                Domain confidence: {profile?.domain_confidence || "Not available"}
-              </p>
-            </div>
-            <div className="report-domain-icon">
-              <BrainCircuit size={28} />
-            </div>
-          </div>
-
-          {report.metrics?.length > 0 && (
-            <div className="report-subsection">
-              <h4>Key performance indicators</h4>
-              <div className="report-metric-grid">
-                {report.metrics.map((item, index) => (
-                  <div className="report-metric-card" key={index}>
-                    <span>{item.name}</span>
-                    <strong>{formatValue(item.value)}</strong>
-                    <p>{item.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </section>
-
-        <section id="report-quality" className="report-section">
-          <div className="report-section-heading">
-            <div>
-              <span>02 / DATA QUALITY</span>
-              <h3>Understand your data quality</h3>
-              <p>Review completeness and structural issues.</p>
-            </div>
-          </div>
-
-          <div className="report-quality-grid">
-            <div className="report-quality-score">
-              <span>PROFILE QUALITY SCORE</span>
-              <strong>{qualityScore.toFixed(2)}%</strong>
-              <div className="report-quality-track">
-                <div style={{ width: `${Math.min(100, Math.max(0, qualityScore))}%` }} />
-              </div>
-            </div>
-
-            <div className="report-quality-stat">
-              <span>Missing data percentage</span>
-              <strong>{missingPercentage.toFixed(2)}%</strong>
-            </div>
-
-            <div className="report-quality-stat">
-              <span>Duplicate records</span>
-              <strong>{formatValue(report.duplicate_rows)}</strong>
-            </div>
-          </div>
-
-          <div className="report-subsection">
-            <h4>Column-level profile</h4>
-            {profile?.column_profiles?.length > 0 ? (
-              <div className="columns-table-wrapper">
-                <table className="columns-table report-table">
-                  <thead>
-                    <tr>
-                      <th>Column</th>
-                      <th>Data type</th>
-                      <th>Missing</th>
-                      <th>Unique values</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {profile.column_profiles.map((column) => (
-                      <tr key={column.name}>
-                        <td><strong>{column.name}</strong></td>
-                        <td>{column.data_type}</td>
-                        <td>{column.missing_count} ({Number(column.missing_percentage || 0).toFixed(1)}%)</td>
-                        <td>{formatValue(column.unique_count)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="analytics-empty">
-                Column profile information is unavailable.
-              </p>
-            )}
-          </div>
-
-          {profile?.warnings?.length > 0 && (
-            <div className="report-observations">
-              <h4><AlertTriangle size={17} /> Data quality observations</h4>
-              {profile.warnings.map((warning, index) => (
-                <p key={index}>{warning}</p>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section id="report-analytics" className="report-section">
-          <div className="report-section-heading">
-            <div>
-              <span>03 / ANALYTICS</span>
-              <h3>Explore patterns and relationships</h3>
-              <p>Interactive charts generated by the analytics engine.</p>
-            </div>
-          </div>
-
-          <div className="report-chart-card">
-            <div className="report-chart-heading">
-              <div>
-                <h4>Category breakdown</h4>
-                <p>Compare values across categories.</p>
-              </div>
-            </div>
-
-            {categoricalColumns.length > 0 ? (
-              <>
-                <div className="analytics-controls">
-                  <label>
-                    Group by
-                    <select
-                      value={groupBy}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setGroupBy(value);
-                        updateBreakdown(value, metric, aggregation);
-                      }}
-                    >
-                      {categoricalColumns.map((column) => (
-                        <option key={column} value={column}>{column}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Metric
-                    <select
-                      value={metric}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setMetric(value);
-                        updateBreakdown(groupBy, value, aggregation);
-                      }}
-                    >
-                      {numericColumns.map((column) => (
-                        <option key={column} value={column}>{column}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Aggregation
-                    <select
-                      value={aggregation}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setAggregation(value);
-                        updateBreakdown(groupBy, metric, value);
-                      }}
-                    >
-                      <option value="sum">Sum</option>
-                      <option value="mean">Average</option>
-                      <option value="count">Count</option>
-                      <option value="min">Minimum</option>
-                      <option value="max">Maximum</option>
-                    </select>
-                  </label>
-                </div>
-
-                {breakdown?.results?.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={330}>
-                    <BarChart data={breakdown.results}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#263449" />
-                      <XAxis dataKey="group" stroke="#8491a7" />
-                      <YAxis stroke="#8491a7" />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="#5795f5" radius={[5, 5, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <p className="analytics-empty">
-                    {chartLoading ? "Updating chart..." : "No category results available."}
-                  </p>
-                )}
-                {breakdown?.results?.length > 0 && <details className="chart-insight-toggle"><summary>Understand this chart</summary><p>This chart ranks {groupBy || "the selected categories"} by {metric === "__insight_revenue__" ? "estimated revenue derived from price multiplied by quantity" : metric || "the selected metric"}. The first bar is the largest recorded group in the selected dataset. This ranking describes historical performance and does not by itself prove why a group performed better.</p></details>}
-              </>
-            ) : (
-              <p className="analytics-empty">No categorical columns were detected.</p>
-            )}
-          </div>
-
-          <div className="report-chart-card">
-            <div className="report-chart-heading">
-              <div>
-                <h4>Time-based trend</h4>
-                <p>Track numerical measurements over time.</p>
-              </div>
-            </div>
-
-            {dateColumns.length > 0 && numericColumns.length > 0 ? (
-              <>
-                <div className="analytics-controls">
-                  <label>
-                    Date column
-                    <select
-                      value={dateColumn}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setDateColumn(value);
-                        updateTrend(value, trendMetric, frequency);
-                      }}
-                    >
-                      {dateColumns.map((column) => (
-                        <option key={column} value={column}>{column}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Metric
-                    <select
-                      value={trendMetric}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setTrendMetric(value);
-                        updateTrend(dateColumn, value, frequency);
-                      }}
-                    >
-                      {numericColumns.map((column) => (
-                        <option key={column} value={column}>{column}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Frequency
-                    <select
-                      value={frequency}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setFrequency(value);
-                        updateTrend(dateColumn, trendMetric, value);
-                      }}
-                    >
-                      <option value="day">Daily</option>
-                      <option value="week">Weekly</option>
-                      <option value="month">Monthly</option>
-                      <option value="year">Yearly</option>
-                    </select>
-                  </label>
-                </div>
-
-                {trend?.results?.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={330}>
-                    <LineChart data={trend.results}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#263449" />
-                      <XAxis dataKey="period" stroke="#8491a7" />
-                      <YAxis stroke="#8491a7" />
-                      <Tooltip />
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke="#55c7a0"
-                        strokeWidth={3}
-                        dot={{ r: 4 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <p className="analytics-empty">
-                    {chartLoading ? "Updating trend..." : "No trend results available."}
-                  </p>
-                )}
-                {trend?.results?.length > 0 && <details className="chart-insight-toggle"><summary>Understand this chart</summary><p>This chart shows how {trendMetric === "__insight_revenue__" ? "estimated revenue" : trendMetric} changes across the selected {frequency} periods. Peaks and declines help identify periods that deserve further investigation. Use multiple periods before changing stock or budgets.</p></details>}
-              </>
-            ) : (
-              <p className="analytics-empty">
-                Trend analysis requires a date column and a numerical column.
-              </p>
-            )}
-          </div>
-
-          <div className="report-chart-card">
-            <h4>Correlation analysis</h4>
-            <p>Relationships between numerical variables. Correlation does not prove causation.</p>
-
-            {correlations?.strong_relationships?.length > 0 ? (
-              <div className="correlation-list">
-                {correlations.strong_relationships.map((item, index) => (
-                  <div className="correlation-item" key={index}>
-                    <div>
-                      <strong>{item.column_1}</strong>
-                      <span>and</span>
-                      <strong>{item.column_2}</strong>
-                    </div>
-                    <span className="correlation-value">
-                      {Number(item.correlation).toFixed(2)}
-                    </span>
-                    <small>{item.strength}</small>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="analytics-empty">
-                No strong numerical relationships were detected.
-              </p>
-            )}
-          </div>
-
-          {report.numeric_summary?.length > 0 && (
-            <div className="report-chart-card">
-              <h4>Numerical summary</h4>
-              <div className="columns-table-wrapper">
-                <table className="columns-table report-table">
-                  <thead>
-                    <tr>
-                      <th>Column</th>
-                      <th>Mean</th>
-                      <th>Median</th>
-                      <th>Minimum</th>
-                      <th>Maximum</th>
-                      <th>Sum</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {report.numeric_summary.map((item) => (
-                      <tr key={item.column}>
-                        <td><strong>{item.column}</strong></td>
-                        <td>{formatValue(item.mean)}</td>
-                        <td>{formatValue(item.median)}</td>
-                        <td>{formatValue(item.minimum)}</td>
-                        <td>{formatValue(item.maximum)}</td>
-                        <td>{formatValue(item.sum)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </section>
-
-        <section id="report-insights" className="report-section">
-          <div className="report-section-heading">
-            <div>
-              <span>04 / AI INSIGHTS</span>
-              <h3>What the AI analyst discovered</h3>
-              <p>Findings generated from the selected dataset.</p>
-            </div>
-          </div>
-
-          {decision?.executive_summary && (
-            <div className="report-executive-summary">
-              <div className="report-ai-label">
-                <Sparkles size={16} /> EXECUTIVE SUMMARY
-              </div>
-              <p>{decision.executive_summary}</p>
-            </div>
-          )}
-
-          {decision?.business_narrative && (
-            <div className="business-narrative-grid">
-              {[
-                ["overall_performance", "Overall business performance"],
-                ["sales_volume", "Sales volume and trend"],
-                ["product_performance", "Product performance"],
-                ["category_performance", "Category performance"],
-                ["regional_performance", "Regional performance"],
-                ["data_reliability", "Data reliability and scope"],
-              ].filter(([key]) => decision.business_narrative[key]).map(([key, title]) => (
-                <article className="business-narrative-card" key={key}>
-                  <h4>{title}</h4>
-                  <p>{decision.business_narrative[key]}</p>
-                </article>
-              ))}
-            </div>
-          )}
-
-          {decision?.findings?.length > 0 ? (
-            <div className="report-finding-list">
-              {decision.findings.map((item, index) => (
-                <div className="report-finding-card" key={index}>
-                  <span>FINDING {String(index + 1).padStart(2, "0")}</span>
-                  <p>{typeof item === "string" ? item : item.description || JSON.stringify(item)}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="analytics-empty">No additional findings were returned.</p>
-          )}
-
-          {report.insights?.length > 0 && (
-            <div className="report-observations">
-              <h4>Automated analytical observations</h4>
-              {report.insights.map((item, index) => (
-                <p key={index}><CheckCircle2 size={16} /> {item}</p>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section id="report-recommendations" className="report-section">
-          <div className="report-section-heading">
-            <div>
-              <span>05 / RECOMMENDATIONS</span>
-              <h3>Turn findings into action</h3>
-              <p>Suggested next steps and potential risks.</p>
-            </div>
-          </div>
-
-          {decision?.recommendations?.length > 0 ? (
-            <div className="report-recommendation-list">
-              {decision.recommendations.map((item, index) => (
-                <div className="report-recommendation-card" key={index}>
-                  <div className="report-recommendation-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-                  <p>{typeof item === "string" ? item : item.description || JSON.stringify(item)}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="analytics-empty">No recommendations were returned.</p>
-          )}
-
-          {decision?.risks?.length > 0 && (
-            <div className="report-risk-card">
-              <h4><AlertTriangle size={17} /> Potential risks and limitations</h4>
-              {decision.risks.map((item, index) => (
-                <p key={index}>
-                  {typeof item === "string" ? item : item.description || JSON.stringify(item)}
-                </p>
-              ))}
-            </div>
-          )}
-
-          {decision?.limitations?.length > 0 && (
-            <div className="report-observations">
-              <h4>Analysis limitations</h4>
-              {decision.limitations.map((item, index) => (
-                <p key={index}>
-                  {typeof item === "string" ? item : JSON.stringify(item)}
-                </p>
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
-
-      <footer className="full-report-footer">
-        <div>
-          <strong>INSIGHT AI</strong>
-          <span>Automated dataset intelligence</span>
-        </div>
-        <span>
-          Source: {source === "original" ? "Original dataset" : "Cleaned dataset"}
-        </span>
-      </footer>
-    </section>
-  );
+  return <section className="bi-admin-wrap">
+    <div className="bi-admin-actions"><div><strong>Business intelligence report</strong><p>The admin preview and the viewer's published report share the same four-page layout. Refresh after cleaning or changes.</p></div><div><button onClick={load} disabled={loading}>Refresh preview</button><button className="bi-publish" onClick={publish} disabled={!snapshot || loading || publishing}>{publishing ? "Publishing…" : "Publish report"}</button></div></div>
+    {error && <p role="alert" className="notice error-notice">{error}</p>}
+    {published && <div className="bi-published"><strong>Published report access code: {published.access_code}</strong><p>Share this one-time code privately with your viewer. A viewer must also create an account to redeem it.</p><button onClick={()=>navigator.clipboard?.writeText(published.access_code)}>Copy code</button></div>}
+    {loading ? <div className="bi-admin-loading">Preparing report from the active dataset…</div> : snapshot ? <BusinessReport payload={snapshot} title={title}/> : <p>Report unavailable. Try Refresh preview.</p>}
+  </section>;
 }
 
 function formatAnalyticsNumber(value) {

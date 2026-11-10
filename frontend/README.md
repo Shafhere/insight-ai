@@ -1,16 +1,21 @@
-# React + Vite
+# INSIGHT AI frontend (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The UI is written in **React + Vite + Recharts**. It has the Admin Portal and the restricted Viewer Portal. The source was deliberately **not split into many nested components** during this backend refactor, because it would require complete browser regression testing.
 
-Currently, two official plugins are available:
+## Where to begin
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `src/main.jsx` — mounts React's `<App />`.
+- `src/App.jsx` — page functions: `AuthPage`, `ViewerPortal`, `OverviewPage`, `DataUnderstandingPage`, `DataHealthPage`, `CleaningPage`, `AnalyticsPage`, `AIAssistantPage`, `PredictivePage`, `ForecastPage`, and `ReportsPage`.
+- `src/services/api.js` — API calls and bearer token sent to FastAPI.
+- `src/App.css` — shared visual design, light/dark themes and layout.
 
-## React Compiler
+Use `Ctrl+F` in VS Code to jump to the function named for a page. The full user journey and matching backend functions are in root `INTERVIEW_FLOW.md`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run
 
-## Expanding the Oxlint configuration
+```cmd
+npm ci
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Start the FastAPI backend separately from the `backend/` folder using `uvicorn app.main:app --reload`. Frontend default URL: `http://127.0.0.1:5173`. See root `START_HERE_WINDOWS.md`.

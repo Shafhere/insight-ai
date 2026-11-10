@@ -1,63 +1,82 @@
 # INSIGHT AI
 
-AI-assisted business intelligence for structured datasets. This version focuses on historical business analysis, understandable explanations, and evidence-based reporting. Predictive Intelligence and Decision Engine are not exposed as separate navigation pages in this release; future forecasting is listed in the roadmap.
+**From Data to Decisions.** Upload a CSV/Excel dataset, understand it, clean it, analyze it, ask questions, forecast business metrics, publish a report, and share that report with an authorized viewer.
 
-## Project structure
+This release keeps the existing React UI and backend behavior but replaces deeply nested numbered Python packages with clear names. The code includes short comments at important hand-offs. It is intended to be **easy to navigate and explain**, not an artificial collection of microservices.
 
-- `backend/`: FastAPI API, profiling, cleaning, analytics, business intelligence, LangGraph analyst and RAG services.
-- `frontend/`: React + Vite application.
-- `backend/storage/`: runtime uploads and generated vector-store data. This directory is intentionally empty in the source package.
+## Read these files in this order
 
-## Backend setup (Windows CMD)
+1. **`START_HERE_WINDOWS.md`**: install and start the app without Docker.
+2. **`INTERVIEW_FLOW.md`**: tell the entire project story while opening real files and functions in VS Code.
+3. **`docs/FILE_MAP.md`**: one-page map of the project and important frontend screens.
+4. **`EVALUATION.md`**: why each technique was chosen, what its metrics actually mean, and what remains unverified.
+5. **`TESTING.md`**: practical validation and limitations.
 
-```cmd
-cd backend
-py -3.12 -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-copy .env.example .env
-notepad .env
-uvicorn app.main:app --reload
+## Small, readable project structure
+
+```text
+INSIGHT_AI/
+├── backend/
+│   ├── app/
+│   │   ├── main.py           # FastAPI application and access control
+│   │   ├── config.py         # Environment settings and storage
+│   │   ├── api/              # Browser-facing endpoints
+│   │   ├── auth/             # Admin/viewer login, access-code records
+│   │   ├── data/             # Upload, loading, EDA, profiling
+│   │   ├── cleaning/         # Cleaning suggestions and approved actions
+│   │   ├── analytics/        # Verified KPIs, trends and group calculations
+│   │   ├── agents/           # Four agents and their LangGraph workflow
+│   │   ├── rag/              # Embeddings, ChromaDB and optional worker
+│   │   ├── prediction/       # ML models and time-series forecasts
+│   │   ├── decision/         # Evidence-based business recommendations
+│   │   ├── schemas/          # Request/response data shapes
+│   │   ├── evaluation/       # Retrieval metric helpers
+│   │   └── shared/           # Shared LLM connection
+│   ├── tests/                # Unit and regression tests
+│   ├── scripts/              # Evaluation scripts and sample questions
+│   ├── storage/              # Local runtime data, not shipped in ZIP
+│   └── requirements.txt
+├── frontend/
+│   └── src/
+│       ├── App.jsx           # Admin and viewer screens
+│       ├── App.css           # Shared theme and component styling
+│       └── services/api.js   # Browser calls to FastAPI
+├── docs/FILE_MAP.md
+├── START_HERE_WINDOWS.md
+├── INTERVIEW_FLOW.md
+├── EVALUATION.md
+└── TESTING.md
 ```
 
-Add your own Groq API key to `backend/.env`. Never commit `.env`. API docs: `http://127.0.0.1:8000/docs`.
+**Why just one `App.jsx`?** The existing UI is large, and splitting it without a complete browser regression test could break a working interface. All screens are clearly named functions; use `Ctrl+F` or `Ctrl+Shift+O` in VS Code to jump to a screen. Frontend restructuring was intentionally *not* a risk taken in this release. Refer to `docs/FILE_MAP.md` for the page list.
 
-## Frontend setup (second CMD window)
+## User journey
 
-```cmd
-cd frontend
-npm ci
-npm run dev
-```
+`Admin login → Upload → EDA → Data health → Cleaning preview/approval → Analytics → Four-agent analyst (RAG when needed) → Predictive ML and forecasts → Decisions → Publish snapshot → One-time code → Viewer signup/login → Viewer dashboard/report/chat`
 
-Open `http://localhost:5173`.
+For an interview dataset, upload **`DEMO_RETAIL_20000.csv`** (synthetic example, not real customer data). It contains missing values, duplicates and business fields useful for a live demonstration.
 
-## Current business-analysis capabilities
+The design answers four business questions: **What happened? Why? What is likely to happen? What should we do?**
 
-- Dataset preview with search and pagination.
-- Column profile and semantic detection.
-- Separate data preparation workflow with before/after validation.
-- Historical business context: derived revenue from usable price × quantity, category/product revenue where columns exist, monthly revenue comparison and data limitations.
-- AI analyst responses instructed to use plain-language paragraphs and evidence from deterministic analytics.
-- Interactive analytics and report interpretations.
+## Main technologies and their actual jobs
 
-## Important limitations
+| Technology | Why INSIGHT AI uses it |
+|---|---|
+| Python + FastAPI | Validated API requests, route handling and backend logic |
+| Pandas + NumPy | Read and clean data, EDA, calculations and statistics |
+| React + Vite | Interactive administrator and viewer portals |
+| Recharts | Business charts and KPI visualizations |
+| LangGraph | Routes one AI Analyst question through up to four agent nodes |
+| Groq + LangChain | Hosted LLM generation and integrations (requires a valid API key/model) |
+| Sentence Transformers + ChromaDB | Embedding and semantic retrieval of **dataset metadata** |
+| scikit-learn | Supervised candidate models, metrics, simple forecasting |
+| SQLAlchemy + SQLite/PostgreSQL | Accounts, published snapshots, and viewer access-code records |
+| Celery + Redis | Optional asynchronous RAG knowledge indexing |
 
-- Product-specific analysis requires a product-name field. Category-only datasets can support category-level analysis, not product rankings.
-- Revenue is derived only when usable price and quantity columns exist and no suitable revenue field is available. Confirm that the price/quantity fields represent the intended business calculation.
-- Stock purchase quantities are not invented. Inventory recommendations require stock-on-hand, supplier lead time, reorder policy and demand context.
-- Historical patterns are not guaranteed forecasts. Future forecasting is a planned enhancement.
-- Rebuild the RAG index for newly uploaded datasets. The local ChromaDB data is not included in this source package.
+**Accuracy is dataset-dependent.** The EDA quality score is a heuristic, not an AI accuracy rate. Forecasts have chronological backtests. Live RAG/agent accuracy has not been independently certified. See `EVALUATION.md`.
 
-## Validation notes
+## Running without Docker
 
-Python source compilation and the analytics, profiler and data-query test groups were checked during preparation. Full API/AI tests and a production Vite build still need to be run in the target Windows environment after installing all dependencies.
+Read **`START_HERE_WINDOWS.md`** first. In brief: run `uvicorn app.main:app --reload` from `backend/` and `npm run dev` from `frontend/`, using separate terminals.
 
-## Management report narrative
-
-The report now includes deterministic, evidence-led narrative sections for overall business performance, monthly sales volume, product performance, category performance, regional performance, and data reliability. These paragraphs are generated from the dataset metrics rather than relying on an LLM to invent values. If a required field is absent, the report explicitly explains why that analysis is unavailable. AI-generated interpretation remains supplementary and must not override calculated metrics.
-
-## Product positioning
-
-INSIGHT AI is designed to automate repeatable data preparation, descriptive analytics, business-question answering and recurring report production commonly performed with spreadsheets and BI dashboards. It is a decision-support system, not a guarantee of replacing every human analyst responsibility. Business context, data governance, causal investigation, forecasting validation and consequential decisions still require human review.
+For an optional Docker environment, `docker-compose.yml` and the relevant Dockerfiles remain included. The package contains no real API keys, installed dependencies, uploaded customer datasets, or previously created database.

@@ -12,7 +12,9 @@ class PredictiveReport(BaseModel):
     testing_rows: int
     features_used: list[str]
     removed_constant_columns: list[str] = Field(default_factory=list)
-    metrics: dict[str, float]
+    metrics: dict[str, Any]
+    baseline_metrics: dict[str, Any] = Field(default_factory=dict)
+    beats_baseline: bool = False
     feature_importance: list[dict[str, Any]]
     cv_folds: int
     cv_metric: str

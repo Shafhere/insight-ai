@@ -6,7 +6,10 @@ async function apiRequest(url, options = {}) {
   let response;
 
   try {
-    response = await fetch(url, options);
+    const token = localStorage.getItem("insight-auth-token");
+    const headers = new Headers(options.headers || {});
+    if (token) headers.set("Authorization", `Bearer ${token}`);
+    response = await fetch(url, { ...options, headers });
   } catch {
     throw new Error(
       "Cannot connect to the INSIGHT AI backend. Check that the backend server is running."
@@ -80,8 +83,10 @@ export async function applyCleaning(datasetId, options = {}) {
 }
 
 export async function downloadCleanedDataset(datasetId) {
+  const token = localStorage.getItem("insight-auth-token");
   const response = await fetch(
-    `${API_BASE_URL}/datasets/${datasetId}/cleaning/download`
+    `${API_BASE_URL}/datasets/${datasetId}/cleaning/download`,
+    { headers: token ? { Authorization: `Bearer ${token}` } : {} }
   );
 
   if (!response.ok) {
@@ -167,6 +172,18 @@ export async function getAnalyticsCorrelations(
   );
 }
 
+
+export async function indexDataset(datasetId) {
+  const job = await apiRequest(`${API_BASE_URL}/datasets/${datasetId}/rag/index-async`, { method: "POST" });
+  for (let attempt = 0; attempt < 180; attempt += 1) {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    const status = await apiRequest(`${API_BASE_URL}/datasets/${datasetId}/rag/jobs/${job.job_id}`);
+    if (status.status === "completed") return status.result;
+    if (status.status === "failed") throw new Error(status.error || "AI knowledge indexing failed.");
+  }
+  throw new Error("AI knowledge indexing is still running. You can continue using analytics while it finishes.");
+}
+
 // AI ANALYST
 
 export async function askAnalyst(datasetId, question) {
@@ -211,4 +228,60 @@ export async function predictWithSavedModel(datasetId, records) {
     `${API_BASE_URL}/datasets/${datasetId}/predictive/predict`,
     jsonOptions({ records })
   );
+}
+
+// FORECASTING & INVENTORY
+export async function createForecast(datasetId, payload) {
+  return apiRequest(`${API_BASE_URL}/datasets/${datasetId}/forecast`, jsonOptions(payload));
+}
+
+export async function getForecastSegments(datasetId, options) {
+  const params = new URLSearchParams(options);
+  return apiRequest(`${API_BASE_URL}/datasets/${datasetId}/forecast/segments?${params}`);
+}
+
+// AUTHENTICATION AND REPORT PORTALS
+export async function adminLogin(email, password) {
+  return apiRequest(`${API_BASE_URL}/auth/admin-login`, jsonOptions({ email, password }));
+}
+
+export async function viewerSignup(name, email, password, accessCode) {
+  return apiRequest(`${API_BASE_URL}/auth/viewer-signup`, jsonOptions({ name, email, password, access_code: accessCode }));
+}
+
+export async function viewerLogin(email, password) {
+  return apiRequest(`${API_BASE_URL}/auth/viewer-login`, jsonOptions({ email, password }));
+}
+
+export async function getCurrentUser() {
+  return apiRequest(`${API_BASE_URL}/auth/me`);
+}
+
+export async function previewBusinessReport(datasetId, source = "auto") {
+  return apiRequest(`${API_BASE_URL}/admin/reports/preview/${encodeURIComponent(datasetId)}?source=${source}`);
+}
+
+export async function publishReport(datasetId, title, source = "original") {
+  return apiRequest(`${API_BASE_URL}/admin/reports/publish`, jsonOptions({ dataset_id: datasetId, title, source, expires_days: 30 }));
+}
+
+export async function getViewerReports() {
+  return apiRequest(`${API_BASE_URL}/viewer/reports`);
+}
+
+export async function getViewerReport(reportId) {
+  return apiRequest(`${API_BASE_URL}/viewer/reports/${encodeURIComponent(reportId)}`);
+}
+
+export async function askViewerReport(reportId, question) {
+  return apiRequest(`${API_BASE_URL}/viewer/reports/${encodeURIComponent(reportId)}/chat`, jsonOptions({ question }));
+}
+
+
+export async function getViewerPreferences() {
+  return apiRequest(`${API_BASE_URL}/viewer/preferences`);
+}
+
+export async function saveViewerPreferences(preferences) {
+  return apiRequest(`${API_BASE_URL}/viewer/preferences`, jsonOptions({ preferences }));
 }

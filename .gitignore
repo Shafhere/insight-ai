@@ -24,6 +24,8 @@ env/
 .env.*
 !.env.example
 
+
+
 # IDE
 .vscode/
 .idea/
@@ -65,3 +67,24 @@ desktop.ini
 # Temporary files
 *.tmp
 *.bak
+
+
+
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+node_modules/
+__pycache__/
+.pytest_cache/
+dist/
+build/
+*.db
+*.sqlite
+*.sqlite3
+uploads/
+storage/
+data/uploads/
+*.pkl
+*.joblib

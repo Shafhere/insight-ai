@@ -15,7 +15,11 @@ langchain-chroma>=0.1,<2.0
 chromadb>=0.5,<2.0
 sentence-transformers>=3.0,<6.0
 
-# Predictive modelling
-scikit-learn>=1.5,<2.0
+# Predictive model persistence
 joblib>=1.4,<2.0
 
+
+# Persistent portal database and background jobs
+SQLAlchemy>=2.0,<3.0
+psycopg[binary]>=3.2,<4.0
+celery[redis]>=5.4,<6.0

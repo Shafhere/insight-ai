@@ -1,0 +1,4 @@
+{"question":"Summarize this dataset and tell me how many rows it contains.","expected_nodes":["agent_01_data_profile","agent_02_analytics","agent_04_insight_reporting"],"expected_answer_contains":[]}
+{"question":"What is the total revenue in the uploaded dataset?","expected_nodes":["agent_01_data_profile","agent_02_analytics","agent_04_insight_reporting"],"expected_answer_contains":[]}
+{"question":"Which product or category generated the highest revenue?","expected_nodes":["agent_01_data_profile","agent_02_analytics","agent_04_insight_reporting"],"expected_answer_contains":[]}
+{"question":"Compare the most recent month with the previous month.","expected_nodes":["agent_01_data_profile","agent_02_analytics","agent_04_insight_reporting"],"expected_answer_contains":[]}

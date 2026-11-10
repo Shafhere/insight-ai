@@ -1,16 +1,39 @@
-# Local verification checklist (Windows CMD)
+# INSIGHT AI — Testing and verification
 
-## Backend
+This release is a **source-code simplification of Release 04**, not a rebuild. Names and imports changed; business algorithms and the existing React UI were deliberately preserved.
+
+## Checks performed while packaging
+
+- Python `compileall`: **passed** after import/path cleanup.
+- TypeScript parser syntax check: **0 syntax diagnostics** in `App.jsx`, `main.jsx`, and `services/api.js` (not a production build).
+- Backend focused/regression tests (excluding two modules requiring `langgraph`): **59 passed**.
+- Synthetic supervised/regression/forecast evaluation: **ran and produced expected model-comparison results**. See `EVALUATION.md`.
+- Synthetic 20,000-row retail cleaning audit: **ran**, 192 duplicates removed, 1,409 → 154 missing cells, raw input unchanged.
+- Source tree scanned for outdated numbered import paths: no remaining production Python numbered-package imports.
+- No saved database, user-uploaded datasets, environment secrets, `.venv`, `node_modules`, or generated ChromaDB index included.
+
+## Not verified here
+
+- Complete backend suite modules that require optional `langgraph`, `langchain_chroma` or `sentence_transformers` packages.
+- Live Groq LLM responses, end-to-end RAG semantic retrieval, and agent factuality scores.
+- Frontend `npm run build` and real browser light/dark/theme or alignment behavior (dependencies not available in this build environment).
+- A complete browser-driven login → upload → clean → forecast → publish → redeem-code demonstration.
+
+Do not treat an untested browser workflow as passed.
+
+## Commands to run on your Windows machine
+
+After installing dependencies in `START_HERE_WINDOWS.md`:
 
 ```cmd
 cd backend
 .venv\Scripts\activate
-python -m compileall -q app
-ruff check app
-pytest -q
+python -m compileall -q app tests scripts
+python -m pytest tests -q
+python scripts/run_evaluation.py
 ```
 
-## Frontend
+Frontend:
 
 ```cmd
 cd frontend
@@ -18,17 +41,16 @@ npm ci
 npm run build
 ```
 
-## End-to-end business checks
+## Your final interview smoke test
 
-1. Upload a retail dataset with date, unit price, quantity, category, product and branch/location fields.
-2. Confirm the preview displays rows and pagination/search works.
-3. Run the cleaning workflow and compare before/after counts. Confirm the original file remains available.
-4. Compare revenue and quantity by month against an independent spreadsheet calculation.
-5. Verify top/low product, category and location rankings against a pivot table.
-6. Ask the AI analyst for latest-month vs previous-month sales, top product, low-performing category and regional comparison. Check each number against the calculated analytics.
-7. Generate the report and verify each narrative paragraph against the same calculations.
-8. Upload a second dataset with different column names and missing dimensions. Confirm unsupported product/location/time analysis is labelled unavailable rather than guessed.
-9. Test a dataset without a date field, one without price/quantity, and one with product but no category.
-10. Test larger files and malformed dates/numeric strings before deployment.
+- Admin login works with configured credentials; viewer login cannot access admin routes.
+- Upload the retail test CSV and compare row/column stats.
+- Cleaning preview shows risk and choices; original file remains unchanged; cleaned file available.
+- Analytics cards and graphs use actual dataset values.
+- Ask **two distinct** business questions; their answers differ and numerical facts match calculations.
+- Index RAG before trying to demonstrate document retrieval; check sources, not just the chatbot's style.
+- Forecast future months; inspect validation metrics and limitations.
+- Publish one report; redeem the code with a new viewer; ensure the code cannot be redeemed twice and viewer sees only their assigned report.
+- Inspect all four report pages, light and dark modes, and mobile-sized layout.
 
-Do not proceed to production until backend tests, frontend build, and the end-to-end checks pass in the deployment environment.
+If a test fails, report the actual stack trace rather than asserting the application is fully verified.

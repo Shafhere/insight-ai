@@ -1,34 +1,83 @@
 services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: insight
+      POSTGRES_USER: insight
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-db-password}
+    volumes:
+      - insight_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U insight -d insight"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - insight_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-
     env_file:
-      - ./backend/.env
-
+      - path: ./backend/.env
+        required: false
     environment:
       APP_ENVIRONMENT: production
       DEBUG: "false"
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
-
+      DATABASE_URL: postgresql+psycopg://insight:${POSTGRES_PASSWORD:-change-this-db-password}@database:5432/insight
+      REDIS_URL: redis://redis:6379/0
+      INSIGHT_AUTH_SECRET: ${INSIGHT_AUTH_SECRET:-replace-with-a-long-random-secret}
+      INSIGHT_ADMIN_EMAIL: ${INSIGHT_ADMIN_EMAIL:-admin@insight.ai}
+      INSIGHT_ADMIN_PASSWORD: ${INSIGHT_ADMIN_PASSWORD:-ChangeMe123!}
     ports:
       - "8000:8000"
-
     volumes:
       - insight_storage:/app/storage
-
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
-      test:
-        - CMD
-        - python
-        - -c
-        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)"
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
+    restart: unless-stopped
 
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://insight:${POSTGRES_PASSWORD:-change-this-db-password}@database:5432/insight
+      REDIS_URL: redis://redis:6379/0
+      INSIGHT_AUTH_SECRET: ${INSIGHT_AUTH_SECRET:-replace-with-a-long-random-secret}
+    command: ["celery", "-A", "app.rag.celery_app.celery_app", "worker", "--loglevel=info", "--concurrency=1"]
+    volumes:
+      - insight_storage:/app/storage
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   frontend:
@@ -37,15 +86,14 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_BASE_URL: /api/v1
-
     ports:
       - "5173:80"
-
     depends_on:
       backend:
         condition: service_healthy
-
     restart: unless-stopped
 
 volumes:
+  insight_postgres:
+  insight_redis:
   insight_storage:
