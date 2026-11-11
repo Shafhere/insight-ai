@@ -56,7 +56,7 @@ def infer_semantic_type(column_name: str, series: pd.Series) -> str:
     # Names can combine a metric word with a different business meaning.
     # e.g., sales_channel is a category, not revenue; inventory_level is
     # stock on hand, not units sold. Guard these before broad name keywords.
-    if token_set & {"channel", "payment", "method", "status"}:
+    if token_set & {"channel", "payment", "method", "status"} or ("person" in token_set and "sales" in token_set):
         return "categorical"
     if token_set & {"region", "city", "state", "country", "location", "branch"}:
         return "location"

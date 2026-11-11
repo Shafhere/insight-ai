@@ -1,3 +1,7 @@
+> **Release 09:** Retail reports now adapt to ordinary sales exports (including a 250-row demo), while retaining detailed inventory dashboards for richer datasets. See [Release 09 notes](RELEASE_09_FLEXIBLE_DATASETS.md).
+
+> **Release 08 update:** This source prioritizes retail and e-commerce historical analytics; predictions and forecasts are marked as future workflow. Read [RELEASE_08_RETAIL_ANALYTICS.md](RELEASE_08_RETAIL_ANALYTICS.md) before your demo.
+
 # INSIGHT AI
 
 **From Data to Decisions.** Upload a CSV/Excel dataset, understand it, clean it, analyze it, ask questions, forecast business metrics, publish a report, and share that report with an authorized viewer.

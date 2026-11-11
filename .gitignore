@@ -1,8 +1,12 @@
-# Python
+# Frontend dependencies and builds
+node_modules/
+dist/
+build/
+coverage/
+
+# Python bytecode & packaging
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 *.egg-info/
 .eggs/
 
@@ -24,67 +28,35 @@ env/
 .env.*
 !.env.example
 
-
-
 # IDE
 .vscode/
 .idea/
-
-# Frontend dependencies and builds
-node_modules/
-dist/
-build/
-coverage/
 
 # Logs
 *.log
 logs/
 
-# Local databases
+# Local databases & runtime data
 *.db
 *.sqlite
 *.sqlite3
-
-# Runtime uploads and generated data
+storage/
+uploads/
+data/uploads/
 backend/storage/*
 !backend/storage/.gitkeep
 
-# Vector database
+# Vector database & ML artifacts
 chroma_db/
-
-# ML artifacts
 mlruns/
 artifacts/
 models/
 *.pkl
 *.joblib
 
-# OS files
+# OS & temporary files
 .DS_Store
 Thumbs.db
 desktop.ini
-
-# Temporary files
 *.tmp
 *.bak
-
-
-
-.env
-.env.*
-!.env.example
-.venv/
-venv/
-node_modules/
-__pycache__/
-.pytest_cache/
-dist/
-build/
-*.db
-*.sqlite
-*.sqlite3
-uploads/
-storage/
-data/uploads/
-*.pkl
-*.joblib

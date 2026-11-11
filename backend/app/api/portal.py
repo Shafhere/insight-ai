@@ -15,7 +15,7 @@ from app.auth.store import (
 from app.data.dataset_service import get_dataset_profile
 from app.analytics.service import calculate_overview, calculate_correlations, load_analytics_dataset, prepare_business_dataframe, get_semantic_columns
 from app.decision.service import generate_decision_report
-from app.prediction.forecasting import forecast_series, ForecastingError, forecast_segments
+from app.analytics.retail_report import build_retail_report
 
 router = APIRouter(tags=["Portal and Publishing"])
 init_auth_store()
@@ -88,43 +88,49 @@ def _build_report_payload(dataset_id: str, source: str) -> dict[str, Any]:
     profile = get_dataset_profile(dataset_id).model_dump()
     raw_dataframe = load_analytics_dataset(dataset_id, source)
     dataframe = prepare_business_dataframe(raw_dataframe, get_semantic_columns(dataset_id))
+    # This release focuses on observed retail performance, not future forecasts.
+    # A single report computation is shared by admin preview and published viewers.
+    retail = build_retail_report(raw_dataframe, profile)
     forecast = None
+    segment_forecasts = {}
     date_columns = overview.get("date_columns", [])
     numeric_columns = [column for column in dataframe.select_dtypes(include="number").columns if not str(column).lower().endswith("id")]
     numeric_columns = [column for column in numeric_columns if pd.to_numeric(dataframe[column], errors="coerce").notna().sum() > 0]
     semantics = get_semantic_columns(dataset_id)
-    def metric_rank(column: str) -> tuple[int, str]:
-        lower = column.casefold()
-        meaning = semantics.get(column, "")
-        if column == "__insight_revenue__" or meaning == "revenue" or "revenue" in lower or "total_sales" in lower:
-            return (0, lower)
-        if "profit" in lower or "sales_amount" in lower or lower == "sales":
-            return (1, lower)
-        if meaning == "quantity" or any(word in lower for word in ("quantity", "units", "demand")):
-            return (2, lower)
-        if any(word in lower for word in ("price", "cost", "amount")):
-            return (3, lower)
-        return (4, lower)
-    preferred_measures = sorted(numeric_columns, key=metric_rank)
-    if date_columns and preferred_measures:
-        for metric in preferred_measures:
-            try:
-                forecast = forecast_series(dataframe, date_columns[0], metric, horizon=3, frequency="MS", allow_returns=True)
-                break
-            except ForecastingError:
-                continue
-    segment_forecasts = {}
-    if forecast and date_columns:
-        semantics = get_semantic_columns(dataset_id)
-        quantity_metric = next((column for column in numeric_columns if semantics.get(column) == "quantity"), None)
-        metric_for_segments = quantity_metric or forecast.get("value_column")
-        for role in ("product", "location", "category"):
-            field = next((c for c, semantic in semantics.items() if semantic == role and c in dataframe and dataframe[c].nunique(dropna=True) <= 1000), None)
-            if field and metric_for_segments:
-                try:
-                    segment_forecasts[role] = forecast_segments(dataframe, date_columns[0], metric_for_segments, field, horizon=3, limit=5)
-                except ForecastingError:
-                    continue
+    preferred_measures = [column for column in ("__insight_revenue__", "total_amount", "net_sales", "revenue", "total_revenue") if column in numeric_columns]
+    preferred_measures += [column for column in numeric_columns if column not in preferred_measures]
+    # The report stores aggregated filter views, not raw transaction rows.
+    # The admin and viewer can switch one filter dimension and see matching KPIs.
+    retail_filters = {}
+    import re as _re
+    def _find_field(*names):
+        normalized = {_re.sub(r"[^a-z0-9]", "", str(c).lower()): c for c in raw_dataframe.columns}
+        return next((normalized.get(_re.sub(r"[^a-z0-9]", "", n.lower())) for n in names if normalized.get(_re.sub(r"[^a-z0-9]", "", n.lower()))), None)
+    for dimension, aliases in (
+        ("store", ("branch_name", "store_name", "store_id", "region", "location", "city")),
+        ("category", ("department", "category", "product_category")),
+    ):
+        col = _find_field(*aliases)
+        if not col:
+            continue
+        groups = raw_dataframe[col].dropna().astype(str).value_counts()
+        if len(groups) > 12:
+            continue  # avoid huge published snapshots / high-cardinality IDs
+        retail_filters[dimension] = {
+            str(name): build_retail_report(raw_dataframe[raw_dataframe[col].astype(str) == str(name)])
+            for name in groups.index[:12]
+        }
+    date_field = _find_field("bill_date", "order_date", "transaction_date", "date", "timestamp")
+    if date_field:
+        parsed = pd.to_datetime(raw_dataframe[date_field], errors="coerce")
+        valid_periods = parsed.dropna().dt.to_period("M")
+        month_names = sorted(valid_periods.astype(str).unique())[-12:]
+        if month_names:
+            labels = parsed.dt.to_period("M").astype(str)
+            retail_filters["month"] = {
+                month: build_retail_report(raw_dataframe[labels == month])
+                for month in month_names
+            }
     # Publish enough segment charts for the viewer's full dashboard rather
     # than restricting it to the first three arbitrary dataset columns.
     charts = {}
@@ -177,7 +183,9 @@ def _build_report_payload(dataset_id: str, source: str) -> dict[str, Any]:
         "dataset_profile": profile,
         "overview": overview,
         "decision": decision,
-        "forecast": forecast,
+        "forecast": None,
+        "retail": retail,
+        "retail_filters": retail_filters,
         "segment_forecasts": segment_forecasts,
         "charts": charts,
         "trend": trend or [],
@@ -189,7 +197,7 @@ def _build_report_payload(dataset_id: str, source: str) -> dict[str, Any]:
         "geo_points": geo_points,
         "geo_columns": [lat_col, lon_col] if lat_col and lon_col else [],
         "source": source,
-        "report_sections": ["Executive summary", "Historical performance", "Current performance", "Business findings", "Future outlook", "Recommendations", "Risks and limitations"],
+        "report_sections": ["Executive overview", "Sales and customer diagnosis", "Inventory and placement", "Actions and recommendations"],
     }
 
 
@@ -257,12 +265,16 @@ def answer_from_published_snapshot(question: str, payload: dict) -> dict | None:
         except (TypeError, ValueError):
             return str(value)
     if any(t in q for t in ("forecast", "future", "next month", "next three", "prediction", "what will happen")):
-        if not forecast or not forecast.get("forecasts"):
-            return {"answer": "This published report does not contain a validated monthly forecast. I cannot invent future values."}
-        lines = ["## Published forecast", f"**Metric:** {forecast.get('value_column','Business measure')} · **Method:** {forecast.get('selected_method','Not specified')}."]
-        lines += [f"- {str(x.get('period'))[:7]}: **{fmt(x.get('forecast'))}**" for x in forecast['forecasts']]
-        lines.append(f"These are estimates backtested on {forecast.get('backtest_periods','an unknown number of')} historical periods, not guarantees. Check actual sales and inventory before placing orders.")
-        return {"answer": "\n\n".join(lines), "chart": {"type":"bar","xKey":"period","title":"Three-period forecast","data":[{"period":str(x['period'])[:7],"value":x['forecast']} for x in forecast['forecasts']]}}
+        # Historical published snapshots may still contain forecasts. New reports
+        # deliberately disable predictive outputs until validated separately.
+        if forecast.get("forecasts"):
+            lines = ["## Historical published forecast (legacy snapshot)",
+                     f"Metric: {forecast.get('value_column', 'business measure')}."]
+            lines += [f"- {str(x.get('period'))[:7]}: {fmt(x.get('forecast'))}" for x in forecast['forecasts']]
+            lines.append("These were model estimates, not guaranteed outcomes.")
+            return {"answer": "\n".join(lines), "chart": {"title":"Legacy forecast", "type":"line", "xKey":"group", "data":[{"group":str(x.get("period"))[:7],"value":x.get("forecast")} for x in forecast["forecasts"]]}}
+        return {"answer": "Predictive forecasting is a planned future workflow in this release. This published report contains historical evidence and recommendations, not validated future projections."}
+
     if any(t in q for t in ("risk", "caution", "limitation", "danger")):
         items = (decision.get("risks") or []) + (decision.get("limitations") or [])
         return {"answer": "## Risks and limitations\n" + ("\n".join(f"- {x if isinstance(x,str) else x.get('description',str(x))}" for x in items[:8]) if items else "No specific risk was established in this report. Validate the underlying data before acting.")}
@@ -303,6 +315,7 @@ def viewer_report_chat(report_id: str, body: dict, request: Request):
     context = {
         "overview": payload.get("overview", {}),
         "decision": payload.get("decision", {}),
+        "retail": payload.get("retail", {}),
         "forecast": payload.get("forecast"),
         "charts": payload.get("charts", {}),
         "trend": payload.get("trend", []),
