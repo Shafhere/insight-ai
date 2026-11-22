@@ -1,0 +1,2 @@
+{"question":"What does the net_sales column represent?","expected_tool":"rag","expected_numeric_value":null,"expected_column":"net_sales","relevant_source_ids":["column_profile:net_sales"]}
+{"question":"What is the total revenue?","expected_tool":"analytics","expected_numeric_value":null,"expected_column":"revenue","relevant_source_ids":["dataset_overview"]}

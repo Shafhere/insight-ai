@@ -1,0 +1,751 @@
+feedback_id,order_id,customer_id,feedback_date,rating_1_to_5,feedback_topic,feedback_comment,feedback_channel,follow_up_requested,resolution_status
+FB-00161,ORD-003486,C02314,2023-01-01,2,Staff service,I had to wait longer than expected.,QR Survey,No,Pending
+FB-00071,ORD-002512,C01394,2023-01-13,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00282,ORD-000695,C01085,2023-01-19,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00194,ORD-001865,C00991,2023-01-25,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00723,ORD-004468,C00342,2023-01-26,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00568,ORD-009268,C02332,2023-01-30,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00049,ORD-002989,C02374,2023-02-01,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00162,ORD-009151,C02506,2023-02-03,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00446,ORD-004701,C01164,2023-02-03,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00088,ORD-007906,C02495,2023-02-05,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00683,ORD-006194,C01198,2023-02-05,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00004,ORD-009187,C02314,2023-02-06,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00146,ORD-003760,C00271,2023-02-07,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00173,ORD-004514,C01197,2023-02-07,2,Availability,A product I wanted was unavailable.,In-store Survey,Yes,Pending
+FB-00663,ORD-005506,C00981,2023-02-11,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00466,ORD-005486,C00177,2023-02-12,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00137,ORD-005204,C00853,2023-02-14,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00482,ORD-000315,C02040,2023-02-14,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00563,ORD-001988,C00342,2023-02-14,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00502,ORD-006418,C00300,2023-02-18,2,Product selection,I was looking for more variety.,Email Survey,No,Resolved
+FB-00618,ORD-006899,C00036,2023-02-18,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00397,ORD-003922,C01555,2023-02-19,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00559,ORD-007892,C00961,2023-02-19,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00432,ORD-008455,C00574,2023-02-24,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00078,ORD-001713,C02310,2023-02-27,2,Checkout experience,Checkout took too long.,Email Survey,Yes,Resolved
+FB-00276,ORD-006242,C01244,2023-03-01,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00113,ORD-007516,C00392,2023-03-03,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00480,ORD-004661,C01164,2023-03-03,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00046,ORD-003019,C02058,2023-03-04,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00481,ORD-007782,C01321,2023-03-09,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00747,ORD-005666,C01549,2023-03-10,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00299,ORD-004742,C00449,2023-03-13,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00609,ORD-001059,C01440,2023-03-14,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00286,ORD-003863,C02374,2023-03-15,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00691,ORD-006526,C00011,2023-03-21,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00010,ORD-001136,C02271,2023-03-23,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00063,ORD-001759,C00288,2023-03-24,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00376,ORD-006780,C02146,2023-03-26,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00344,ORD-006652,C00057,2023-03-27,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00219,ORD-001302,C01920,2023-03-28,1,Checkout experience,The billing process was frustrating.,In-store Survey,Yes,Resolved
+FB-00323,ORD-008165,C02537,2023-04-05,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00688,ORD-001805,C01462,2023-04-05,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00206,ORD-008922,C01966,2023-04-08,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00268,ORD-003214,C00497,2023-04-09,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00080,ORD-006350,C00636,2023-04-11,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00039,ORD-007924,C02593,2023-04-12,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00608,ORD-009232,C00243,2023-04-12,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00443,ORD-006512,C01920,2023-04-15,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00353,ORD-001423,C02050,2023-04-20,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00574,ORD-001576,C02093,2023-04-23,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00734,ORD-000737,C00776,2023-04-23,1,Checkout experience,The billing process was frustrating.,In-store Survey,Yes,Pending
+FB-00744,ORD-007951,C01088,2023-04-26,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00101,ORD-006367,C00325,2023-04-29,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00239,ORD-000702,C01395,2023-05-02,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00682,ORD-002839,C00060,2023-05-02,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00313,ORD-000472,C02082,2023-05-03,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00584,ORD-005664,C00388,2023-05-05,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00543,ORD-008324,C00565,2023-05-06,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00424,ORD-000091,C00487,2023-05-10,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00357,ORD-001307,C01708,2023-05-11,2,Fit and size,My preferred size was difficult to find.,In-store Survey,Yes,Resolved
+FB-00015,ORD-000917,C00224,2023-05-16,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00185,ORD-009154,C01474,2023-05-17,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00364,ORD-007075,C01513,2023-05-24,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00672,ORD-006127,C01555,2023-05-25,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00341,ORD-007170,C02271,2023-05-29,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00505,ORD-003686,C02244,2023-05-29,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00690,ORD-004688,C01318,2023-06-01,3,Staff service,Service was satisfactory overall.,In-store Survey,No,Not needed
+FB-00567,ORD-007135,C00136,2023-06-05,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00685,ORD-000030,C01509,2023-06-05,1,Price and value,The pricing did not meet my expectations.,QR Survey,Yes,Pending
+FB-00267,ORD-007958,C02337,2023-06-07,2,Checkout experience,Checkout took too long.,QR Survey,No,Resolved
+FB-00403,ORD-003067,C00656,2023-06-10,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00472,ORD-006187,C01610,2023-06-10,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00191,ORD-002668,C02207,2023-06-12,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00388,ORD-002077,C01971,2023-06-14,2,Availability,A product I wanted was unavailable.,In-store Survey,Yes,Pending
+FB-00309,ORD-002042,C00450,2023-06-15,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00582,ORD-002911,C01492,2023-06-20,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00220,ORD-008538,C02082,2023-06-21,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00697,ORD-000311,C01945,2023-06-21,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00287,ORD-006045,C01220,2023-06-23,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00089,ORD-004654,C01610,2023-06-25,1,Product selection,I could not find the collection I wanted.,Email Survey,No,Resolved
+FB-00623,ORD-001741,C01779,2023-06-25,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00150,ORD-004927,C00608,2023-06-30,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00178,ORD-006107,C00233,2023-07-05,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00330,ORD-000456,C00102,2023-07-07,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00029,ORD-005747,C01059,2023-07-09,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00722,ORD-006614,C00277,2023-07-14,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00561,ORD-000681,C00471,2023-07-15,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00264,ORD-006245,C00991,2023-07-16,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00034,ORD-008919,C01786,2023-07-17,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00184,ORD-003837,C00430,2023-07-17,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00294,ORD-000330,C02042,2023-07-24,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00460,ORD-008104,C01419,2023-07-26,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00383,ORD-001350,C01471,2023-07-29,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00258,ORD-008064,C00629,2023-08-02,2,Checkout experience,Checkout took too long.,QR Survey,Yes,Pending
+FB-00028,ORD-006408,C01270,2023-08-06,2,Price and value,The products felt expensive for my budget.,Email Survey,No,Pending
+FB-00296,ORD-002137,C00777,2023-08-08,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00380,ORD-000042,C00840,2023-08-11,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00298,ORD-002001,C02204,2023-08-18,3,Product selection,The selection was adequate.,Email Survey,No,Not needed
+FB-00532,ORD-007786,C00980,2023-08-18,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00687,ORD-006305,C01461,2023-08-19,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00616,ORD-006160,C01461,2023-08-27,1,Availability,Several items I wanted were unavailable.,In-store Survey,Yes,Resolved
+FB-00598,ORD-004319,C02175,2023-08-28,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00716,ORD-002039,C01276,2023-08-29,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00164,ORD-005822,C02377,2023-08-30,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00750,ORD-007736,C01684,2023-09-02,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00538,ORD-007270,C00588,2023-09-05,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00513,ORD-006198,C00533,2023-09-08,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00646,ORD-007561,C00327,2023-09-08,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00495,ORD-001367,C01798,2023-09-09,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00040,ORD-000660,C01064,2023-09-10,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00256,ORD-001044,C02417,2023-09-10,3,Checkout experience,The checkout process was okay.,Email Survey,No,Not needed
+FB-00542,ORD-008091,C00114,2023-09-12,3,Product selection,The selection was adequate.,QR Survey,No,Not needed
+FB-00431,ORD-007829,C00519,2023-09-13,1,Fit and size,The available sizes did not suit me.,Email Survey,Yes,Pending
+FB-00679,ORD-003495,C02335,2023-09-16,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00222,ORD-002006,C02336,2023-09-18,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00451,ORD-006133,C01704,2023-09-19,2,Staff service,I had to wait longer than expected.,In-store Survey,Yes,Pending
+FB-00699,ORD-007789,C00788,2023-09-20,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00371,ORD-005731,C01755,2023-09-28,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00394,ORD-001191,C02528,2023-09-28,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00169,ORD-005912,C01197,2023-09-30,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00285,ORD-006715,C01809,2023-10-02,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00484,ORD-008210,C01372,2023-10-02,3,Product selection,The selection was adequate.,QR Survey,No,Not needed
+FB-00621,ORD-002171,C01938,2023-10-02,2,Staff service,I had to wait longer than expected.,Email Survey,No,Resolved
+FB-00675,ORD-002641,C00934,2023-10-02,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00715,ORD-005328,C01798,2023-10-03,1,Staff service,I was disappointed with the service experience.,Email Survey,Yes,Pending
+FB-00009,ORD-005518,C02113,2023-10-04,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00720,ORD-006740,C00471,2023-10-04,2,Product selection,I was looking for more variety.,In-store Survey,Yes,Pending
+FB-00589,ORD-001010,C01698,2023-10-06,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00544,ORD-001905,C01588,2023-10-10,1,Staff service,I was disappointed with the service experience.,Email Survey,No,Pending
+FB-00580,ORD-004249,C02514,2023-10-10,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00333,ORD-004949,C00211,2023-10-11,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00354,ORD-005918,C01125,2023-10-11,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00076,ORD-007289,C00233,2023-10-14,2,Availability,A product I wanted was unavailable.,In-store Survey,Yes,Pending
+FB-00448,ORD-000751,C00450,2023-10-15,1,Staff service,I was disappointed with the service experience.,QR Survey,Yes,Pending
+FB-00361,ORD-002115,C01967,2023-10-16,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00600,ORD-003303,C02151,2023-10-18,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00579,ORD-000155,C01033,2023-10-22,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00601,ORD-000584,C00896,2023-10-25,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00746,ORD-009046,C00024,2023-10-29,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00067,ORD-008072,C02052,2023-11-01,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00737,ORD-005788,C02127,2023-11-08,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00060,ORD-002317,C00770,2023-11-10,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00149,ORD-002081,C02528,2023-11-10,2,Product selection,I was looking for more variety.,Email Survey,Yes,Pending
+FB-00382,ORD-008094,C02080,2023-11-14,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00724,ORD-001630,C00497,2023-11-15,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00082,ORD-001803,C02401,2023-11-17,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00442,ORD-008925,C00317,2023-11-17,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00365,ORD-004095,C02118,2023-11-19,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00099,ORD-007556,C01823,2023-11-20,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00459,ORD-004347,C00588,2023-11-21,2,Product selection,I was looking for more variety.,In-store Survey,Yes,Resolved
+FB-00440,ORD-002967,C01672,2023-11-23,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00453,ORD-004892,C01122,2023-11-23,2,Product selection,I was looking for more variety.,QR Survey,Yes,Resolved
+FB-00438,ORD-005053,C00170,2023-11-24,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00090,ORD-000458,C02506,2023-11-27,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00059,ORD-002385,C01971,2023-11-28,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00434,ORD-003007,C01513,2023-11-28,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00094,ORD-006294,C00032,2023-11-29,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00473,ORD-006789,C01613,2023-11-30,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00604,ORD-004073,C01807,2023-11-30,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00210,ORD-001280,C01708,2023-12-01,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00305,ORD-005433,C02571,2023-12-03,1,Availability,Several items I wanted were unavailable.,QR Survey,No,Resolved
+FB-00607,ORD-001798,C00372,2023-12-03,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00639,ORD-006766,C00563,2023-12-04,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00702,ORD-002659,C00719,2023-12-05,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00531,ORD-000828,C00852,2023-12-06,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00486,ORD-007449,C00044,2023-12-08,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00395,ORD-004437,C00027,2023-12-09,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00410,ORD-007493,C00198,2023-12-16,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00391,ORD-004561,C00860,2023-12-17,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00016,ORD-007022,C02041,2023-12-18,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00212,ORD-007108,C00097,2023-12-18,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00058,ORD-003017,C01331,2023-12-22,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00624,ORD-005507,C00747,2023-12-22,2,Fit and size,My preferred size was difficult to find.,In-store Survey,Yes,Resolved
+FB-00668,ORD-004284,C01950,2023-12-24,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00176,ORD-004951,C00767,2023-12-26,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00215,ORD-001395,C00582,2023-12-26,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00489,ORD-006238,C02099,2023-12-28,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00708,ORD-005373,C02072,2024-01-02,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00196,ORD-004748,C01819,2024-01-03,2,Fit and size,My preferred size was difficult to find.,In-store Survey,No,Resolved
+FB-00126,ORD-003289,C02528,2024-01-04,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00092,ORD-004355,C00748,2024-01-09,3,Staff service,Service was satisfactory overall.,Email Survey,No,Not needed
+FB-00386,ORD-007827,C01479,2024-01-09,2,Staff service,I had to wait longer than expected.,In-store Survey,No,Pending
+FB-00229,ORD-002730,C01402,2024-01-12,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00599,ORD-002544,C01395,2024-01-16,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00321,ORD-007402,C01177,2024-01-17,1,Fit and size,The available sizes did not suit me.,Email Survey,No,Resolved
+FB-00416,ORD-005152,C01278,2024-01-17,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00270,ORD-003675,C02252,2024-01-18,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00726,ORD-002851,C01685,2024-01-18,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00420,ORD-008815,C00030,2024-01-20,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00300,ORD-001158,C00776,2024-01-22,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00172,ORD-007303,C02030,2024-01-23,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00622,ORD-006204,C00981,2024-01-24,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00692,ORD-006667,C00137,2024-01-30,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00673,ORD-000020,C00776,2024-01-31,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00003,ORD-005438,C01785,2024-02-05,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00373,ORD-008441,C01864,2024-02-05,3,Fit and size,The sizing was acceptable.,QR Survey,No,Not needed
+FB-00226,ORD-000649,C00546,2024-02-06,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00053,ORD-004180,C00405,2024-02-09,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00581,ORD-008335,C01515,2024-02-11,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00021,ORD-000833,C01050,2024-02-12,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00332,ORD-008565,C01108,2024-02-12,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00592,ORD-005903,C02404,2024-02-14,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00575,ORD-004453,C02209,2024-02-15,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00205,ORD-007683,C00370,2024-02-20,2,Staff service,I had to wait longer than expected.,Email Survey,Yes,Pending
+FB-00246,ORD-004865,C02364,2024-02-21,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00645,ORD-003452,C00171,2024-02-23,3,Staff service,Service was satisfactory overall.,Email Survey,No,Not needed
+FB-00331,ORD-005225,C01662,2024-02-28,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00193,ORD-001807,C00552,2024-03-04,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00749,ORD-002877,C02303,2024-03-08,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00319,ORD-001875,C02573,2024-03-10,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00593,ORD-009073,C01509,2024-03-19,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00142,ORD-005309,C02557,2024-03-21,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00493,ORD-001383,C02290,2024-03-23,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00181,ORD-007980,C01198,2024-03-26,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00068,ORD-006737,C02215,2024-03-27,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00739,ORD-009049,C00616,2024-03-27,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00061,ORD-006885,C02515,2024-04-02,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00064,ORD-006079,C01376,2024-04-03,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00707,ORD-000173,C01659,2024-04-04,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00415,ORD-000207,C01070,2024-04-06,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00203,ORD-001341,C01652,2024-04-07,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00043,ORD-002139,C01640,2024-04-09,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00374,ORD-003644,C02270,2024-04-09,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00678,ORD-000742,C00747,2024-04-09,1,Product selection,I could not find the collection I wanted.,Email Survey,Yes,Resolved
+FB-00605,ORD-005284,C02151,2024-04-14,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00131,ORD-007322,C00675,2024-04-15,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00630,ORD-000873,C02458,2024-04-21,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00620,ORD-002497,C00453,2024-04-22,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00409,ORD-007226,C00546,2024-04-23,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00130,ORD-004511,C01201,2024-04-24,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00485,ORD-005832,C01881,2024-04-24,2,Price and value,The products felt expensive for my budget.,Email Survey,Yes,Resolved
+FB-00048,ORD-003326,C00177,2024-04-25,1,Checkout experience,The billing process was frustrating.,QR Survey,Yes,Resolved
+FB-00408,ORD-007201,C01096,2024-04-26,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00549,ORD-007323,C01933,2024-04-27,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00145,ORD-003460,C00387,2024-04-28,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00115,ORD-008990,C01623,2024-04-29,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00134,ORD-003202,C01296,2024-05-01,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00072,ORD-004126,C01879,2024-05-02,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00168,ORD-008696,C00240,2024-05-02,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00745,ORD-004010,C01437,2024-05-02,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00328,ORD-002135,C00991,2024-05-03,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00307,ORD-003506,C00010,2024-05-07,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00449,ORD-007065,C01422,2024-05-08,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00536,ORD-007388,C00875,2024-05-08,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00405,ORD-009237,C01681,2024-05-10,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00022,ORD-009102,C01845,2024-05-17,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00471,ORD-006693,C02182,2024-05-18,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00167,ORD-000256,C01156,2024-05-22,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00187,ORD-004719,C00300,2024-05-26,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00411,ORD-003023,C02286,2024-06-06,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00077,ORD-001438,C00582,2024-06-07,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00275,ORD-006253,C02570,2024-06-07,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00232,ORD-008259,C01405,2024-06-09,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00233,ORD-004633,C02539,2024-06-09,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00109,ORD-005164,C01519,2024-06-12,3,Fit and size,The sizing was acceptable.,QR Survey,No,Not needed
+FB-00302,ORD-003408,C00651,2024-06-13,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00695,ORD-003574,C02439,2024-06-15,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00143,ORD-006886,C01945,2024-06-20,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00273,ORD-003521,C01616,2024-06-22,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00414,ORD-006954,C02121,2024-06-26,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00208,ORD-002813,C02200,2024-06-27,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00304,ORD-003211,C01030,2024-06-30,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00047,ORD-003041,C01275,2024-07-01,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00626,ORD-007514,C01680,2024-07-01,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00666,ORD-004444,C00024,2024-07-03,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00240,ORD-004681,C02052,2024-07-06,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00741,ORD-003854,C02042,2024-07-07,2,Fit and size,My preferred size was difficult to find.,Email Survey,No,Resolved
+FB-00528,ORD-002098,C01308,2024-07-08,3,Staff service,Service was satisfactory overall.,Email Survey,No,Not needed
+FB-00151,ORD-002153,C00705,2024-07-12,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00381,ORD-006191,C00853,2024-07-17,2,Product selection,I was looking for more variety.,QR Survey,Yes,Resolved
+FB-00586,ORD-005535,C02196,2024-07-21,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00421,ORD-003222,C01896,2024-07-28,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00522,ORD-005265,C00181,2024-07-28,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00251,ORD-000616,C01270,2024-08-05,2,Availability,A product I wanted was unavailable.,In-store Survey,Yes,Resolved
+FB-00103,ORD-004144,C00264,2024-08-07,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00748,ORD-000248,C02229,2024-08-07,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00614,ORD-007860,C02232,2024-08-08,1,Fit and size,The available sizes did not suit me.,Email Survey,No,Resolved
+FB-00534,ORD-002680,C01445,2024-08-09,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00284,ORD-002079,C02401,2024-08-10,1,Fit and size,The available sizes did not suit me.,Email Survey,No,Pending
+FB-00539,ORD-007506,C02348,2024-08-11,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00083,ORD-004825,C01398,2024-08-12,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00204,ORD-008213,C01343,2024-08-13,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00329,ORD-008627,C00730,2024-08-16,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00402,ORD-003141,C01719,2024-08-17,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00506,ORD-009059,C00917,2024-08-18,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00065,ORD-008961,C01743,2024-08-19,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00730,ORD-001844,C02199,2024-08-21,2,Checkout experience,Checkout took too long.,In-store Survey,Yes,Resolved
+FB-00158,ORD-002308,C02129,2024-08-22,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00603,ORD-002008,C00274,2024-08-26,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00182,ORD-003483,C01763,2024-08-29,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00655,ORD-004896,C01785,2024-08-29,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00098,ORD-002645,C02521,2024-08-31,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00127,ORD-005094,C02237,2024-09-03,2,Price and value,The products felt expensive for my budget.,In-store Survey,No,Pending
+FB-00199,ORD-005049,C01537,2024-09-06,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00514,ORD-006481,C02521,2024-09-08,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00269,ORD-000575,C01574,2024-09-09,2,Fit and size,My preferred size was difficult to find.,In-store Survey,No,Pending
+FB-00576,ORD-007699,C00265,2024-09-11,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00681,ORD-003276,C01759,2024-09-11,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00041,ORD-005493,C00896,2024-09-14,2,Staff service,I had to wait longer than expected.,In-store Survey,No,Pending
+FB-00073,ORD-008352,C01690,2024-09-14,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00399,ORD-005696,C02160,2024-09-15,2,Price and value,The products felt expensive for my budget.,Email Survey,No,Resolved
+FB-00247,ORD-005375,C01270,2024-09-16,2,Price and value,The products felt expensive for my budget.,In-store Survey,No,Resolved
+FB-00104,ORD-001381,C00572,2024-09-19,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00314,ORD-004422,C01905,2024-09-21,3,Checkout experience,The checkout process was okay.,Email Survey,No,Not needed
+FB-00377,ORD-001364,C01884,2024-09-21,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00123,ORD-001117,C01006,2024-09-23,2,Staff service,I had to wait longer than expected.,In-store Survey,No,Resolved
+FB-00152,ORD-005704,C00895,2024-09-23,2,Availability,A product I wanted was unavailable.,Email Survey,No,Resolved
+FB-00585,ORD-002691,C02320,2024-09-23,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00743,ORD-007568,C02067,2024-09-23,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00112,ORD-004434,C00131,2024-09-25,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00419,ORD-005407,C02569,2024-09-25,2,Checkout experience,Checkout took too long.,QR Survey,No,Resolved
+FB-00670,ORD-008889,C00499,2024-09-25,3,Staff service,Service was satisfactory overall.,In-store Survey,No,Not needed
+FB-00177,ORD-008188,C00033,2024-09-28,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00650,ORD-002111,C01698,2024-09-28,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00316,ORD-001794,C02565,2024-09-29,1,Product selection,I could not find the collection I wanted.,QR Survey,No,Resolved
+FB-00555,ORD-001460,C00350,2024-09-29,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00483,ORD-006468,C01637,2024-10-01,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00612,ORD-002790,C00479,2024-10-01,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00350,ORD-002160,C00494,2024-10-02,1,Product selection,I could not find the collection I wanted.,Email Survey,Yes,Pending
+FB-00228,ORD-006334,C01719,2024-10-03,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00665,ORD-000837,C02286,2024-10-04,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00425,ORD-002977,C01854,2024-10-06,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00647,ORD-003415,C01462,2024-10-07,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00430,ORD-007830,C01187,2024-10-09,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00356,ORD-002106,C00754,2024-10-12,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00207,ORD-003503,C00183,2024-10-17,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00272,ORD-006207,C01412,2024-10-18,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00719,ORD-004376,C01932,2024-10-19,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00468,ORD-003585,C01796,2024-11-07,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00595,ORD-000195,C01402,2024-11-07,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00541,ORD-006628,C01634,2024-11-08,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00401,ORD-007188,C00349,2024-11-13,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00317,ORD-007805,C00070,2024-11-15,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00038,ORD-005455,C01275,2024-11-21,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00306,ORD-007042,C02130,2024-11-21,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00355,ORD-002916,C02297,2024-11-21,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00656,ORD-005351,C01244,2024-11-21,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00711,ORD-008258,C00577,2024-11-21,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00564,ORD-001775,C01205,2024-11-23,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00693,ORD-001725,C01867,2024-11-23,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00710,ORD-006641,C01030,2024-11-26,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00372,ORD-003844,C01591,2024-11-28,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00037,ORD-008219,C00147,2024-11-29,1,Price and value,The pricing did not meet my expectations.,In-store Survey,Yes,Resolved
+FB-00467,ORD-003232,C02261,2024-12-04,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00413,ORD-008608,C01853,2024-12-12,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00524,ORD-002164,C01450,2024-12-13,1,Availability,Several items I wanted were unavailable.,In-store Survey,Yes,Pending
+FB-00002,ORD-002054,C01111,2024-12-18,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00096,ORD-001529,C00101,2024-12-18,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00050,ORD-004695,C01224,2024-12-19,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00684,ORD-000306,C01275,2024-12-19,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00221,ORD-005907,C02364,2024-12-23,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00659,ORD-006244,C02314,2024-12-23,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00128,ORD-000483,C02582,2024-12-24,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00345,ORD-004346,C00170,2024-12-26,2,Availability,A product I wanted was unavailable.,Email Survey,Yes,Pending
+FB-00487,ORD-004173,C00319,2024-12-26,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00718,ORD-001298,C02112,2024-12-28,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00698,ORD-007219,C01201,2025-01-01,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00322,ORD-002353,C01209,2025-01-07,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00144,ORD-002404,C01496,2025-01-14,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00654,ORD-004007,C00407,2025-01-15,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00197,ORD-001085,C00849,2025-01-17,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00729,ORD-008631,C00709,2025-01-22,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00170,ORD-002089,C01656,2025-01-24,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00508,ORD-003247,C01872,2025-01-24,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00454,ORD-005276,C00238,2025-01-26,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00235,ORD-006678,C02537,2025-01-29,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00637,ORD-008681,C02553,2025-01-30,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00336,ORD-005332,C00451,2025-02-01,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00018,ORD-003635,C00032,2025-02-02,2,Price and value,The products felt expensive for my budget.,QR Survey,Yes,Resolved
+FB-00445,ORD-004348,C01869,2025-02-02,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00020,ORD-005693,C01213,2025-02-08,1,Checkout experience,The billing process was frustrating.,In-store Survey,Yes,Pending
+FB-00520,ORD-004475,C02310,2025-02-08,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00635,ORD-001551,C01569,2025-02-08,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00200,ORD-005035,C00569,2025-02-09,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00303,ORD-004573,C01738,2025-02-11,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00283,ORD-006402,C00122,2025-02-12,1,Fit and size,The available sizes did not suit me.,QR Survey,Yes,Resolved
+FB-00535,ORD-003658,C00889,2025-02-13,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00253,ORD-003349,C01574,2025-02-19,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00141,ORD-000594,C00927,2025-02-20,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00252,ORD-007339,C01420,2025-02-21,1,Availability,Several items I wanted were unavailable.,In-store Survey,Yes,Resolved
+FB-00337,ORD-009146,C01251,2025-02-21,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00217,ORD-000371,C01404,2025-02-22,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00135,ORD-007624,C01156,2025-02-23,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00244,ORD-004807,C00482,2025-03-04,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00259,ORD-001813,C01244,2025-03-04,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00351,ORD-000497,C01571,2025-03-04,1,Checkout experience,The billing process was frustrating.,Email Survey,No,Resolved
+FB-00153,ORD-004034,C00777,2025-03-06,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00017,ORD-002860,C00348,2025-03-08,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00031,ORD-008273,C02042,2025-03-09,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00732,ORD-005762,C01537,2025-03-12,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00081,ORD-007822,C02180,2025-03-13,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00530,ORD-005569,C01461,2025-03-16,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00274,ORD-002929,C00505,2025-03-20,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00032,ORD-000417,C01358,2025-03-22,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00025,ORD-001930,C00838,2025-03-24,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00148,ORD-002298,C02285,2025-03-24,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00084,ORD-002050,C02133,2025-04-01,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00527,ORD-003126,C02506,2025-04-01,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00636,ORD-004974,C00532,2025-04-01,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00379,ORD-009162,C02467,2025-04-05,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00537,ORD-007810,C02521,2025-04-05,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00512,ORD-001536,C01273,2025-04-06,2,Price and value,The products felt expensive for my budget.,QR Survey,No,Resolved
+FB-00613,ORD-005534,C01945,2025-04-08,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00642,ORD-002441,C01121,2025-04-15,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00175,ORD-001082,C01279,2025-04-17,2,Staff service,I had to wait longer than expected.,QR Survey,Yes,Pending
+FB-00389,ORD-005398,C00167,2025-04-17,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00019,ORD-006448,C00822,2025-04-19,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00188,ORD-003630,C00535,2025-04-19,3,Price and value,Prices felt average.,Email Survey,No,Not needed
+FB-00515,ORD-008027,C01240,2025-04-20,2,Staff service,I had to wait longer than expected.,QR Survey,Yes,Resolved
+FB-00427,ORD-008435,C00869,2025-04-24,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00519,ORD-002700,C00494,2025-04-26,3,Price and value,Prices felt average.,Email Survey,No,Not needed
+FB-00565,ORD-002397,C01031,2025-04-26,2,Product selection,I was looking for more variety.,QR Survey,Yes,Resolved
+FB-00342,ORD-004622,C01870,2025-04-28,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00597,ORD-004783,C01442,2025-05-01,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00662,ORD-004831,C02381,2025-05-02,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00510,ORD-005111,C02303,2025-05-03,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00525,ORD-000555,C00246,2025-05-03,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00649,ORD-000138,C00057,2025-05-04,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00657,ORD-000021,C01313,2025-05-04,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00057,ORD-002323,C00500,2025-05-09,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00610,ORD-008581,C00459,2025-05-10,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00257,ORD-008658,C01219,2025-05-12,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00426,ORD-000973,C01474,2025-05-14,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00455,ORD-003892,C01305,2025-05-15,2,Checkout experience,Checkout took too long.,In-store Survey,Yes,Pending
+FB-00709,ORD-004770,C00755,2025-05-15,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00195,ORD-004435,C02431,2025-05-16,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00516,ORD-003410,C02352,2025-05-16,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00249,ORD-007434,C02109,2025-05-17,1,Availability,Several items I wanted were unavailable.,QR Survey,Yes,Pending
+FB-00463,ORD-002259,C00034,2025-05-19,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00378,ORD-000766,C01083,2025-05-22,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00111,ORD-003204,C01981,2025-05-25,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00117,ORD-008657,C00981,2025-05-28,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00591,ORD-005865,C02235,2025-05-29,3,Staff service,Service was satisfactory overall.,Email Survey,No,Not needed
+FB-00163,ORD-004238,C01666,2025-05-30,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00248,ORD-007422,C01107,2025-06-01,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00701,ORD-000832,C01354,2025-06-01,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00439,ORD-005966,C00605,2025-06-05,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00035,ORD-008632,C02336,2025-06-06,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00436,ORD-003329,C00720,2025-06-07,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00617,ORD-004260,C01131,2025-06-07,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00428,ORD-003813,C01547,2025-06-09,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00192,ORD-004841,C00965,2025-06-10,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00124,ORD-001002,C01778,2025-06-12,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00138,ORD-005166,C02095,2025-06-17,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00548,ORD-009252,C01187,2025-06-24,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00418,ORD-002834,C00845,2025-06-26,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00444,ORD-008315,C00913,2025-06-27,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00218,ORD-007650,C00308,2025-07-01,3,Checkout experience,The checkout process was okay.,Email Survey,No,Not needed
+FB-00725,ORD-000314,C01456,2025-07-01,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00254,ORD-006175,C01592,2025-07-02,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00390,ORD-009264,C01417,2025-07-02,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00335,ORD-005756,C02489,2025-07-04,2,Fit and size,My preferred size was difficult to find.,In-store Survey,No,Pending
+FB-00435,ORD-004834,C02052,2025-07-06,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00596,ORD-001357,C01161,2025-07-06,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00079,ORD-007974,C01357,2025-07-08,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00562,ORD-005009,C00432,2025-07-13,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00638,ORD-002195,C02158,2025-07-13,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00477,ORD-002142,C00320,2025-07-16,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00263,ORD-009055,C00129,2025-07-17,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00461,ORD-001038,C00785,2025-07-17,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00507,ORD-004968,C02412,2025-07-18,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00133,ORD-000459,C02057,2025-07-21,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00406,ORD-002261,C01111,2025-07-22,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00441,ORD-008624,C01153,2025-07-22,3,Product selection,The selection was adequate.,QR Survey,No,Not needed
+FB-00545,ORD-001143,C00451,2025-07-25,3,Product selection,The selection was adequate.,Email Survey,No,Not needed
+FB-00469,ORD-002721,C00359,2025-07-26,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00005,ORD-004400,C01155,2025-08-06,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00260,ORD-002842,C00599,2025-08-09,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00097,ORD-009117,C01479,2025-08-10,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00476,ORD-008222,C01170,2025-08-11,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00433,ORD-008579,C00738,2025-08-16,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00660,ORD-008066,C02133,2025-08-19,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00011,ORD-002615,C01827,2025-08-20,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00159,ORD-008974,C02284,2025-08-21,2,Price and value,The products felt expensive for my budget.,Email Survey,Yes,Resolved
+FB-00277,ORD-005254,C01227,2025-08-21,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00179,ORD-004596,C00273,2025-08-22,3,Price and value,Prices felt average.,Email Survey,No,Not needed
+FB-00573,ORD-007312,C01582,2025-08-22,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00007,ORD-007009,C00688,2025-08-26,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00366,ORD-000392,C02310,2025-08-26,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00243,ORD-002505,C01971,2025-08-28,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00174,ORD-001708,C00120,2025-08-30,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00375,ORD-006130,C02084,2025-08-31,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00651,ORD-000489,C02242,2025-09-01,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00147,ORD-003726,C00994,2025-09-03,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00140,ORD-001909,C01229,2025-09-05,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00629,ORD-007193,C02476,2025-09-06,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00474,ORD-008933,C01086,2025-09-09,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00051,ORD-005830,C00735,2025-09-11,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00198,ORD-003662,C02431,2025-09-13,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00385,ORD-003284,C01412,2025-09-13,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00095,ORD-007433,C01811,2025-09-14,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00546,ORD-006818,C00994,2025-09-14,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00236,ORD-002994,C01447,2025-09-15,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00478,ORD-001587,C00569,2025-09-15,1,Price and value,The pricing did not meet my expectations.,QR Survey,Yes,Resolved
+FB-00551,ORD-000543,C01785,2025-09-15,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00550,ORD-003997,C00233,2025-09-16,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00712,ORD-001360,C01553,2025-09-16,2,Price and value,The products felt expensive for my budget.,Email Survey,Yes,Pending
+FB-00499,ORD-006210,C01714,2025-09-17,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00224,ORD-008088,C00513,2025-09-18,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00479,ORD-005867,C02420,2025-09-18,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00121,ORD-004253,C01417,2025-09-19,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00165,ORD-000985,C01945,2025-09-21,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00189,ORD-009092,C02287,2025-09-22,2,Staff service,I had to wait longer than expected.,QR Survey,Yes,Resolved
+FB-00669,ORD-002057,C00596,2025-09-23,3,Product selection,The selection was adequate.,Email Survey,No,Not needed
+FB-00086,ORD-001394,C01853,2025-09-25,2,Fit and size,My preferred size was difficult to find.,QR Survey,Yes,Pending
+FB-00116,ORD-003624,C01714,2025-09-26,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00262,ORD-000084,C00821,2025-09-29,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00312,ORD-005465,C01201,2025-09-29,2,Price and value,The products felt expensive for my budget.,In-store Survey,No,Pending
+FB-00633,ORD-003292,C01513,2025-10-01,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00653,ORD-008896,C00482,2025-10-01,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00358,ORD-008986,C01767,2025-10-02,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00500,ORD-008739,C00302,2025-10-05,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00658,ORD-008226,C01424,2025-10-05,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00686,ORD-003939,C01343,2025-10-07,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00293,ORD-000376,C00122,2025-10-08,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00069,ORD-002704,C01919,2025-10-10,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00627,ORD-004298,C02291,2025-10-10,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00250,ORD-004814,C00831,2025-10-14,3,Product selection,The selection was adequate.,QR Survey,No,Not needed
+FB-00107,ORD-005992,C01780,2025-10-17,1,Fit and size,The available sizes did not suit me.,In-store Survey,Yes,Pending
+FB-00677,ORD-008744,C01173,2025-10-18,2,Price and value,The products felt expensive for my budget.,Email Survey,Yes,Pending
+FB-00346,ORD-002987,C01438,2025-10-19,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00700,ORD-002084,C00640,2025-10-19,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00694,ORD-008729,C02015,2025-10-21,3,Staff service,Service was satisfactory overall.,In-store Survey,No,Not needed
+FB-00190,ORD-001615,C00760,2025-10-24,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00540,ORD-002122,C00570,2025-11-01,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00289,ORD-002093,C00778,2025-11-06,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00437,ORD-002105,C00814,2025-11-06,2,Availability,A product I wanted was unavailable.,QR Survey,Yes,Pending
+FB-00280,ORD-001567,C01513,2025-11-08,2,Availability,A product I wanted was unavailable.,In-store Survey,No,Pending
+FB-00429,ORD-004799,C02465,2025-11-09,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00326,ORD-006595,C02385,2025-11-10,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00369,ORD-001970,C00668,2025-11-10,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00036,ORD-003268,C00868,2025-11-11,3,Product selection,The selection was adequate.,QR Survey,No,Not needed
+FB-00125,ORD-005028,C01167,2025-11-12,3,Staff service,Service was satisfactory overall.,In-store Survey,No,Not needed
+FB-00245,ORD-007021,C01370,2025-11-12,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00571,ORD-005715,C01034,2025-11-15,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00045,ORD-004550,C00013,2025-11-21,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00320,ORD-006999,C01374,2025-11-21,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00295,ORD-008061,C02057,2025-11-22,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00452,ORD-001532,C01995,2025-11-26,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00566,ORD-006284,C00014,2025-12-01,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00230,ORD-001828,C02582,2025-12-02,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00349,ORD-001793,C00687,2025-12-04,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00155,ORD-006360,C01627,2025-12-05,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00114,ORD-007376,C01608,2025-12-10,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00470,ORD-006951,C00822,2025-12-10,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00736,ORD-003037,C00889,2025-12-10,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00554,ORD-008870,C01843,2025-12-11,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00100,ORD-000939,C01731,2025-12-13,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00157,ORD-005299,C02072,2025-12-13,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00392,ORD-001418,C01448,2025-12-13,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00241,ORD-007567,C01220,2025-12-14,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00511,ORD-004064,C02556,2025-12-18,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00553,ORD-006115,C00166,2025-12-21,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00352,ORD-009164,C00601,2025-12-24,1,Fit and size,The available sizes did not suit me.,In-store Survey,Yes,Pending
+FB-00611,ORD-004773,C02245,2025-12-26,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00447,ORD-001802,C02320,2025-12-27,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00594,ORD-004413,C01414,2025-12-27,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00705,ORD-009089,C02514,2025-12-28,2,Product selection,I was looking for more variety.,Email Survey,Yes,Resolved
+FB-00166,ORD-001301,C02315,2025-12-31,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00108,ORD-004015,C02426,2026-01-03,2,Fit and size,My preferred size was difficult to find.,Email Survey,No,Pending
+FB-00242,ORD-007250,C00203,2026-01-07,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00279,ORD-007779,C00310,2026-01-08,2,Product selection,I was looking for more variety.,QR Survey,Yes,Resolved
+FB-00347,ORD-002457,C01933,2026-01-10,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00407,ORD-007407,C02194,2026-01-10,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00122,ORD-000668,C02251,2026-01-11,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00216,ORD-003588,C00995,2026-01-17,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00393,ORD-008735,C02155,2026-01-17,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00583,ORD-005510,C00995,2026-01-18,2,Price and value,The products felt expensive for my budget.,QR Survey,No,Pending
+FB-00310,ORD-002014,C01500,2026-01-19,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00456,ORD-004487,C00995,2026-01-20,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00578,ORD-007311,C01317,2026-01-21,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00640,ORD-003606,C01556,2026-01-22,2,Price and value,The products felt expensive for my budget.,Email Survey,Yes,Pending
+FB-00318,ORD-008000,C02555,2026-01-23,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00643,ORD-003548,C00897,2026-01-24,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00733,ORD-004443,C01432,2026-01-27,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00488,ORD-006381,C01248,2026-01-28,2,Price and value,The products felt expensive for my budget.,In-store Survey,No,Resolved
+FB-00619,ORD-002815,C02172,2026-01-28,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00704,ORD-003587,C00896,2026-02-03,3,Checkout experience,The checkout process was okay.,In-store Survey,No,Not needed
+FB-00292,ORD-008360,C00163,2026-02-04,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00462,ORD-004481,C01853,2026-02-04,2,Checkout experience,Checkout took too long.,In-store Survey,Yes,Resolved
+FB-00557,ORD-001927,C01835,2026-02-07,3,Staff service,Service was satisfactory overall.,QR Survey,No,Not needed
+FB-00093,ORD-005942,C01199,2026-02-10,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00652,ORD-001180,C00685,2026-02-12,1,Checkout experience,The billing process was frustrating.,QR Survey,Yes,Pending
+FB-00450,ORD-001878,C01179,2026-02-13,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00465,ORD-000570,C00962,2026-02-14,1,Fit and size,The available sizes did not suit me.,In-store Survey,No,Resolved
+FB-00587,ORD-006658,C01586,2026-02-14,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00396,ORD-003742,C02337,2026-02-16,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00526,ORD-005379,C00900,2026-02-16,3,Checkout experience,The checkout process was okay.,Email Survey,No,Not needed
+FB-00572,ORD-001670,C01395,2026-02-18,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00464,ORD-007172,C00358,2026-02-21,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00558,ORD-008256,C02158,2026-02-22,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00105,ORD-008600,C02365,2026-02-23,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00085,ORD-004069,C01847,2026-02-27,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00238,ORD-000572,C00614,2026-03-01,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00278,ORD-006421,C02147,2026-03-01,2,Fit and size,My preferred size was difficult to find.,Email Survey,No,Pending
+FB-00359,ORD-008370,C00698,2026-03-01,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00400,ORD-004132,C00678,2026-03-01,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00261,ORD-002479,C00320,2026-03-04,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00271,ORD-003332,C00633,2026-03-04,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00504,ORD-001063,C02242,2026-03-04,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00727,ORD-008843,C02026,2026-03-04,3,Availability,Availability was acceptable.,Email Survey,No,Not needed
+FB-00186,ORD-003685,C00669,2026-03-05,2,Availability,A product I wanted was unavailable.,Email Survey,Yes,Pending
+FB-00265,ORD-007085,C02285,2026-03-05,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00054,ORD-007915,C01129,2026-03-08,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00139,ORD-000800,C00118,2026-03-08,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00160,ORD-004297,C02518,2026-03-08,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00721,ORD-003593,C02173,2026-03-09,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00370,ORD-000613,C02121,2026-03-18,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00569,ORD-006756,C00888,2026-03-18,2,Product selection,I was looking for more variety.,Email Survey,Yes,Pending
+FB-00517,ORD-003969,C00456,2026-03-20,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00529,ORD-004986,C01246,2026-03-20,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00602,ORD-001818,C01967,2026-03-22,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00457,ORD-002922,C02315,2026-03-24,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00384,ORD-005751,C02141,2026-03-26,3,Checkout experience,The checkout process was okay.,Email Survey,No,Not needed
+FB-00498,ORD-007352,C00238,2026-03-29,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00023,ORD-002580,C00516,2026-03-31,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00075,ORD-004139,C00288,2026-03-31,3,Product selection,The selection was adequate.,Email Survey,No,Not needed
+FB-00106,ORD-002826,C02421,2026-03-31,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00367,ORD-003746,C01974,2026-04-02,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00110,ORD-006598,C01704,2026-04-07,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00475,ORD-007633,C00246,2026-04-07,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00606,ORD-000347,C00413,2026-04-08,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00202,ORD-003758,C00562,2026-04-11,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00703,ORD-002167,C02364,2026-04-11,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00237,ORD-008623,C02251,2026-04-13,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00324,ORD-000855,C02538,2026-04-13,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00255,ORD-005814,C00956,2026-04-14,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00062,ORD-007715,C02204,2026-04-16,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00308,ORD-008689,C02113,2026-04-16,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00325,ORD-005214,C00032,2026-04-17,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00738,ORD-007718,C01719,2026-04-17,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00014,ORD-002577,C01910,2026-04-19,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00735,ORD-000024,C01610,2026-04-19,1,Product selection,I could not find the collection I wanted.,In-store Survey,Yes,Pending
+FB-00570,ORD-007592,C01762,2026-04-20,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00013,ORD-005961,C01021,2026-04-26,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00044,ORD-007483,C02291,2026-04-26,5,Staff service,Staff were helpful and patient.,QR Survey,No,Not needed
+FB-00183,ORD-008444,C02509,2026-04-27,2,Checkout experience,Checkout took too long.,QR Survey,Yes,Resolved
+FB-00509,ORD-007364,C00995,2026-04-27,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00667,ORD-008142,C01594,2026-04-27,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00132,ORD-002889,C00888,2026-04-28,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00281,ORD-004466,C01709,2026-04-29,4,Price and value,The prices were reasonable.,QR Survey,No,Not needed
+FB-00290,ORD-006807,C00204,2026-04-29,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00012,ORD-002341,C02509,2026-05-01,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00680,ORD-001171,C01189,2026-05-04,3,Price and value,Prices felt average.,Email Survey,No,Not needed
+FB-00315,ORD-000506,C01196,2026-05-09,1,Checkout experience,The billing process was frustrating.,Email Survey,Yes,Pending
+FB-00209,ORD-005549,C02523,2026-05-11,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00644,ORD-005769,C02286,2026-05-13,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00674,ORD-006984,C00400,2026-05-13,1,Checkout experience,The billing process was frustrating.,QR Survey,No,Pending
+FB-00223,ORD-001208,C02562,2026-05-15,4,Product selection,Nice choice of collections.,QR Survey,No,Not needed
+FB-00008,ORD-008699,C02142,2026-05-17,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00033,ORD-005914,C00134,2026-05-18,3,Availability,Availability was acceptable.,QR Survey,No,Not needed
+FB-00102,ORD-007163,C01886,2026-05-18,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00213,ORD-003025,C01587,2026-05-18,2,Checkout experience,Checkout took too long.,QR Survey,Yes,Resolved
+FB-00590,ORD-004122,C02242,2026-05-19,5,Fit and size,The fit was exactly what I wanted.,Email Survey,No,Not needed
+FB-00214,ORD-007396,C00817,2026-05-21,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00266,ORD-000843,C01417,2026-05-23,4,Checkout experience,Checkout went smoothly.,In-store Survey,No,Not needed
+FB-00360,ORD-000669,C01125,2026-05-23,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00001,ORD-007716,C02146,2026-05-25,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00661,ORD-003663,C01815,2026-05-25,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00231,ORD-009119,C00429,2026-05-27,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00327,ORD-008566,C00856,2026-05-30,2,Staff service,I had to wait longer than expected.,In-store Survey,Yes,Resolved
+FB-00717,ORD-000108,C01041,2026-06-06,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00136,ORD-002321,C02142,2026-06-07,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00714,ORD-006499,C02196,2026-06-11,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00632,ORD-008220,C00942,2026-06-14,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00740,ORD-004990,C00504,2026-06-18,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00027,ORD-008596,C00762,2026-06-19,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00343,ORD-009248,C01036,2026-06-21,4,Staff service,Friendly assistance throughout the visit.,QR Survey,No,Not needed
+FB-00490,ORD-003176,C02307,2026-06-22,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00533,ORD-004416,C02538,2026-06-23,3,Product selection,The selection was adequate.,In-store Survey,No,Not needed
+FB-00129,ORD-007926,C01776,2026-06-30,2,Price and value,The products felt expensive for my budget.,QR Survey,Yes,Pending
+FB-00728,ORD-006889,C02022,2026-07-05,5,Staff service,Staff were helpful and patient.,In-store Survey,No,Not needed
+FB-00422,ORD-000979,C02120,2026-07-12,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00225,ORD-004124,C01480,2026-07-16,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00423,ORD-009227,C00392,2026-07-19,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00070,ORD-001083,C00732,2026-07-21,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00625,ORD-008209,C00904,2026-07-23,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00334,ORD-005620,C01592,2026-07-26,4,Fit and size,Good sizing options for my needs.,QR Survey,No,Not needed
+FB-00503,ORD-006397,C00203,2026-07-27,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00496,ORD-001353,C02529,2026-07-28,2,Checkout experience,Checkout took too long.,Email Survey,Yes,Pending
+FB-00713,ORD-003898,C01970,2026-07-29,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00339,ORD-004782,C02410,2026-07-31,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00494,ORD-007499,C01950,2026-08-02,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00119,ORD-003783,C00684,2026-08-03,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00227,ORD-000772,C00301,2026-08-04,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00731,ORD-003625,C01508,2026-08-07,1,Checkout experience,The billing process was frustrating.,In-store Survey,Yes,Resolved
+FB-00689,ORD-001362,C00123,2026-08-09,4,Checkout experience,Checkout went smoothly.,QR Survey,No,Not needed
+FB-00671,ORD-007599,C00344,2026-08-10,4,Availability,Most products were in stock.,In-store Survey,No,Not needed
+FB-00120,ORD-005046,C01246,2026-08-13,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00641,ORD-002338,C01955,2026-08-16,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00066,ORD-005605,C00684,2026-08-17,5,Availability,Everything I wanted was available.,Email Survey,No,Not needed
+FB-00577,ORD-006455,C02220,2026-08-18,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00742,ORD-000982,C00934,2026-08-19,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00547,ORD-005390,C00236,2026-08-20,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00042,ORD-007654,C00519,2026-08-22,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00091,ORD-009202,C00090,2026-08-22,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00706,ORD-003364,C00110,2026-08-22,5,Fit and size,The fit was exactly what I wanted.,QR Survey,No,Not needed
+FB-00664,ORD-009022,C00278,2026-08-23,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00404,ORD-000082,C01548,2026-08-24,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00458,ORD-000762,C00896,2026-08-24,5,Checkout experience,Quick and easy checkout.,In-store Survey,No,Not needed
+FB-00171,ORD-006328,C02079,2026-08-26,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00234,ORD-005847,C02598,2026-08-27,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00055,ORD-009134,C02477,2026-08-29,3,Price and value,Prices felt average.,QR Survey,No,Not needed
+FB-00118,ORD-006796,C02057,2026-09-04,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00556,ORD-002087,C00186,2026-09-04,3,Price and value,Prices felt average.,Email Survey,No,Not needed
+FB-00338,ORD-008805,C01276,2026-09-05,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00030,ORD-005779,C00521,2026-09-10,2,Product selection,I was looking for more variety.,QR Survey,Yes,Pending
+FB-00348,ORD-003191,C00379,2026-09-12,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00211,ORD-008871,C01417,2026-09-13,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00056,ORD-006935,C01374,2026-09-15,3,Price and value,Prices felt average.,In-store Survey,No,Not needed
+FB-00491,ORD-000302,C00442,2026-09-16,5,Price and value,Excellent value for the price.,QR Survey,No,Not needed
+FB-00501,ORD-005383,C00358,2026-09-16,4,Product selection,Nice choice of collections.,Email Survey,No,Not needed
+FB-00696,ORD-001822,C02580,2026-09-17,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00024,ORD-004553,C01997,2026-09-19,5,Product selection,Great variety of styles.,Email Survey,No,Not needed
+FB-00387,ORD-003542,C00451,2026-09-19,3,Fit and size,The sizing was acceptable.,In-store Survey,No,Not needed
+FB-00311,ORD-006227,C01111,2026-09-21,4,Staff service,Friendly assistance throughout the visit.,In-store Survey,No,Not needed
+FB-00634,ORD-009125,C01950,2026-09-21,5,Price and value,Excellent value for the price.,In-store Survey,No,Not needed
+FB-00074,ORD-009047,C01887,2026-09-22,5,Availability,Everything I wanted was available.,In-store Survey,No,Not needed
+FB-00006,ORD-005635,C01233,2026-09-23,5,Product selection,Great variety of styles.,In-store Survey,No,Not needed
+FB-00362,ORD-006683,C00817,2026-09-26,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00087,ORD-007969,C02178,2026-09-27,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00340,ORD-000508,C00019,2026-09-27,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00297,ORD-007500,C00449,2026-09-28,4,Availability,Most products were in stock.,Email Survey,No,Not needed
+FB-00492,ORD-001746,C01678,2026-09-28,1,Price and value,The pricing did not meet my expectations.,QR Survey,Yes,Pending
+FB-00521,ORD-005185,C00971,2026-09-28,4,Product selection,Nice choice of collections.,In-store Survey,No,Not needed
+FB-00412,ORD-007308,C00327,2026-09-30,1,Product selection,I could not find the collection I wanted.,Email Survey,No,Pending
+FB-00288,ORD-002348,C01160,2026-10-02,2,Price and value,The products felt expensive for my budget.,In-store Survey,No,Pending
+FB-00417,ORD-004630,C01587,2026-10-03,4,Fit and size,Good sizing options for my needs.,Email Survey,No,Not needed
+FB-00052,ORD-005862,C02521,2026-10-08,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00154,ORD-004239,C02494,2026-10-08,4,Availability,Most products were in stock.,QR Survey,No,Not needed
+FB-00301,ORD-000381,C01370,2026-10-08,4,Fit and size,Good sizing options for my needs.,In-store Survey,No,Not needed
+FB-00676,ORD-006875,C02593,2026-10-08,5,Checkout experience,Quick and easy checkout.,QR Survey,No,Not needed
+FB-00291,ORD-002688,C00823,2026-10-10,3,Availability,Availability was acceptable.,In-store Survey,No,Not needed
+FB-00588,ORD-003738,C02269,2026-10-10,4,Price and value,The prices were reasonable.,Email Survey,No,Not needed
+FB-00368,ORD-005270,C00412,2026-10-16,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed
+FB-00552,ORD-006883,C01464,2026-10-17,5,Availability,Everything I wanted was available.,QR Survey,No,Not needed
+FB-00201,ORD-001234,C01517,2026-10-21,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00518,ORD-008577,C01358,2026-10-22,2,Checkout experience,Checkout took too long.,In-store Survey,No,Pending
+FB-00648,ORD-001139,C01980,2026-10-23,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00363,ORD-008504,C00777,2026-10-26,5,Price and value,Excellent value for the price.,Email Survey,No,Not needed
+FB-00497,ORD-004204,C00724,2026-10-26,3,Checkout experience,The checkout process was okay.,QR Survey,No,Not needed
+FB-00628,ORD-006441,C02319,2026-10-28,4,Price and value,The prices were reasonable.,In-store Survey,No,Not needed
+FB-00156,ORD-009030,C01050,2026-10-29,4,Checkout experience,Checkout went smoothly.,Email Survey,No,Not needed
+FB-00180,ORD-000260,C01151,2026-10-29,5,Product selection,Great variety of styles.,QR Survey,No,Not needed
+FB-00615,ORD-007603,C00651,2026-10-30,5,Staff service,Staff were helpful and patient.,Email Survey,No,Not needed
+FB-00026,ORD-008982,C00658,2026-10-31,3,Fit and size,The sizing was acceptable.,Email Survey,No,Not needed
+FB-00398,ORD-005331,C00506,2026-10-31,5,Checkout experience,Quick and easy checkout.,Email Survey,No,Not needed
+FB-00523,ORD-000986,C00720,2026-10-31,2,Availability,A product I wanted was unavailable.,Email Survey,Yes,Pending
+FB-00560,ORD-008892,C01645,2026-10-31,4,Staff service,Friendly assistance throughout the visit.,Email Survey,No,Not needed
+FB-00631,ORD-000142,C02452,2026-10-31,5,Fit and size,The fit was exactly what I wanted.,In-store Survey,No,Not needed

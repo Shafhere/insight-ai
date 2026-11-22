@@ -1,0 +1,16 @@
+# Evaluating the release
+
+| Component | Evaluation | Interpretation |
+|---|---|---|
+| Modeling | Compare row counts before and after each left join. Reject missing or duplicate lookup keys. Report unmatched sales rows. | Joining dimensions preserves the original sales lines. A key match establishes a candidate relationship; a human approves its meaning. |
+| Customer growth | Count distinct order IDs per identified customer. Review annual orders, recency, median gap, recorded spend and season labels. | Missing IDs are excluded from customer KPIs. When no order ID exists, distinct visit dates are a proxy. A single visit cannot establish a return cadence. |
+| RFM and overdue status | An observed gap over 1.5 times the personal median visit interval marks a shopper overdue. High spend uses the upper quartile. Segments prioritize overdue, high-value, loyal, new, then occasional. | These are explainable prioritization rules. They have no labeled churn accuracy or proven causal impact. Seasonal records are descriptive and the latest year can be incomplete. |
+| Recovery | Compare dates of observed purchases with logged contact dates. | A purchase after contact is an observation. Crediting a campaign with the sale requires a separate evaluation design. |
+| Forecasting | Train on earlier observations, compare on the last approximately 20%, choose lowest holdout MAE, then refit on available history. | MAE is in metric units. RMSE penalizes larger misses. WAPE divides absolute error by total absolute observed value and is unavailable when the denominator is zero. Model selection and reported error use the same holdout. |
+| Long-range planning | Require at least ten populated periods and a horizon no longer than history. A seasonal monthly baseline needs 24 training months. | A 36-month projection can have a much shorter backtest. The holdout error does not validate accuracy at every future horizon. No calibrated probability interval is available. |
+| Retrieval | Python computes numerical facts. Hybrid retrieval fuses lexical and semantic ranks within the dataset and filters out stale indexed text. | The default semantic representation is corpus-based latent semantic analysis. Optional MiniLM adds a pretrained representation. Tests cover current evidence retrieval. A labeled benchmark is needed for real-world answer faithfulness and recall claims. |
+| Publication | Compare API forecasts and customer totals with the published snapshot; check private values and verify viewer denial on admin routes. | Republishing creates a separate snapshot. A changed preview must be refreshed before publishing from the UI. |
+
+## Limitations during a demo
+
+Dates, currency units and transaction grain should be checked at upload. Regular monthly periods are required by the main outlook. Missing months may mean zero sales or missing data; the app asks for review. The final recorded month can be partial. An order-value field repeated on every line will double count spend unless converted to line-level amounts before upload. Customer-source replacement assumes consistent customer IDs. Profile quality scores describe data completeness and consistency; they do not measure forecast accuracy. Keep a separate evaluation set for any production decision.

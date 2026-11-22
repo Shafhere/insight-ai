@@ -1,0 +1,6 @@
+{"question":"What is the revenue column and how many values are missing?","relevant_source_ids":["column_profile:revenue"]}
+{"question":"Which column records product quantities sold?","relevant_source_ids":["column_profile:quantity"]}
+{"question":"Which field represents the region of each sale?","relevant_source_ids":["column_profile:region"]}
+{"question":"Which field lists the payment methods used by customers?","relevant_source_ids":["column_profile:payment_method"]}
+{"question":"How many rows and columns were uploaded?","relevant_source_ids":["dataset_overview"]}
+{"question":"Are there missing values or duplicate records?","relevant_source_ids":["data_quality","dataset_overview"]}

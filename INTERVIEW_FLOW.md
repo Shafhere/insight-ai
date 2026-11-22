@@ -1,0 +1,13 @@
+# A fashion retailer's monthly review
+
+**Opening.** “Imagine that sales are growing at a fashion store. The owner wants to know whether regular customers still return for their usual shopping seasons. INSIGHT AI connects the bills, customer directory and product master, then gives the owner a report they can verify.”
+
+1. **Sign in and upload sales.** React sends the CSV to FastAPI. The ingestion service preserves the upload. The profiler records types, missingness and business fields. Show Data Health, then approve cleaning. Later calculations resolve the approved file automatically.
+2. **Make the joins visible.** Each sales line is one observation. A customer can appear on many bills but should have one row in the customer directory. Show matched and unmatched counts, the preview, and the approve button. Repeat on SKU. The model is a new dataset with a recorded parent and lookup; original sales are retained.
+3. **Show why retention matters.** Open Customer Growth. Repeat purchase rate divides customers with multiple observed orders by all identified buyers in the history. Expand an overdue customer's name. Show the dates, annual order counts and prior shopping occasions. “We can see the change in buying behavior. We would need feedback from this person to establish the reason.”
+4. **Take a practical action.** Review the customer's recorded permission, draft a message, and log the follow-up. Future purchases are compared with the recorded contact date when later history is attached. Feedback is summarized independently so multiple reviews cannot multiply sales.
+5. **Explain the forecast.** Open Forecasting, select a metric and horizon, and identify the point where actuals end. The model selector compares a last-observation baseline, linear trend and, with sufficient history, a seasonal baseline on the final chronological holdout. Show the MAE in business units.
+6. **Explain the analyst.** The original four LangGraph nodes plan a question, calculate values, retrieve evidence and explain results. Recognized retention and forecast questions can take a shorter deterministic path. Other retrieval combines exact terms and semantic ranks from the active dataset. Open the source section in an answer.
+7. **Publish and verify.** Open the report and publish. The snapshot stores aggregate customer and forecast results together. In a separate viewer account, show the same numbers, four report tabs and report chat. The backend enforces viewer access and report assignment.
+
+**Close.** “The owner can identify a change in customer behavior, plan an appropriate follow-up, and revisit the evidence after the next data upload. We can observe that a customer returned after contact. We cannot infer that our message caused the purchase.”
