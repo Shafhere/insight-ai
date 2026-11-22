@@ -1,0 +1,166 @@
+sku,product_name,category,subcategory,brand,primary_color,size_range,unit_list_price_inr,unit_purchase_cost_inr,supplier_region,supplier_lead_time_days,current_company_stock_units,stock_snapshot_date,product_active
+FAS-0001,Kids Set Style 001,Kids,Kids Set,LoomLeaf,Beige,XS-XXL,999,544,Kerala,4,107,2026-10-31,Yes
+FAS-0002,Saree Style 002,Women,Saree,Urban Thread,Beige,Free Size,4799,2636,Rajasthan,4,140,2026-10-31,Yes
+FAS-0003,Kurta Style 003,Women,Kurta,Everyday Edit,Blue,XS-XXL,1799,872,Gujarat,4,194,2026-10-31,Yes
+FAS-0004,Kids Shorts Style 004,Kids,Kids Shorts,Everyday Edit,Navy,XS-XXL,299,151,Gujarat,14,204,2026-10-31,Yes
+FAS-0005,Trousers Style 005,Men,Trousers,LoomLeaf,Blue,XS-XXL,2349,1338,Rajasthan,18,139,2026-10-31,Yes
+FAS-0006,Jeans Style 006,Men,Jeans,LoomLeaf,Pink,XS-XXL,2249,1315,Rajasthan,18,200,2026-10-31,Yes
+FAS-0007,Jeans Style 007,Men,Jeans,Urban Thread,White,XS-XXL,1349,780,Tamil Nadu,7,113,2026-10-31,Yes
+FAS-0008,T-Shirt Style 008,Men,T-Shirt,Urban Thread,Beige,XS-XXL,1099,750,Kerala,10,84,2026-10-31,Yes
+FAS-0009,Kurta Style 009,Men,Kurta,Festive Line,Blue,XS-XXL,2549,1219,Karnataka,4,191,2026-10-31,No
+FAS-0010,Co-ord Set Style 010,Women,Co-ord Set,LoomLeaf,Black,XS-XXL,2849,1468,Rajasthan,5,102,2026-10-31,Yes
+FAS-0011,Kids Shorts Style 011,Kids,Kids Shorts,LoomLeaf,Pink,XS-XXL,749,456,Karnataka,14,171,2026-10-31,Yes
+FAS-0012,Belt Style 012,Accessories,Belt,Festive Line,White,Free Size,349,222,Kerala,7,45,2026-10-31,Yes
+FAS-0013,Leggings Style 013,Women,Leggings,Everyday Edit,Green,XS-XXL,499,226,Tamil Nadu,5,100,2026-10-31,Yes
+FAS-0014,Trousers Style 014,Men,Trousers,Urban Thread,Maroon,XS-XXL,1399,740,Tamil Nadu,18,56,2026-10-31,Yes
+FAS-0015,Frock Style 015,Kids,Frock,Festive Line,Maroon,XS-XXL,1349,826,Gujarat,5,244,2026-10-31,Yes
+FAS-0016,Kids T-Shirt Style 016,Kids,Kids T-Shirt,LoomLeaf,Cream,XS-XXL,599,417,Tamil Nadu,4,105,2026-10-31,Yes
+FAS-0017,Top Style 017,Women,Top,Urban Thread,Blue,XS-XXL,749,544,Rajasthan,10,206,2026-10-31,No
+FAS-0018,Leggings Style 018,Women,Leggings,Festive Line,Grey,XS-XXL,499,334,Gujarat,18,158,2026-10-31,Yes
+FAS-0019,Top Style 019,Women,Top,Urban Thread,Maroon,XS-XXL,749,482,Gujarat,4,56,2026-10-31,Yes
+FAS-0020,Jeans Style 020,Men,Jeans,Urban Thread,Green,XS-XXL,1099,572,Kerala,4,205,2026-10-31,Yes
+FAS-0021,Kurta Style 021,Men,Kurta,LoomLeaf,Pink,XS-XXL,2249,1087,Gujarat,5,273,2026-10-31,Yes
+FAS-0022,Wallet Style 022,Accessories,Wallet,Urban Thread,White,Free Size,849,400,Karnataka,7,42,2026-10-31,Yes
+FAS-0023,Top Style 023,Women,Top,Festive Line,Blue,XS-XXL,1149,589,Rajasthan,7,216,2026-10-31,Yes
+FAS-0024,Jeans Style 024,Men,Jeans,Everyday Edit,Beige,XS-XXL,2099,1200,Gujarat,7,121,2026-10-31,Yes
+FAS-0025,Leggings Style 025,Women,Leggings,Everyday Edit,Navy,XS-XXL,599,264,Kerala,4,249,2026-10-31,Yes
+FAS-0026,T-Shirt Style 026,Men,T-Shirt,Urban Thread,Green,XS-XXL,1449,915,Kerala,10,120,2026-10-31,Yes
+FAS-0027,Saree Style 027,Women,Saree,Urban Thread,Navy,Free Size,1599,893,Karnataka,14,187,2026-10-31,Yes
+FAS-0028,Kurta Style 028,Women,Kurta,Urban Thread,Blue,XS-XXL,2099,1100,Karnataka,4,225,2026-10-31,Yes
+FAS-0029,Dress Style 029,Women,Dress,Festive Line,Black,XS-XXL,2499,1536,Kerala,18,23,2026-10-31,Yes
+FAS-0030,Kids Shorts Style 030,Kids,Kids Shorts,Urban Thread,Black,XS-XXL,499,245,Karnataka,14,70,2026-10-31,Yes
+FAS-0031,Casual Shirt Style 031,Men,Casual Shirt,LoomLeaf,Beige,XS-XXL,1449,900,Rajasthan,10,225,2026-10-31,Yes
+FAS-0032,Kids Set Style 032,Kids,Kids Set,LoomLeaf,Beige,XS-XXL,799,354,Gujarat,10,120,2026-10-31,Yes
+FAS-0033,Co-ord Set Style 033,Women,Co-ord Set,Everyday Edit,Black,XS-XXL,2399,1061,Gujarat,7,214,2026-10-31,Yes
+FAS-0034,Kurta Style 034,Women,Kurta,Festive Line,Black,XS-XXL,1299,712,Tamil Nadu,4,256,2026-10-31,Yes
+FAS-0035,Kurta Style 035,Women,Kurta,Festive Line,Maroon,XS-XXL,1049,489,Tamil Nadu,18,51,2026-10-31,Yes
+FAS-0036,Casual Shirt Style 036,Men,Casual Shirt,LoomLeaf,Navy,XS-XXL,1549,891,Gujarat,10,274,2026-10-31,Yes
+FAS-0037,Kurta Style 037,Men,Kurta,Festive Line,Maroon,XS-XXL,1499,947,Karnataka,7,154,2026-10-31,Yes
+FAS-0038,Frock Style 038,Kids,Frock,Urban Thread,White,XS-XXL,1549,1073,Tamil Nadu,18,266,2026-10-31,Yes
+FAS-0039,Jeans Style 039,Men,Jeans,Everyday Edit,Maroon,XS-XXL,2549,1520,Kerala,18,167,2026-10-31,Yes
+FAS-0040,Kurta Style 040,Men,Kurta,LoomLeaf,Beige,XS-XXL,1849,948,Tamil Nadu,18,91,2026-10-31,Yes
+FAS-0041,Co-ord Set Style 041,Women,Co-ord Set,Everyday Edit,Black,XS-XXL,1649,748,Tamil Nadu,14,227,2026-10-31,Yes
+FAS-0042,T-Shirt Style 042,Men,T-Shirt,Festive Line,Navy,XS-XXL,949,604,Rajasthan,18,28,2026-10-31,Yes
+FAS-0043,Kids Set Style 043,Kids,Kids Set,Urban Thread,Cream,XS-XXL,1449,947,Kerala,5,23,2026-10-31,Yes
+FAS-0044,Top Style 044,Women,Top,Festive Line,Navy,XS-XXL,749,506,Tamil Nadu,14,31,2026-10-31,Yes
+FAS-0045,Frock Style 045,Kids,Frock,Urban Thread,White,XS-XXL,1099,761,Kerala,10,204,2026-10-31,Yes
+FAS-0046,Kids Set Style 046,Kids,Kids Set,Festive Line,Blue,XS-XXL,1049,464,Karnataka,18,192,2026-10-31,Yes
+FAS-0047,Kurta Style 047,Women,Kurta,Festive Line,Navy,XS-XXL,1849,879,Gujarat,10,104,2026-10-31,Yes
+FAS-0048,Leggings Style 048,Women,Leggings,Urban Thread,Beige,XS-XXL,899,468,Gujarat,7,197,2026-10-31,Yes
+FAS-0049,T-Shirt Style 049,Men,T-Shirt,Festive Line,Cream,XS-XXL,499,265,Gujarat,14,55,2026-10-31,Yes
+FAS-0050,Kids Set Style 050,Kids,Kids Set,Everyday Edit,Green,XS-XXL,899,404,Gujarat,7,230,2026-10-31,Yes
+FAS-0051,Kids T-Shirt Style 051,Kids,Kids T-Shirt,Festive Line,Green,XS-XXL,499,368,Gujarat,4,125,2026-10-31,No
+FAS-0052,Frock Style 052,Kids,Frock,Festive Line,Beige,XS-XXL,649,470,Tamil Nadu,10,150,2026-10-31,Yes
+FAS-0053,Dress Style 053,Women,Dress,Everyday Edit,Blue,XS-XXL,2549,1511,Rajasthan,4,211,2026-10-31,Yes
+FAS-0054,Top Style 054,Women,Top,Urban Thread,Green,XS-XXL,999,620,Kerala,7,196,2026-10-31,Yes
+FAS-0055,Frock Style 055,Kids,Frock,Festive Line,Cream,XS-XXL,1449,1049,Gujarat,5,106,2026-10-31,Yes
+FAS-0056,Leggings Style 056,Women,Leggings,LoomLeaf,Cream,XS-XXL,849,616,Kerala,14,44,2026-10-31,Yes
+FAS-0057,Leggings Style 057,Women,Leggings,Everyday Edit,Green,XS-XXL,949,469,Karnataka,18,196,2026-10-31,Yes
+FAS-0058,Leggings Style 058,Women,Leggings,LoomLeaf,Grey,XS-XXL,599,394,Gujarat,4,182,2026-10-31,Yes
+FAS-0059,Saree Style 059,Women,Saree,Everyday Edit,Pink,Free Size,4249,2036,Rajasthan,18,267,2026-10-31,Yes
+FAS-0060,Saree Style 060,Women,Saree,LoomLeaf,Green,Free Size,1099,493,Tamil Nadu,7,197,2026-10-31,Yes
+FAS-0061,Jeans Style 061,Men,Jeans,LoomLeaf,Grey,XS-XXL,1199,764,Karnataka,18,171,2026-10-31,Yes
+FAS-0062,Kids T-Shirt Style 062,Kids,Kids T-Shirt,LoomLeaf,Blue,XS-XXL,699,435,Tamil Nadu,18,147,2026-10-31,Yes
+FAS-0063,Casual Shirt Style 063,Men,Casual Shirt,Everyday Edit,Black,XS-XXL,849,502,Gujarat,4,253,2026-10-31,Yes
+FAS-0064,Trousers Style 064,Men,Trousers,Urban Thread,Maroon,XS-XXL,1999,1470,Karnataka,7,35,2026-10-31,Yes
+FAS-0065,Leggings Style 065,Women,Leggings,Festive Line,Green,XS-XXL,449,249,Rajasthan,10,183,2026-10-31,Yes
+FAS-0066,Formal Shirt Style 066,Men,Formal Shirt,Everyday Edit,Maroon,XS-XXL,1149,811,Rajasthan,7,160,2026-10-31,Yes
+FAS-0067,Co-ord Set Style 067,Women,Co-ord Set,Festive Line,Grey,XS-XXL,1899,1111,Gujarat,10,17,2026-10-31,Yes
+FAS-0068,Kids Set Style 068,Kids,Kids Set,Festive Line,White,XS-XXL,949,508,Rajasthan,18,152,2026-10-31,Yes
+FAS-0069,Kids Set Style 069,Kids,Kids Set,Everyday Edit,Black,XS-XXL,1349,598,Karnataka,7,99,2026-10-31,Yes
+FAS-0070,Frock Style 070,Kids,Frock,Festive Line,Navy,XS-XXL,1799,1009,Kerala,10,75,2026-10-31,Yes
+FAS-0071,Frock Style 071,Kids,Frock,Urban Thread,Green,XS-XXL,1649,1168,Kerala,7,228,2026-10-31,Yes
+FAS-0072,T-Shirt Style 072,Men,T-Shirt,Festive Line,White,XS-XXL,549,243,Tamil Nadu,18,164,2026-10-31,Yes
+FAS-0073,Wallet Style 073,Accessories,Wallet,Festive Line,Blue,Free Size,1149,844,Kerala,4,22,2026-10-31,No
+FAS-0074,T-Shirt Style 074,Men,T-Shirt,Urban Thread,Cream,XS-XXL,1099,735,Tamil Nadu,10,71,2026-10-31,Yes
+FAS-0075,Kids Shorts Style 075,Kids,Kids Shorts,Everyday Edit,Maroon,XS-XXL,299,140,Tamil Nadu,4,77,2026-10-31,Yes
+FAS-0076,Jeans Style 076,Men,Jeans,Festive Line,White,XS-XXL,2049,1231,Tamil Nadu,4,243,2026-10-31,Yes
+FAS-0077,Kids Set Style 077,Kids,Kids Set,Urban Thread,Blue,XS-XXL,1549,924,Karnataka,18,143,2026-10-31,Yes
+FAS-0078,Kids Shorts Style 078,Kids,Kids Shorts,LoomLeaf,Black,XS-XXL,349,244,Karnataka,14,276,2026-10-31,Yes
+FAS-0079,Kids Shorts Style 079,Kids,Kids Shorts,Everyday Edit,Navy,XS-XXL,499,265,Rajasthan,14,134,2026-10-31,Yes
+FAS-0080,Trousers Style 080,Men,Trousers,Everyday Edit,Black,XS-XXL,2149,1244,Gujarat,7,232,2026-10-31,Yes
+FAS-0081,Dress Style 081,Women,Dress,LoomLeaf,Black,XS-XXL,2849,1728,Kerala,18,205,2026-10-31,Yes
+FAS-0082,Formal Shirt Style 082,Men,Formal Shirt,Urban Thread,Pink,XS-XXL,2199,1311,Tamil Nadu,4,169,2026-10-31,Yes
+FAS-0083,T-Shirt Style 083,Men,T-Shirt,LoomLeaf,Grey,XS-XXL,799,556,Gujarat,7,15,2026-10-31,Yes
+FAS-0084,Casual Shirt Style 084,Men,Casual Shirt,Everyday Edit,Blue,XS-XXL,1949,1189,Kerala,5,133,2026-10-31,Yes
+FAS-0085,Dress Style 085,Women,Dress,Everyday Edit,Maroon,XS-XXL,1999,1243,Gujarat,10,119,2026-10-31,Yes
+FAS-0086,Casual Shirt Style 086,Men,Casual Shirt,Festive Line,Blue,XS-XXL,1399,969,Rajasthan,5,98,2026-10-31,Yes
+FAS-0087,Top Style 087,Women,Top,Urban Thread,Grey,XS-XXL,749,331,Karnataka,18,233,2026-10-31,Yes
+FAS-0088,T-Shirt Style 088,Men,T-Shirt,Everyday Edit,Maroon,XS-XXL,1199,754,Tamil Nadu,10,29,2026-10-31,Yes
+FAS-0089,Kurta Style 089,Women,Kurta,LoomLeaf,Grey,XS-XXL,2099,1381,Tamil Nadu,4,214,2026-10-31,Yes
+FAS-0090,Formal Shirt Style 090,Men,Formal Shirt,LoomLeaf,Black,XS-XXL,1499,1093,Tamil Nadu,18,158,2026-10-31,Yes
+FAS-0091,Scarf Style 091,Accessories,Scarf,Everyday Edit,Cream,Free Size,549,336,Rajasthan,5,268,2026-10-31,Yes
+FAS-0092,Casual Shirt Style 092,Men,Casual Shirt,Everyday Edit,White,XS-XXL,1799,1144,Rajasthan,18,245,2026-10-31,Yes
+FAS-0093,Trousers Style 093,Men,Trousers,Urban Thread,Pink,XS-XXL,1049,773,Karnataka,4,250,2026-10-31,Yes
+FAS-0094,Jeans Style 094,Men,Jeans,LoomLeaf,Maroon,XS-XXL,2649,1929,Gujarat,10,276,2026-10-31,Yes
+FAS-0095,Casual Shirt Style 095,Men,Casual Shirt,Urban Thread,Maroon,XS-XXL,699,396,Tamil Nadu,10,262,2026-10-31,Yes
+FAS-0096,Kurta Style 096,Women,Kurta,Everyday Edit,Pink,XS-XXL,799,386,Kerala,5,42,2026-10-31,Yes
+FAS-0097,Kids T-Shirt Style 097,Kids,Kids T-Shirt,Urban Thread,Green,XS-XXL,799,361,Karnataka,7,26,2026-10-31,Yes
+FAS-0098,Trousers Style 098,Men,Trousers,Festive Line,Black,XS-XXL,949,626,Gujarat,10,82,2026-10-31,Yes
+FAS-0099,Top Style 099,Women,Top,Everyday Edit,Maroon,XS-XXL,449,305,Gujarat,5,151,2026-10-31,Yes
+FAS-0100,Jeans Style 100,Men,Jeans,Everyday Edit,Pink,XS-XXL,1099,759,Karnataka,4,151,2026-10-31,Yes
+FAS-0101,Saree Style 101,Women,Saree,Everyday Edit,Black,Free Size,2349,1105,Tamil Nadu,14,40,2026-10-31,No
+FAS-0102,Trousers Style 102,Men,Trousers,LoomLeaf,Pink,XS-XXL,2149,1180,Tamil Nadu,5,131,2026-10-31,Yes
+FAS-0103,Frock Style 103,Kids,Frock,Festive Line,Maroon,XS-XXL,1849,1235,Tamil Nadu,5,272,2026-10-31,No
+FAS-0104,Kurta Style 104,Men,Kurta,LoomLeaf,Beige,XS-XXL,1299,831,Tamil Nadu,4,60,2026-10-31,Yes
+FAS-0105,Wallet Style 105,Accessories,Wallet,Festive Line,Pink,Free Size,649,346,Tamil Nadu,4,255,2026-10-31,Yes
+FAS-0106,Trousers Style 106,Men,Trousers,Everyday Edit,Black,XS-XXL,1649,1045,Tamil Nadu,14,141,2026-10-31,Yes
+FAS-0107,Kurta Style 107,Men,Kurta,LoomLeaf,Navy,XS-XXL,1699,770,Karnataka,10,231,2026-10-31,Yes
+FAS-0108,Casual Shirt Style 108,Men,Casual Shirt,Everyday Edit,Maroon,XS-XXL,899,464,Karnataka,14,15,2026-10-31,Yes
+FAS-0109,Jeans Style 109,Men,Jeans,LoomLeaf,Navy,XS-XXL,1699,1163,Kerala,10,279,2026-10-31,Yes
+FAS-0110,Co-ord Set Style 110,Women,Co-ord Set,Festive Line,Green,XS-XXL,1499,973,Kerala,14,176,2026-10-31,Yes
+FAS-0111,Saree Style 111,Women,Saree,Festive Line,Green,Free Size,3999,1779,Kerala,5,138,2026-10-31,Yes
+FAS-0112,Frock Style 112,Kids,Frock,Festive Line,Pink,XS-XXL,1299,718,Karnataka,7,19,2026-10-31,Yes
+FAS-0113,Leggings Style 113,Women,Leggings,Festive Line,Maroon,XS-XXL,749,450,Tamil Nadu,10,153,2026-10-31,Yes
+FAS-0114,Kurta Style 114,Women,Kurta,Everyday Edit,Navy,XS-XXL,1649,1007,Rajasthan,4,128,2026-10-31,Yes
+FAS-0115,Kids Set Style 115,Kids,Kids Set,Everyday Edit,Cream,XS-XXL,749,351,Rajasthan,7,205,2026-10-31,No
+FAS-0116,Co-ord Set Style 116,Women,Co-ord Set,Festive Line,Blue,XS-XXL,2349,1711,Kerala,18,223,2026-10-31,Yes
+FAS-0117,Top Style 117,Women,Top,Urban Thread,Maroon,XS-XXL,649,402,Tamil Nadu,5,117,2026-10-31,Yes
+FAS-0118,Kurta Style 118,Men,Kurta,Everyday Edit,Cream,XS-XXL,2249,1624,Karnataka,5,270,2026-10-31,Yes
+FAS-0119,T-Shirt Style 119,Men,T-Shirt,Everyday Edit,Green,XS-XXL,549,367,Kerala,5,254,2026-10-31,Yes
+FAS-0120,Kids T-Shirt Style 120,Kids,Kids T-Shirt,LoomLeaf,Pink,XS-XXL,899,624,Gujarat,5,71,2026-10-31,Yes
+FAS-0121,Kurta Style 121,Women,Kurta,Festive Line,Cream,XS-XXL,2549,1266,Gujarat,4,60,2026-10-31,Yes
+FAS-0122,Trousers Style 122,Men,Trousers,Urban Thread,Black,XS-XXL,899,445,Kerala,4,270,2026-10-31,Yes
+FAS-0123,Leggings Style 123,Women,Leggings,Everyday Edit,Cream,XS-XXL,699,311,Gujarat,18,270,2026-10-31,Yes
+FAS-0124,Jeans Style 124,Men,Jeans,Festive Line,Maroon,XS-XXL,1149,551,Tamil Nadu,14,251,2026-10-31,Yes
+FAS-0125,Kids Set Style 125,Kids,Kids Set,Festive Line,Maroon,XS-XXL,799,376,Karnataka,14,157,2026-10-31,Yes
+FAS-0126,Co-ord Set Style 126,Women,Co-ord Set,Everyday Edit,Maroon,XS-XXL,2299,1174,Rajasthan,4,272,2026-10-31,No
+FAS-0127,Jeans Style 127,Men,Jeans,Everyday Edit,Pink,XS-XXL,2749,1520,Gujarat,10,191,2026-10-31,Yes
+FAS-0128,Co-ord Set Style 128,Women,Co-ord Set,LoomLeaf,Cream,XS-XXL,1499,1004,Rajasthan,18,193,2026-10-31,Yes
+FAS-0129,Kids T-Shirt Style 129,Kids,Kids T-Shirt,Urban Thread,Blue,XS-XXL,849,468,Rajasthan,7,22,2026-10-31,Yes
+FAS-0130,T-Shirt Style 130,Men,T-Shirt,Everyday Edit,Beige,XS-XXL,399,202,Kerala,4,227,2026-10-31,Yes
+FAS-0131,Formal Shirt Style 131,Men,Formal Shirt,Festive Line,Navy,XS-XXL,1649,819,Tamil Nadu,7,58,2026-10-31,Yes
+FAS-0132,Dress Style 132,Women,Dress,Everyday Edit,Green,XS-XXL,1749,1019,Karnataka,18,114,2026-10-31,Yes
+FAS-0133,Co-ord Set Style 133,Women,Co-ord Set,Urban Thread,Beige,XS-XXL,1549,764,Tamil Nadu,7,269,2026-10-31,Yes
+FAS-0134,Co-ord Set Style 134,Women,Co-ord Set,Everyday Edit,Beige,XS-XXL,2449,1229,Tamil Nadu,18,253,2026-10-31,Yes
+FAS-0135,Saree Style 135,Women,Saree,Urban Thread,Pink,Free Size,2699,1257,Rajasthan,10,209,2026-10-31,Yes
+FAS-0136,Kurta Style 136,Men,Kurta,Urban Thread,Grey,XS-XXL,1249,920,Rajasthan,5,39,2026-10-31,Yes
+FAS-0137,Co-ord Set Style 137,Women,Co-ord Set,Everyday Edit,Navy,XS-XXL,2249,1331,Gujarat,18,263,2026-10-31,Yes
+FAS-0138,Formal Shirt Style 138,Men,Formal Shirt,Festive Line,White,XS-XXL,1649,938,Rajasthan,7,79,2026-10-31,Yes
+FAS-0139,Jeans Style 139,Men,Jeans,Festive Line,Maroon,XS-XXL,1549,1125,Kerala,5,50,2026-10-31,Yes
+FAS-0140,Top Style 140,Women,Top,Everyday Edit,Navy,XS-XXL,1149,596,Kerala,18,67,2026-10-31,Yes
+FAS-0141,Kids Set Style 141,Kids,Kids Set,Everyday Edit,White,XS-XXL,1099,500,Kerala,5,75,2026-10-31,Yes
+FAS-0142,Co-ord Set Style 142,Women,Co-ord Set,Festive Line,Beige,XS-XXL,2199,1113,Gujarat,14,155,2026-10-31,No
+FAS-0143,T-Shirt Style 143,Men,T-Shirt,LoomLeaf,Green,XS-XXL,799,474,Kerala,5,209,2026-10-31,Yes
+FAS-0144,Handbag Style 144,Accessories,Handbag,Festive Line,Grey,Free Size,1899,880,Rajasthan,7,108,2026-10-31,Yes
+FAS-0145,Jeans Style 145,Men,Jeans,LoomLeaf,Beige,XS-XXL,2299,1675,Tamil Nadu,14,90,2026-10-31,Yes
+FAS-0146,Casual Shirt Style 146,Men,Casual Shirt,Festive Line,Grey,XS-XXL,999,517,Kerala,14,258,2026-10-31,Yes
+FAS-0147,Saree Style 147,Women,Saree,LoomLeaf,White,Free Size,3499,2370,Karnataka,10,250,2026-10-31,Yes
+FAS-0148,Saree Style 148,Women,Saree,LoomLeaf,Grey,Free Size,3049,1851,Gujarat,14,94,2026-10-31,Yes
+FAS-0149,Scarf Style 149,Accessories,Scarf,LoomLeaf,Cream,Free Size,749,515,Rajasthan,14,221,2026-10-31,Yes
+FAS-0150,Formal Shirt Style 150,Men,Formal Shirt,Urban Thread,Green,XS-XXL,1949,979,Gujarat,5,81,2026-10-31,Yes
+FAS-0151,T-Shirt Style 151,Men,T-Shirt,Festive Line,Green,XS-XXL,749,375,Karnataka,18,49,2026-10-31,Yes
+FAS-0152,Top Style 152,Women,Top,LoomLeaf,Cream,XS-XXL,799,392,Gujarat,14,246,2026-10-31,Yes
+FAS-0153,Kids Shorts Style 153,Kids,Kids Shorts,LoomLeaf,White,XS-XXL,799,477,Gujarat,14,122,2026-10-31,Yes
+FAS-0154,Frock Style 154,Kids,Frock,Urban Thread,Cream,XS-XXL,1649,1145,Rajasthan,7,157,2026-10-31,Yes
+FAS-0155,Kids Set Style 155,Kids,Kids Set,Urban Thread,Beige,XS-XXL,1699,1109,Rajasthan,14,231,2026-10-31,Yes
+FAS-0156,Kids T-Shirt Style 156,Kids,Kids T-Shirt,Festive Line,Beige,XS-XXL,649,431,Kerala,7,163,2026-10-31,Yes
+FAS-0157,Top Style 157,Women,Top,Festive Line,Pink,XS-XXL,1249,719,Rajasthan,4,244,2026-10-31,Yes
+FAS-0158,Leggings Style 158,Women,Leggings,Urban Thread,Beige,XS-XXL,899,649,Gujarat,7,78,2026-10-31,Yes
+FAS-0159,Dress Style 159,Women,Dress,Festive Line,Green,XS-XXL,2549,1737,Karnataka,5,127,2026-10-31,Yes
+FAS-0160,Leggings Style 160,Women,Leggings,Everyday Edit,Beige,XS-XXL,949,468,Rajasthan,10,238,2026-10-31,Yes
+FAS-0161,Jeans Style 161,Men,Jeans,Urban Thread,Cream,XS-XXL,1999,1014,Rajasthan,14,255,2026-10-31,No
+FAS-0162,Kurta Style 162,Women,Kurta,Everyday Edit,Pink,XS-XXL,999,575,Kerala,14,22,2026-10-31,Yes
+FAS-0163,Saree Style 163,Women,Saree,LoomLeaf,Green,Free Size,2799,1554,Karnataka,4,83,2026-10-31,Yes
+FAS-0164,Formal Shirt Style 164,Men,Formal Shirt,Everyday Edit,Maroon,XS-XXL,1999,1415,Gujarat,4,94,2026-10-31,Yes
+FAS-0165,Casual Shirt Style 165,Men,Casual Shirt,Festive Line,Cream,XS-XXL,1849,1290,Gujarat,4,279,2026-10-31,Yes

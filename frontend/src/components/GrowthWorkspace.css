@@ -1,0 +1,68 @@
+.growth-workspace {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.growth-workspace .analytics-panel,
+.growth-summary {
+  min-width: 0;
+  padding: 1.2rem;
+  border-radius: 14px;
+}
+.growth-workspace
+  :is(button, select, input[type="file"]::file-selector-button) {
+  font: inherit;
+}
+.growth-workspace button,
+.growth-workspace input::file-selector-button {
+  border: 1px solid #557994;
+  border-radius: 8px;
+  background: #235889;
+  color: white;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+}
+.growth-workspace button:hover:not(:disabled) {
+  background: #194574;
+}
+.growth-workspace button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.growth-workspace :is(select, textarea) {
+  border: 1px solid #8092a3;
+  border-radius: 7px;
+  background: Canvas;
+  color: CanvasText;
+  padding: 0.4rem 0.55rem;
+  font: inherit;
+}
+.growth-workspace textarea {
+  display: block;
+  width: 100%;
+  min-height: 6rem;
+  margin: 0.5rem 0;
+}
+.growth-workspace summary,
+.growth-summary summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.growth-workspace .columns-table-wrapper {
+  overflow: auto;
+  max-width: 100%;
+}
+.growth-workspace .columns-table td {
+  vertical-align: top;
+}
+.growth-workspace .columns-table td button {
+  white-space: nowrap;
+  margin: 0 0.35rem 0.35rem 0;
+}
+.theme-dark .growth-workspace {
+  color-scheme: dark;
+}
+.growth-workspace p,
+.growth-summary p {
+  line-height: 1.55;
+}
